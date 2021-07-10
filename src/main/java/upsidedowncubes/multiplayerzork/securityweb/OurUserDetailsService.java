@@ -8,20 +8,22 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import upsidedowncubes.multiplayerzork.database.Player;
+import upsidedowncubes.multiplayerzork.database.PlayerRepository;
 
 @Service
 public class OurUserDetailsService implements UserDetailsService {
-
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+    @Autowired
+    private PlayerRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if ("admin".equals(username)){
-            return User.withUsername(username).password(passwordEncoder.encode("1111")).roles("USER").build();
+        Player player = repository.findByUsername(username);
+        if (player != null){
+            return User.withUsername(username).password(player.getEncodedPassword()).roles("USER").build();
         }
         else {
-            throw new UsernameNotFoundException("Invalid username or password !!!");
+            throw new UsernameNotFoundException("Invalid username or password!!!");
         }
     }
 }
