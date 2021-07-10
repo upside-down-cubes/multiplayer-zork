@@ -1,9 +1,9 @@
 package upsidedowncubes.multiplayerzork.securityweb;
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import upsidedowncubes.multiplayerzork.utils.JsonConvertor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +25,17 @@ public class AuthenticationController {
         String password = request.getParameter("password");
         try {
             request.login(username, password);
-            return "Login successful";
+            return JsonConvertor.convert( SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Login successful")
+                    .build());
         } catch (ServletException e) {
-            return "Fail to login";
+            return JsonConvertor.convert(SimpleResponseDTO
+                    .builder()
+                    .success(false)
+                    .message("Fail to login")
+            .build());
         }
     }
 
@@ -35,9 +43,18 @@ public class AuthenticationController {
     public String logout(HttpServletRequest request, HttpSession session) {
         try {
             request.logout();
-            return "Logout successful.";
+            return JsonConvertor.convert( SimpleResponseDTO
+                    .builder()
+                    .success(true)
+                    .message("Logout successful")
+                    .build());
         } catch (ServletException e) {
-            return "Fail to logout.";
+            return JsonConvertor.convert( SimpleResponseDTO
+                    .builder()
+                    .success(false)
+                    .message("Fail to logout.")
+                    .build());
+
         }
 
     }

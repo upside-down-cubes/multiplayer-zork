@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/", "api/login", "/api/logout").permitAll();
+                .antMatchers("/", "/api/login", "/api/logout").permitAll();
 
         // permit all OPTIONS requests
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
