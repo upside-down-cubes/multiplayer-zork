@@ -24,6 +24,7 @@ public class AuthenticationController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
+            request.logout();
             request.login(username, password);
             return JsonConvertor.convert( SimpleResponseDTO
                     .builder()
