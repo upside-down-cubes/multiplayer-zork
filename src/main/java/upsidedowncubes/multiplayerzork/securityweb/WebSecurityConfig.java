@@ -1,5 +1,6 @@
 package upsidedowncubes.multiplayerzork.securityweb;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,10 @@ import javax.swing.*;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private OurUserDetailsService ourUserDetailsService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -45,8 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        return new OurUserDetailsService(passwordEncoder());
+        return ourUserDetailsService;
     }
 }
