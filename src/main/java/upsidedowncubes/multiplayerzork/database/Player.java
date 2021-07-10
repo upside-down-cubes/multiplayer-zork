@@ -1,15 +1,19 @@
 package upsidedowncubes.multiplayerzork.database;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Players")
+@Getter
 public class Player {
 
     @Id
     @Column(name = "username")
+    @Setter
     private String username;
 
     @Column(name = "encoded_password")
@@ -17,9 +21,11 @@ public class Player {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "inventory_id")
+    @Setter
     private Integer inventoryID;
 
     @Column(name = "session_id")
+    @Setter
     private Integer sessionID;
 
     protected Player() {
@@ -32,36 +38,8 @@ public class Player {
         this.encodedPassword = new BCryptPasswordEncoder().encode(password);
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEncodedPassword() {
-        return encodedPassword;
-    }
-
     public void setEncodedPassword(String password) {
         this.encodedPassword = new BCryptPasswordEncoder().encode(password);
-    }
-
-    public Integer getInventoryID() {
-        return inventoryID;
-    }
-
-    public void setInventoryID(Integer inventoryID) {
-        this.inventoryID = inventoryID;
-    }
-
-    public Integer getSessionID() {
-        return sessionID;
-    }
-
-    public void setSessionID(Integer sessionID) {
-        this.sessionID = sessionID;
     }
 
     @Override
