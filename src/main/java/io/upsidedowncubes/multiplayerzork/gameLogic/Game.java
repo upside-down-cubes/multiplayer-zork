@@ -7,7 +7,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import java.util.List;
 import java.util.Scanner;
 

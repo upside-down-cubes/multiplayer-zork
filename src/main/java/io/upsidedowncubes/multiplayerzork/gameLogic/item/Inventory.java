@@ -1,6 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
-import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.HashMap;
 import java.util.Map;

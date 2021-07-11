@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 

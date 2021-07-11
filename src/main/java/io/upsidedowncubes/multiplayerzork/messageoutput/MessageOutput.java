@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.gameLogic.output;
+package io.upsidedowncubes.multiplayerzork.messageoutput;
 
 public class MessageOutput {
 

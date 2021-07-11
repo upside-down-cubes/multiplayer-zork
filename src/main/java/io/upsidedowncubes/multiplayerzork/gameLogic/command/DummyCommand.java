@@ -1,7 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import org.springframework.stereotype.Component;
-import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.List;
 
