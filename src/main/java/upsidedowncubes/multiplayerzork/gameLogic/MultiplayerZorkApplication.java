@@ -9,5 +9,4 @@ public class MultiplayerZorkApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MultiplayerZorkApplication.class, args);
 	}
-
 }
