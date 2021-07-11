@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.securityweb;
+package upsidedowncubes.multiplayerzork.webLogic.securityweb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

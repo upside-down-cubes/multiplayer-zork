@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.Controller.utils;
+package upsidedowncubes.multiplayerzork.webLogic.Controller.utils;
 
 import lombok.Builder;
 import lombok.Getter;

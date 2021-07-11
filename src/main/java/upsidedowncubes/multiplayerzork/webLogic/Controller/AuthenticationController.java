@@ -1,13 +1,12 @@
-package upsidedowncubes.multiplayerzork.Controller;
+package upsidedowncubes.multiplayerzork.webLogic.Controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import upsidedowncubes.multiplayerzork.Controller.utils.SimpleResponseDTO;
-import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
+import upsidedowncubes.multiplayerzork.webLogic.Controller.utils.SimpleResponseDTO;
+import upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

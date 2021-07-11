@@ -1,12 +1,12 @@
-package upsidedowncubes.multiplayerzork.Controller;
+package upsidedowncubes.multiplayerzork.webLogic.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
-import upsidedowncubes.multiplayerzork.Controller.utils.SimpleResponseDTO;
-import upsidedowncubes.multiplayerzork.database.Player;
-import upsidedowncubes.multiplayerzork.database.PlayerRepository;
+import upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
+import upsidedowncubes.multiplayerzork.webLogic.Controller.utils.SimpleResponseDTO;
+import upsidedowncubes.multiplayerzork.webLogic.database.Player;
+import upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
