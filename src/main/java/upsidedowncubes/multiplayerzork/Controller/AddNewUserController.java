@@ -1,6 +1,7 @@
 package upsidedowncubes.multiplayerzork.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
@@ -47,4 +48,5 @@ public class AddNewUserController {
                     .build());
         }
     }
+
 }

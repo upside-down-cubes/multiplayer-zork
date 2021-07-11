@@ -1,5 +1,6 @@
 package upsidedowncubes.multiplayerzork.Controller;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import upsidedowncubes.multiplayerzork.Controller.utils.SimpleResponseDTO;
 import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -60,6 +62,7 @@ public class AuthenticationController {
             .build());
         }
     }
+
 
     /*
     * This is the logout function
