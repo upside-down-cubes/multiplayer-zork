@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.Controller.utils;
+package io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

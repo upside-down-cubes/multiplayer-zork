@@ -1,11 +1,11 @@
-package upsidedowncubes.multiplayerzork.Controller;
+package io.upsidedowncubes.multiplayerzork.webLogic.Controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
-import upsidedowncubes.multiplayerzork.Controller.utils.WhoamiDTO;
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.WhoamiDTO;
 
 /*
 * A Controller to retrieve currently logged-in user.

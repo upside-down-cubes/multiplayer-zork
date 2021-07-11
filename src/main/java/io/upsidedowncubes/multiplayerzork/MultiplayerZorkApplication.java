@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork;
+package io.upsidedowncubes.multiplayerzork;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
