@@ -1,11 +1,13 @@
 package upsidedowncubes.multiplayerzork.player;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import upsidedowncubes.multiplayerzork.database.Player;
 import upsidedowncubes.multiplayerzork.database.PlayerRepository;
 
 import javax.security.sasl.AuthenticationException;
 
+@Component
 public class SignUp {
     @Autowired
     private PlayerRepository repository;
