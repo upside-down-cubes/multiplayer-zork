@@ -14,6 +14,12 @@ import upsidedowncubes.multiplayerzork.Controller.utils.WhoamiDTO;
 public class WhoamiController {
 
 
+    /*
+    * This API takes no argument
+    * @return Json
+    * example: {"loggedIn":true,"username":"archer"} or {"loggedIn":false}
+    * */
+
     @GetMapping("/api/whoami")
     public String whoami(){
 
