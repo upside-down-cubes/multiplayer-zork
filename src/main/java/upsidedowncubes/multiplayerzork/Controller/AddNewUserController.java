@@ -1,5 +1,6 @@
 package upsidedowncubes.multiplayerzork.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class AddNewUserController {
+    @Autowired
+    private SignUp signUp;
     /*
      * This is login function
      * @return Json
@@ -21,7 +24,7 @@ public class AddNewUserController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
-            SignUp.createUser(username, password);
+            signUp.createUser(username, password);
             return JsonConvertor.convert( SimpleResponseDTO
                     .builder()
                     .success(true)
