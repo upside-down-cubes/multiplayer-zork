@@ -6,10 +6,17 @@ import upsidedowncubes.multiplayerzork.monster.Monster;
 import java.util.*;
 
 public class Room {
+    // subject to be List
     Item item;
+
+    // will have only one
     Monster monster;
+
+    // position of the room within the map
     int row;
     int col;
+
+    // set of available exits
     Set<Direction> exits;
     String description;
 
@@ -19,14 +26,14 @@ public class Room {
         exits = new HashSet<>();
     }
 
-    protected void setExit(boolean n, boolean e, boolean w, boolean s){
-        if (n)
+    protected void setExit(boolean north, boolean east, boolean west, boolean south){
+        if (north)
             exits.add(Direction.N);
-        if (e)
+        if (east)
             exits.add(Direction.E);
-        if (w)
+        if (west)
             exits.add(Direction.W);
-        if (s)
+        if (south)
             exits.add(Direction.S);
     }
 

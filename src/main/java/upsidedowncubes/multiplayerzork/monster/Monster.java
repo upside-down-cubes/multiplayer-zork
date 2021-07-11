@@ -10,6 +10,8 @@ public abstract class Monster {
     int maxHP;
     int atk;
 
+    // TODO: Implement drop system (will add into room's item list)
+
     Random rand = new Random();
 
     public int getHP() {
