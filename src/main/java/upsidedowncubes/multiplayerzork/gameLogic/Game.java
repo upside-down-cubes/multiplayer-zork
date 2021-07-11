@@ -1,12 +1,12 @@
-package upsidedowncubes.multiplayerzork;
+package upsidedowncubes.multiplayerzork.gameLogic;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import upsidedowncubes.multiplayerzork.command.Command;
-import upsidedowncubes.multiplayerzork.command.CommandFactory;
-import upsidedowncubes.multiplayerzork.command.CommandParser;
+import upsidedowncubes.multiplayerzork.gameLogic.command.Command;
+import upsidedowncubes.multiplayerzork.gameLogic.command.CommandFactory;
+import upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 
 import java.util.List;
 import java.util.Scanner;

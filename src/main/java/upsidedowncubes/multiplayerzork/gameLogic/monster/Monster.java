@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.monster;
+package upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 
 import java.util.Random;

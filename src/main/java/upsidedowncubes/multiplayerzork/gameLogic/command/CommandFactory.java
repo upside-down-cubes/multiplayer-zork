@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.command;
+package upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.item;
+package upsidedowncubes.multiplayerzork.gameLogic.item;
 
 public class DummyConsumable implements Item, Consumable{
 

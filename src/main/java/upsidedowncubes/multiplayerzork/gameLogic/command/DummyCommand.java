@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.command;
+package upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import org.springframework.stereotype.Component;
 

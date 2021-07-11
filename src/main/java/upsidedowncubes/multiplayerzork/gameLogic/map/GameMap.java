@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.map;
+package upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import java.util.List;
 import java.util.Set;

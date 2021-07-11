@@ -1,7 +1,7 @@
-package upsidedowncubes.multiplayerzork.map;
+package upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import upsidedowncubes.multiplayerzork.item.Item;
-import upsidedowncubes.multiplayerzork.monster.Monster;
+import upsidedowncubes.multiplayerzork.gameLogic.item.Item;
+import upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 
 import java.util.*;
 

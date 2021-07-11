@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.item;
+package upsidedowncubes.multiplayerzork.gameLogic.item;
 
 public class DummyWeapon implements Item, Weapon{
     @Override

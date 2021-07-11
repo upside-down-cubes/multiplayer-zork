@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.map;
+package upsidedowncubes.multiplayerzork.gameLogic.map;
 
 public class Location {
     private int row;
