@@ -1,7 +1,6 @@
-package upsidedowncubes.multiplayerzork.utils;
+package upsidedowncubes.multiplayerzork.Controller.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.validation.ObjectError;
 
 import java.io.IOException;
 import java.io.StringWriter;

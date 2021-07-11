@@ -1,4 +1,4 @@
-package upsidedowncubes.multiplayerzork.securityweb;
+package upsidedowncubes.multiplayerzork.Controller.utils;
 
 import lombok.Builder;
 import lombok.Getter;
