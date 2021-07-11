@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import upsidedowncubes.multiplayerzork.Controller.utils.JsonConvertor;
 import upsidedowncubes.multiplayerzork.Controller.utils.SimpleResponseDTO;
-import upsidedowncubes.multiplayerzork.player.SignUp;
+import upsidedowncubes.multiplayerzork.database.Player;
+import upsidedowncubes.multiplayerzork.database.PlayerRepository;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class AddNewUserController {
     @Autowired
-    private SignUp signUp;
+    private PlayerRepository repository;
+
+    private void createUser(String username, String password) throws AuthenticationException {
+        if (repository.findByUsername(username) == null) {
+            repository.save(new Player(username, password));
+        } else {
+            throw new AuthenticationException("Username already exists!!!");
+        }
+    }
     /*
      * This is login function
      * @return Json
@@ -24,7 +33,7 @@ public class AddNewUserController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         try {
-            signUp.createUser(username, password);
+            createUser(username, password);
             return JsonConvertor.convert( SimpleResponseDTO
                     .builder()
                     .success(true)
