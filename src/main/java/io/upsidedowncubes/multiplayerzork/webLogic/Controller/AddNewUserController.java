@@ -4,6 +4,7 @@ import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConverto
 import io.upsidedowncubes.multiplayerzork.webLogic.database.Player;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.SimpleResponseDTO;
@@ -47,4 +48,5 @@ public class AddNewUserController {
                     .build());
         }
     }
+
 }
