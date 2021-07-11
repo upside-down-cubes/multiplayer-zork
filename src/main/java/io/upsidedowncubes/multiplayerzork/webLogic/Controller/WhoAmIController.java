@@ -11,7 +11,7 @@ import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.WhoamiDTO;
 * A Controller to retrieve currently logged-in user.
 *  */
 @RestController
-public class WhoamiController {
+public class WhoAmIController {
 
 
     /*

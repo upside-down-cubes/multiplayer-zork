@@ -13,7 +13,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     private final List<WebSocketSession> webSocketSessions = new ArrayList<>();
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(WebSocketSession session) {
         webSocketSessions.add(session);
     }
 
@@ -25,7 +25,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         webSocketSessions.remove(session);
     }
 }
