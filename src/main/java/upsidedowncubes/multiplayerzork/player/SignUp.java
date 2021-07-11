@@ -10,7 +10,7 @@ public class SignUp {
     @Autowired
     private PlayerRepository repository;
 
-    public void createUser(String username, String password) throws AuthenticationException {
+    public static void createUser(String username, String password) throws AuthenticationException {
         if (repository.findByUsername(username) == null) {
             repository.save(new Player(username, password));
         } else {
