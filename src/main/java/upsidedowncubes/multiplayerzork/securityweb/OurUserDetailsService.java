@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import upsidedowncubes.multiplayerzork.database.Player;
 import upsidedowncubes.multiplayerzork.database.PlayerRepository;
 
-import javax.inject.Inject;
-
 @Service
 public class OurUserDetailsService implements UserDetailsService {
     @Autowired

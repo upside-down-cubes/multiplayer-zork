@@ -6,20 +6,19 @@ import org.springframework.stereotype.Component;
 
 import javax.security.sasl.AuthenticationException;
 
-// TODO
+// TODO: delete this later (example on how to add user)
 @Component
 public class SignUpBean {
     @Autowired
     SignUp signUp;
 
     @Bean
-    // TODO: delete this later (example on how to add user)
     public String addAdmin() {
         try {
             signUp.createUser("admin", "1111");
             return "";
         } catch (AuthenticationException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // username already exists
         }
         return " ";
     }

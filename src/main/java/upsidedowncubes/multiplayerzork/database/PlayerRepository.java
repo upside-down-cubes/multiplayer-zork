@@ -3,8 +3,10 @@ package upsidedowncubes.multiplayerzork.database;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, String> {
     Player findByUsername(String username);
-    Player findBySessionID(Integer sessionID);
+    List<Player> findBySessionID(Integer sessionID);
 }
