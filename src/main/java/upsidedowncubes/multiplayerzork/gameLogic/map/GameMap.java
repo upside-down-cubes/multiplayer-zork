@@ -1,5 +1,7 @@
 package upsidedowncubes.multiplayerzork.gameLogic.map;
 
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+
 import java.util.List;
 import java.util.Set;
 
@@ -40,19 +42,19 @@ public abstract class GameMap {
         switch (dir){
             case N:
                 currentLoc.goNorth();
-                System.out.println("You proceeded to the North");
+                MessageOutput.print("You proceeded to the North");
                 break;
             case E:
                 currentLoc.goEast();
-                System.out.println("You proceeded to the East");
+                MessageOutput.print("You proceeded to the East");
                 break;
             case W:
                 currentLoc.goWest();
-                System.out.println("You proceeded to the West");
+                MessageOutput.print("You proceeded to the West");
                 break;
             case S:
                 currentLoc.goSouth();
-                System.out.println("You proceeded to the South");
+                MessageOutput.print("You proceeded to the South");
                 break;
         }
         return dir;

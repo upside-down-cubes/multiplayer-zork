@@ -2,6 +2,7 @@ package upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
 
 import java.util.*;
 
@@ -55,7 +56,7 @@ public class Room {
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
         }
-        System.out.println(msg);
+        MessageOutput.print(msg.toString());
     }
 
     private String generateMessageItem(){

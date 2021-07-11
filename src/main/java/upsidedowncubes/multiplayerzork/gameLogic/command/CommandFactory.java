@@ -27,7 +27,6 @@ public class CommandFactory {
         for (Command cmd : COMMAND_LIST){
             COMMAND_MAP.put( cmd.getCommandName() , cmd );
             COMMAND_NAME_LIST.add(cmd.getCommandName());
-            System.out.println(cmd.getCommandName());
         }
     }
 

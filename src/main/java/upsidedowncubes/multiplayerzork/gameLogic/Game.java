@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import upsidedowncubes.multiplayerzork.gameLogic.command.Command;
 import upsidedowncubes.multiplayerzork.gameLogic.command.CommandFactory;
 import upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
 
 import java.util.List;
 import java.util.Scanner;
@@ -21,14 +22,14 @@ public class Game implements CommandLineRunner {
     private CommandFactory commandFactory;
 
     @Override
-    public void run(String... args) throws Exception{
-        String msg =
-                "============================" +
-                "Welcome to the world of Zork" +
-                "Type 'help' to see the available commands" +
+    public void run(String... args) throws Exception {
+        String[] msg = {
+                "============================",
+                "Welcome to the world of Zork",
+                "Type 'help' to see the available commands",
                 "============================"
-        ;
-        System.out.println(msg);
+        };
+        MessageOutput.print(msg);
 
         Scanner in = new Scanner(System.in);
         while (true){
@@ -43,20 +44,20 @@ public class Game implements CommandLineRunner {
             // handle the command ===========================
             commandRunner(cmd);
 
-            System.out.println();
+            MessageOutput.print("");
         }
 
     }
 
     private void commandRunner(List<String> cmdAsList){
         if (cmdAsList == null){ // if invalid command
-            System.out.println("I don't think I recognize that action...");
+            MessageOutput.print("I don't think I recognize that action...");
             return;
         }
         // get command
         Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
         if (cmd == null){
-            System.out.println("I don't think I recognize that action...");
+            MessageOutput.print("I don't think I recognize that action...");
             return;
         }
 

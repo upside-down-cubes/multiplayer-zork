@@ -1,6 +1,7 @@
 package upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import org.springframework.stereotype.Component;
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class DummyCommand implements Command{
 
     @Override
     public void execute(List<String> args) {
-        System.out.println("LOG: This is test");
+        MessageOutput.print("LOG: This is test");
     }
 
     @Override

@@ -1,6 +1,8 @@
 package upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+
 import java.util.Random;
 
 public abstract class Monster {
@@ -40,7 +42,7 @@ public abstract class Monster {
         else{
             amountHealed = amount;
         }
-        System.out.println(getName() + " gained " + amountHealed + " HP");
+        MessageOutput.print(getName() + " gained " + amountHealed + " HP");
         hp += amountHealed;
     }
 

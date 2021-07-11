@@ -1,5 +1,7 @@
 package upsidedowncubes.multiplayerzork.gameLogic.player;
 
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+
 import java.util.Random;
 
 public class Player {
@@ -26,10 +28,10 @@ public class Player {
     }
 
     public void viewStatus(){
-        System.out.println("==== Player Information ====");
-        System.out.println("HP: " + hp + "/" +maxHP);
-        System.out.println("ATK: " + atk);
-        System.out.println("============================");
+        MessageOutput.print("==== Player Information ====");
+        MessageOutput.print("HP: " + hp + "/" +maxHP);
+        MessageOutput.print("ATK: " + atk);
+        MessageOutput.print("============================");
     }
 
 }

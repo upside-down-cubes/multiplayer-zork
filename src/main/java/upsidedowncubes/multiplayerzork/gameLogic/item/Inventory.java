@@ -1,5 +1,7 @@
 package upsidedowncubes.multiplayerzork.gameLogic.item;
 
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,16 +76,16 @@ public class Inventory {
 
     // display the inventory as text
     public void viewInventory(){
-        System.out.println("==== Inventory Detail ====");
+        MessageOutput.print("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            System.out.println("\n==     Nothing here    ==");
+            MessageOutput.print("\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                System.out.println( "[" + entry.getKey().getName() + "]: " + entry.getValue());
+                MessageOutput.print( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        System.out.println("\n==========================");
+        MessageOutput.print("\n==========================");
     }
 
 }

@@ -1,11 +1,13 @@
 package upsidedowncubes.multiplayerzork.gameLogic.item;
 
+import upsidedowncubes.multiplayerzork.gameLogic.output.MessageOutput;
+
 public class DummyConsumable implements Item, Consumable{
 
     @Override
     public void use() {
 
-        System.out.println("Used Dummy item on self");
+        MessageOutput.print("Used Dummy item on self");
     }
 
     @Override
