@@ -1,7 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic;
 
-
-import io.upsidedowncubes.multiplayerzork.gameLogic.command.Command;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
@@ -43,7 +41,7 @@ public class Game implements CommandLineRunner {
         System.out.println( MessageOutput.getAllOutput() );
 
         Scanner in = new Scanner(System.in);
-        while (true){
+        while (true) {
 
             // get input ===========================
             System.out.print(">>> ");
@@ -54,36 +52,10 @@ public class Game implements CommandLineRunner {
 
             // handle the command ===========================
             MessageOutput.init();
-            commandRunner(cmd);
+            commandParser.commandRunner(cmd);
 
             MessageOutput.print("");
-            System.out.println( MessageOutput.getAllOutput() );
-        }
-
-    }
-
-    private void commandRunner(List<String> cmdAsList){
-        if (cmdAsList == null){ // if invalid command
-            MessageOutput.print("I don't think I recognize that action...");
-            return;
-        }
-        // get command
-        Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
-
-        // if the command is not in the right state of use
-        // (maybe player use Menu command while in game mode)
-        if ( !cmd.callableNow() ){
-            MessageOutput.print("Unable to use that right now!");
-        }
-        // check if the command has enough argument
-        // [go].size        <=  (required 1)     --> fails
-        // [go, north].size <=  (required 1)     --> doesnt fail
-        else if ( cmdAsList.size() <= cmd.requiredArgs() ){
-            MessageOutput.print("That's not how you use the command!");
-        }
-        else{
-            cmd.execute(cmdAsList);
-            // checkObjective();
+            System.out.println(MessageOutput.getAllOutput());
         }
 
     }
