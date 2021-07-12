@@ -60,6 +60,7 @@ public class AuthenticationController {
         }
     }
 
+
     /*
     * This is the logout function
     * @return Json
