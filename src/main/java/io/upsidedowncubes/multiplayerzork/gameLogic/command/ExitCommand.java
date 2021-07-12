@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +11,9 @@ import java.util.List;
 
 @Component
 public class ExitCommand implements Command{
+
+    @Autowired
+    Game game;
 
     @Autowired
     private ApplicationContext ac;
@@ -24,5 +28,20 @@ public class ExitCommand implements Command{
     @Override
     public String getCommandName() {
         return "exit";
+    }
+
+    @Override
+    public boolean callableNow() {
+        return ! game.gameInProcess();
+    }
+
+    @Override
+    public int requiredArgs() {
+        return 0;
+    }
+
+    @Override
+    public String getDescription() {
+        return "This command is used for terminating the game";
     }
 }

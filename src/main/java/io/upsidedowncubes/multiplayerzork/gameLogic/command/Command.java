@@ -8,4 +8,9 @@ public interface Command {
 
     String getCommandName();
 
+    boolean callableNow();
+
+    int requiredArgs();
+
+    String getDescription();
 }

@@ -1,7 +1,9 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DummyConsumable implements Item, Consumable{
 
     @Override

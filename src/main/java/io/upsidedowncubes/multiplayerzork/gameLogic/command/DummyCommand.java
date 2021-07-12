@@ -18,4 +18,19 @@ public class DummyCommand implements Command{
         return "dummy";
     }
 
+    @Override
+    public boolean callableNow() {
+        return true;
+    }
+
+    @Override
+    public int requiredArgs() {
+        return 0;
+    }
+
+    @Override
+    public String getDescription() {
+        return "This is a dummy command, please ignore this";
+    }
+
 }
