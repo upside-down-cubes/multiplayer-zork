@@ -3,6 +3,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class AttackCommand implements Command{
 
     @Autowired
     Game game;
+
+    @Autowired
+    MonsterAction monsterAction;
 
     @Override
     public String getDescription() {
@@ -46,7 +50,7 @@ public class AttackCommand implements Command{
             r.removeMonster();
         }
         else{
-            m.act();
+            monsterAction.doAct(m);
         }
         p.check();
 
