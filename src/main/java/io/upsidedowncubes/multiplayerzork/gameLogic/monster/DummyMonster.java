@@ -1,14 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 public class DummyMonster extends Monster{
-
-    @Autowired
-    Game game;
 
     public DummyMonster(){
         super();
