@@ -1,12 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.database;
 
-import io.upsidedowncubes.multiplayerzork.webLogic.Controller.AddNewUserController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import javax.persistence.EntityManager;
-import javax.security.sasl.AuthenticationException;
 
 @Component
 public class Sample {
@@ -27,8 +22,7 @@ public class Sample {
         System.out.println("HP: " + player.getHp());
         System.out.println("Max HP: " + player.getMaxHp());
         System.out.println("Attack: " + player.getAttack());
-        Integer inventoryID = player.getInventoryID();
-
+        
         System.out.println("====================");
 
         InventoryEntity inventoryEntity = inventoryRepository.findByUsername("admin");
@@ -41,7 +35,6 @@ public class Sample {
         return player;
     }
 
-    @Bean
     // ignore the ugliness, for debugging
     public PlayerEntity updatePlayerStats() {
         PlayerEntity player = repository.findByUsername("admin");
