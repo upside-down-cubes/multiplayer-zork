@@ -4,9 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 public class DummyMonster extends Monster{
 
@@ -22,16 +19,14 @@ public class DummyMonster extends Monster{
     }
 
     @Override
-    public void act() {
+    public void act(Player player) {
         System.out.println("DEBUG LOG: monster acts");
-        attack();
+        attack( player );
     }
 
-    public void attack() {
+    public void attack( Player p) {
         System.out.println("DEBUG LOG: monster attacks");
         MessageOutput.print(name + " attacked!");
-
-        Player p = game.getPlayer();
 
         int damage = atk;
 
