@@ -10,6 +10,9 @@ import java.util.Random;
 
 public class Player {
 
+    private String username;
+    private int session_id;
+
     private int hp;
     private int maxHP;
 
@@ -36,6 +39,7 @@ public class Player {
         bag = new Inventory();
     }
 
+
     public void gainHP(int amount){
         int amountHealed;
         if (hp + amount > maxHP){
@@ -44,7 +48,7 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.print("Player gained " + amountHealed + " HP");
+        MessageOutput.print( username + " gained " + amountHealed + " HP");
         hp += amountHealed;
     }
 
@@ -68,7 +72,7 @@ public class Player {
 
         // determines if the attack lands
         if (attackMiss()){
-            MessageOutput.print("Your attack misses...");
+            MessageOutput.print( username + "'s attack misses...");
             damage = -1;
         }
         else{
@@ -91,7 +95,7 @@ public class Player {
     }
 
     public void gainATK(int amount){
-        MessageOutput.print("You gained " + amount + " attack stat" );
+        MessageOutput.print( username + " gained " + amount + " attack stat" );
         atk += amount;
     }
 

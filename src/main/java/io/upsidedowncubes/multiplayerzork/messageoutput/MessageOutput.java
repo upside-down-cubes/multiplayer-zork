@@ -1,6 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.messageoutput;
 
 
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
+
 public class MessageOutput {
 
     private static StringBuilder sb;
@@ -29,6 +31,10 @@ public class MessageOutput {
 
     public static String getAllOutput(){
         return sb.toString();
+    }
+
+    public static String getJsonOutput(){
+        return JsonConvertor.convert(sb.toString());
     }
 
 }
