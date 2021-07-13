@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Players")
+@Table(name = "Playe")
 @Getter
 public class PlayerEntity {
 
@@ -18,11 +18,6 @@ public class PlayerEntity {
 
     @Column(name = "encoded_password")
     private String encodedPassword;
-
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "inventory_id")
-    @Setter
-    private Integer inventoryID;
 
     @Column(name = "session_id")
     @Setter
