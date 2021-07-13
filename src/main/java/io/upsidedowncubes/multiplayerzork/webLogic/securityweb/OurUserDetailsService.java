@@ -16,8 +16,10 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(username);
         PlayerEntity player = repository.findByUsername(username);
         if (player != null){
+//            throw new UsernameNotFoundException("blah");
             return User.withUsername(username).password(player.getEncodedPassword()).roles("USER").build();
         }
         else {
