@@ -40,7 +40,9 @@ public class CommandParser {
     }
 
 
+    // TODO: make a version that receive the player's username and refactor *ALL* function to adapt to that
 
+ // public void commandRunner(List<String> cmdAsList, String username){
     public void commandRunner(List<String> cmdAsList){
         if (cmdAsList == null){ // if invalid command
             MessageOutput.print("I don't think I recognize that action...");
