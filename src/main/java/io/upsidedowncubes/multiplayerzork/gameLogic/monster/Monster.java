@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
@@ -24,7 +25,7 @@ public abstract class Monster {
         return name;
     }
 
-    public abstract void act();
+    public abstract void act(Player p);
 
     public void receiveDamage(int amount){
         hp -= amount;

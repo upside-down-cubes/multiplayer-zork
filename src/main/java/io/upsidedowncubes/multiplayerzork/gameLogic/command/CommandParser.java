@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +37,34 @@ public class CommandParser {
             }
         }
         return null;
+    }
+
+
+
+    public void commandRunner(List<String> cmdAsList){
+        if (cmdAsList == null){ // if invalid command
+            MessageOutput.print("I don't think I recognize that action...");
+            return;
+        }
+        // get command
+        Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
+
+        // if the command is not in the right state of use
+        // (maybe player use Menu command while in game mode)
+        if ( !cmd.callableNow() ){
+            MessageOutput.print("Unable to use that right now!");
+        }
+        // check if the command has enough argument
+        // [go].size        <=  (required 1)     --> fails
+        // [go, north].size <=  (required 1)     --> doesnt fail
+        else if ( cmdAsList.size() <= cmd.requiredArgs() ){
+            MessageOutput.print("That's not how you use the command!");
+        }
+        else{
+            cmd.execute(cmdAsList);
+            // checkObjective();
+        }
+
     }
 
 }

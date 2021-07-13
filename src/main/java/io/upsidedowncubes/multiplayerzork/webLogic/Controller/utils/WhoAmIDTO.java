@@ -9,9 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class WhoamiDTO {
+public class WhoAmIDTO {
 
-    private boolean loggedIn = false;
+    private boolean loggedIn;
 
     private String username;
 

@@ -1,5 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class DummyWeapon implements Item, Weapon{
     @Override
     public String getName() {

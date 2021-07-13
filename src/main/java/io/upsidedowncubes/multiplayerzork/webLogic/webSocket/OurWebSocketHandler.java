@@ -1,0 +1,39 @@
+package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
+
+import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import org.springframework.web.socket.CloseStatus;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class OurWebSocketHandler extends TextWebSocketHandler {
+
+    private final List<WebSocketSession> webSocketSessions = new ArrayList<>();
+
+    @Override
+    public void afterConnectionEstablished(WebSocketSession session) {
+        webSocketSessions.add(session);
+    }
+
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        for(WebSocketSession webSocketSession : webSocketSessions){
+            webSocketSession.sendMessage(new TextMessage(">>> " + message.getPayload()));
+            CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
+            List<String> cmd = commandParser.parse(message.getPayload());
+            MessageOutput.init();
+            commandParser.commandRunner(cmd);
+            MessageOutput.print("");
+            webSocketSession.sendMessage(new TextMessage( MessageOutput.getAllOutput() ));
+        }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+        webSocketSessions.remove(session);
+    }
+}

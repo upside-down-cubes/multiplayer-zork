@@ -1,17 +1,17 @@
-package upsidedowncubes.multiplayerzork.Controller;
+package io.upsidedowncubes.multiplayerzork.webLogic.Controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
-import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.WhoamiDTO;
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.WhoAmIDTO;
 
 /*
 * A Controller to retrieve currently logged-in user.
 *  */
 @RestController
-public class WhoamiController {
+public class WhoAmIController {
 
 
     /*
@@ -27,16 +27,16 @@ public class WhoamiController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (!auth.getPrincipal().equals("anonymousUser")) {
                 // if loggedIn
-                return JsonConvertor.convert(WhoamiDTO.builder()
+                return JsonConvertor.convert(WhoAmIDTO.builder()
                         .loggedIn(true).username(auth.getName()).build());
             }
             else {
-                return JsonConvertor.convert(WhoamiDTO.builder()
+                return JsonConvertor.convert(WhoAmIDTO.builder()
                         .loggedIn(false)
                         .build());
             }
         }catch (Exception e){
-            return JsonConvertor.convert(WhoamiDTO.builder().loggedIn(false).build());
+            return JsonConvertor.convert(WhoAmIDTO.builder().loggedIn(false).build());
         }
 
 

@@ -1,9 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic;
 
-
-import io.upsidedowncubes.multiplayerzork.gameLogic.command.Command;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,13 @@ public class Game implements CommandLineRunner {
     @Autowired
     private CommandFactory commandFactory;
 
+    GameMap map;
+    Player player;
+
+    private boolean isPlaying = false;
+
+
+
     @Override
     public void run(String... args) throws Exception {
         String[] msg = {
@@ -28,10 +36,12 @@ public class Game implements CommandLineRunner {
                 "Type 'help' to see the available commands",
                 "============================"
         };
+        MessageOutput.init();
         MessageOutput.print(msg);
+        System.out.println( MessageOutput.getAllOutput() );
 
         Scanner in = new Scanner(System.in);
-        while (true){
+        while (true) {
 
             // get input ===========================
             System.out.print(">>> ");
@@ -41,27 +51,33 @@ public class Game implements CommandLineRunner {
             List<String> cmd = commandParser.parse(s);
 
             // handle the command ===========================
-            commandRunner(cmd);
+            MessageOutput.init();
+            commandParser.commandRunner(cmd);
 
             MessageOutput.print("");
+            System.out.println(MessageOutput.getAllOutput());
         }
 
     }
 
-    private void commandRunner(List<String> cmdAsList){
-        if (cmdAsList == null){ // if invalid command
-            MessageOutput.print("I don't think I recognize that action...");
-            return;
-        }
-        // get command
-        Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
-        if (cmd == null){
-            MessageOutput.print("I don't think I recognize that action...");
-            return;
-        }
-
-        cmd.execute(cmdAsList);
-
+    public void setGameState(boolean state){
+        isPlaying = state;
     }
+    public boolean gameInProcess(){
+        return isPlaying;
+    }
+
+
+    public void setMap(GameMap map){
+        this.map = map;
+    }
+    public GameMap getMap(){
+        return map;
+    }
+
+
+    public void setPlayer(Player player){ this.player = player; }
+    public Player getPlayer(){ return player; }
+    public Inventory getInventory(){ return player.getBag(); }
 
 }

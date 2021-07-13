@@ -1,10 +1,12 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
 
+@Service
 public class ItemFactory {
 
     // List of instance from each valid item

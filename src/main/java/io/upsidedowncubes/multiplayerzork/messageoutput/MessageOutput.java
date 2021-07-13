@@ -1,27 +1,34 @@
 package io.upsidedowncubes.multiplayerzork.messageoutput;
 
+
 public class MessageOutput {
 
-    public static boolean print(String message){
-        System.out.println(message);
-        return true;
-        // this is temporary implementation
+    private static StringBuilder sb;
+
+    public static void init(){
+        sb = new StringBuilder();
     }
 
-    public static boolean print(Iterable<String> messages){
-        for (String message : messages){
-            System.out.println(message);
-        }
-        return true;
-        // this is temporary implementation
+    public static void print(String message){
+        sb.append(message);
+        sb.append("\n");
+        //System.out.println(message);
     }
 
-    public static boolean print(String[] messages){
+    public static void print(Iterable<String> messages){
         for (String message : messages){
-            System.out.println(message);
+            print(message);
         }
-        return true;
-        // this is temporary implementation
+    }
+
+    public static void print(String[] messages){
+        for (String message : messages){
+            print(message);
+        }
+    }
+
+    public static String getAllOutput(){
+        return sb.toString();
     }
 
 }

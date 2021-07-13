@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Players")
 @Getter
-public class Player {
+public class PlayerEntity {
 
     @Id
     @Column(name = "username")
@@ -19,23 +19,33 @@ public class Player {
     @Column(name = "encoded_password")
     private String encodedPassword;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "inventory_id")
-    @Setter
-    private Integer inventoryID;
-
     @Column(name = "session_id")
     @Setter
     private Integer sessionID;
 
-    protected Player() {
+    @Column(name = "hp")
+    @Setter
+    private Integer hp;
+
+    @Column(name = "max_hp")
+    @Setter
+    private Integer maxHp;
+
+    @Column(name = "attack")
+    @Setter
+    private Integer attack;
+
+    protected PlayerEntity() {
 
     }
 
-    public Player(String username, String password) {
+    public PlayerEntity(String username, String password) {
         this.username = username;
         // might need to edit this part later (creating new instance of BCryptPasswordEncoder)
         this.encodedPassword = new BCryptPasswordEncoder().encode(password);
+        this.hp = 50;
+        this.maxHp = 50;
+        this.attack = 5;
     }
 
     public void setEncodedPassword(String password) {
@@ -44,6 +54,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return String.format("Customer[username=%s, status='%s']", username, sessionID != null ? "in game" : "not in game");
+        return String.format("Player[username=%s, status='%s']", username, sessionID != null ? "in game" : "not in game");
     }
 }

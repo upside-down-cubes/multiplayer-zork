@@ -1,10 +1,12 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class Inventory {
 
     // capacity at the moment
