@@ -1,9 +1,11 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 
-// TODO: refactor -> getter + setter / make private
+import lombok.Getter;
+
+@Getter
 public class UserSessionHandler {
-    String username;
-    String chatroom;
+    private final String username;
+    private final String chatroom;
 
     UserSessionHandler(String username, String chatroom) {
         this.username = username;

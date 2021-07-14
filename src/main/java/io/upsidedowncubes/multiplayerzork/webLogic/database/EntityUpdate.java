@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class EntityUpdate {
 
     @Autowired
-    PlayerRepository repository;
+    PlayerRepository playerRepository;
 
     @Autowired
     InventoryItemRepository inventoryItemRepository;
@@ -17,21 +17,21 @@ public class EntityUpdate {
 
 
     public void updateHp(String username, int amount) {
-        PlayerEntity player = repository.findByUsername(username);
+        PlayerEntity player = playerRepository.findByUsername(username);
         player.setHp(player.getHp() + amount);
         if (player.getHp() > player.getMaxHp()) {
             player.setHp(player.getMaxHp());
         }
-        repository.save(player);
+        playerRepository.save(player);
     }
 
     public void updateAtk(String username, int amount) {
-        PlayerEntity player = repository.findByUsername(username);
+        PlayerEntity player = playerRepository.findByUsername(username);
         player.setHp(player.getHp() + amount);
         if (player.getHp() > player.getMaxHp()) {
             player.setHp(player.getMaxHp());
         }
-        repository.save(player);
+        playerRepository.save(player);
     }
 
 

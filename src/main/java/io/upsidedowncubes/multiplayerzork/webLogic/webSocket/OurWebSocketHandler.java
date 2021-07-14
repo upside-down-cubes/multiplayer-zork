@@ -17,7 +17,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     // use this to map username with corresponding session
     private final Map<WebSocketSession, UserSessionHandler> webSocketSessions = new HashMap<>();
 
-    private static final Map<String, Game> CHATROOM_TO_GAME = new HashMap<>();
+    private static final Map<String, GameSessionHandler> CHATROOM_TO_GAME = new HashMap<>();
     private static final Map<String, String> USERNAME_TO_CHATROOM = new HashMap<>();
 
     @Override
@@ -38,31 +38,32 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             String[] msg = {
                     "============================",
                     "Welcome to the world of Zork",
-                    "You are in chat room " + thisUser.chatroom,
+                    "You are in chat room " + thisUser.getChatroom(),
                     "Type 'help' to see the available commands",
                     "============================"
             };
             MessageOutput.printToUser(msg); // print welcome to the user
             webSocketSessions.put(session, thisUser);
-            MessageOutput.printToOthers(thisUser.username + " has joined the chatroom, " + thisUser.chatroom); // notify other user
+            MessageOutput.printToOthers(thisUser.getUsername() + " has joined the chatroom, " + thisUser.getChatroom()); // notify other user
 
-            if (! CHATROOM_TO_GAME.containsKey(thisUser.chatroom)) {
-                CHATROOM_TO_GAME.put(thisUser.chatroom, new Game());
+            if (! CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
+                CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
             }
-            USERNAME_TO_CHATROOM.put(thisUser.username, thisUser.chatroom);
+            USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
+            CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment();
 
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             MessageOutput.clear();
-            commandParser.commandRunner(cmd, webSocketSessions.get(session).username);
+            commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
 
         }
         broadcastGameOutput(session);
     }
 
     public static Game getGameByUser(String username) {
-        return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username));
+        return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getGame();
     }
 
 
@@ -70,7 +71,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()){
             if (session.equals(webSocketSession))
                 webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput_user() ) );
-            else if (webSocketSessions.get(session).chatroom.equals(webSocketSessions.get(webSocketSession).chatroom)) {
+            else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) {
                 webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput() ) );
             }
         }
@@ -79,9 +80,11 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         UserSessionHandler thisUser = webSocketSessions.get(session);
-        //TODO: fix to make the game gone when last person leaves
-        //CHATROOM_TO_GAME.remove(thisUser.chatroom);
-        USERNAME_TO_CHATROOM.remove(thisUser.username);
+        CHATROOM_TO_GAME.get(thisUser.getChatroom()).decrement();
+        if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getCount() == 0) {
+            CHATROOM_TO_GAME.remove(thisUser.getChatroom());
+        }
+        USERNAME_TO_CHATROOM.remove(thisUser.getUsername());
         webSocketSessions.remove(session);
 
     }

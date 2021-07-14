@@ -1,20 +1,17 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.player;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 
 import java.util.Random;
 
 public class Player {
-    @Autowired
-    PlayerRepository repository;
+    private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
+            .getApplicationContext().getBean("playerRepository");
 
     String username;
     private int hp;
@@ -27,9 +24,6 @@ public class Player {
     private final double critMultiplier = 1.5;
     private final Random rand = new Random();
 
-    @Autowired
-    Game game;
-
     private Inventory bag;
 
     public Player(){
@@ -41,7 +35,8 @@ public class Player {
     }
 
     public Player(String username){
-        PlayerEntity player = repository.findByUsername(username);
+
+        PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
 
         this.username = username;
         this.hp = player.getHp();
