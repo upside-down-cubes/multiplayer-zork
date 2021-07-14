@@ -35,8 +35,13 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        String[] splitMessage = message.getPayload().split(":");
+        if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
+            return;
+        }
         if (!webSocketSessions.containsKey(session)) {
-            UserSessionHandler thisUser = new UserSessionHandler(message.getPayload().split(":"));
+            UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
+
             webSocketSessions.put(session, thisUser);
             message = new TextMessage(thisUser.username + " has joined the chatroom, " + thisUser.chatroom);
             if (! CHATROOM_TO_GAME.containsKey(thisUser.chatroom)) {

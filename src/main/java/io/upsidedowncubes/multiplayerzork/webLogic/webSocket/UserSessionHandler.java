@@ -4,8 +4,8 @@ public class UserSessionHandler {
     String username;
     String chatroom;
 
-    UserSessionHandler(String[] userInfo) {
-        this.username = userInfo[0];
-        this.chatroom = userInfo[1];
+    UserSessionHandler(String username, String chatroom) {
+        this.username = username;
+        this.chatroom = chatroom;
     }
 }
