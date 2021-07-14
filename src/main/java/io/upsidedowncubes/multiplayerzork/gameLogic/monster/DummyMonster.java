@@ -22,7 +22,7 @@ public class DummyMonster extends Monster{
 
     public void attack( Player p) {
         System.out.println("DEBUG LOG: monster attacks");
-        MessageOutput.print(name + " attacked!");
+        MessageOutput.printToAll(name + " attacked!");
 
         int damage = atk;
 
@@ -35,7 +35,7 @@ public class DummyMonster extends Monster{
         }
 
         p.loseHP( damage );
-        MessageOutput.print("You took " + damage + " damage");
+        MessageOutput.printToAll("You took " + damage + " damage");
 
     }
 

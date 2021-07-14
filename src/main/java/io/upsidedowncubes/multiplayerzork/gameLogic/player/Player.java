@@ -4,24 +4,28 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
 public class Player {
+    @Autowired
+    PlayerRepository repository;
 
-    private String username;
-    private int session_id;
-
+    String username;
     private int hp;
     private int maxHP;
 
     private int atk;
 
-    private double missRate;
-    private double critRate;
-    private double critMultiplier;
-    private Random rand = new Random();
+    private final double missRate = 0.1;
+    private final double critRate = 0.1;
+    private final double critMultiplier = 1.5;
+    private final Random rand = new Random();
 
     @Autowired
     Game game;
@@ -33,14 +37,22 @@ public class Player {
         maxHP = 50;
         atk = 5;
 
-        missRate = 0.1;
-        critRate = 0.1;
-        critMultiplier = 1.5;
         bag = new Inventory();
     }
 
+    public Player(String username){
+        PlayerEntity player = repository.findByUsername(username);
 
-    public void gainHP(int amount){
+        this.username = username;
+        this.hp = player.getHp();
+        this.maxHP = player.getMaxHp();
+        this.atk = player.getAttack();
+
+        bag = new Inventory(username);
+    }
+
+
+    public int gainHP(int amount){
         int amountHealed;
         if (hp + amount > maxHP){
             amountHealed = maxHP - hp;
@@ -48,8 +60,9 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.print( username + " gained " + amountHealed + " HP");
+        MessageOutput.printToAll( username + " gained " + amountHealed + " HP");
         hp += amountHealed;
+        return amountHealed;
     }
 
     public void loseHP(int amount){
@@ -61,10 +74,10 @@ public class Player {
     public Inventory getBag(){ return bag; }
 
     public void viewStatus(){
-        MessageOutput.print("==== Player Information ====");
-        MessageOutput.print("HP: " + hp + "/" +maxHP);
-        MessageOutput.print("ATK: " + atk);
-        MessageOutput.print("============================");
+        MessageOutput.printToAll("==== Player Information ====");
+        MessageOutput.printToAll("HP: " + hp + "/" + maxHP);
+        MessageOutput.printToAll("ATK: " + atk);
+        MessageOutput.printToAll("============================");
     }
 
     public int attack(Weapon wp){
@@ -72,7 +85,7 @@ public class Player {
 
         // determines if the attack lands
         if (attackMiss()){
-            MessageOutput.print( username + "'s attack misses...");
+            MessageOutput.printToAll( username + "'s attack misses...");
             damage = -1;
         }
         else{
@@ -80,7 +93,7 @@ public class Player {
             double damageMultiplier = 1.0;
             if (performCrit()){
                 damageMultiplier = getCritMultiplier();
-                MessageOutput.print("A Critical Hit!!!");
+                MessageOutput.printToAll("A Critical Hit!!!");
             }
             damage = (int) Math.round( getATK(wp) * damageMultiplier );
         }
@@ -95,7 +108,7 @@ public class Player {
     }
 
     public void gainATK(int amount){
-        MessageOutput.print( username + " gained " + amount + " attack stat" );
+        MessageOutput.printToAll( username + " gained " + amount + " attack stat" );
         atk += amount;
     }
 
@@ -111,15 +124,17 @@ public class Player {
         return critMultiplier;
     }
 
+
+    // TODO: figure out how to deal with gameover
     public boolean isDead(){
         return hp <= 0;
     }
 
     public void check(){
         if (isDead()){
-            MessageOutput.print("***** Game Over *****");
-            game.setGameState(false);
-            MessageOutput.print("(Returned to Menu mode)");
+            MessageOutput.printToAll("***** Game Over *****");
+            //game.setGameState(false);
+            //MessageOutput.printToAll("(Returned to Menu mode)");
         }
     }
 

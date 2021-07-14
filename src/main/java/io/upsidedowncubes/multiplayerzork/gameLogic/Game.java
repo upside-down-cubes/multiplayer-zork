@@ -36,8 +36,8 @@ public class Game implements CommandLineRunner {
                 "Type 'help' to see the available commands",
                 "============================"
         };
-        MessageOutput.init();
-        MessageOutput.print(msg);
+        MessageOutput.clear();
+        MessageOutput.printToAll(msg);
         System.out.println( MessageOutput.getAllOutput() );
 
         Scanner in = new Scanner(System.in);
@@ -51,10 +51,10 @@ public class Game implements CommandLineRunner {
             List<String> cmd = commandParser.parse(s);
 
             // handle the command ===========================
-            MessageOutput.init();
-            commandParser.commandRunner(cmd);
+            MessageOutput.clear();
+            commandParser.commandRunner(cmd, "admin");
 
-            MessageOutput.print("");
+            MessageOutput.printToAll("");
             System.out.println(MessageOutput.getAllOutput());
         }
 

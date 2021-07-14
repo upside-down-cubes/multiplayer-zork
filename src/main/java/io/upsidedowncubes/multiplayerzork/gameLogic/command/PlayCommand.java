@@ -5,6 +5,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMapFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,31 +14,24 @@ import java.util.List;
 @Component
 public class PlayCommand implements Command {
 
-    @Autowired
-    Game game;
-
-
     @Override
     public String getCommandName() {
         return "play";
     }
 
+    // TODO: fix how player will select the map
     @Override
-    public String getDescription() {
-        return "This command is used for choosing a certain map to play";
-    }
-
-    @Override
-    public void execute(List<String> args) {
+    public void execute(List<String> args, String username) {
+        Game game = OurWebSocketHandler.getGameByUser(username);
 
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
         if (chosenMap == null){
-            MessageOutput.print("No such map");
+            MessageOutput.printToAll("No such map");
             return;
         }
         game.setMap( chosenMap );
 
-        MessageOutput.print("(Entered Game mode)\n");
+        MessageOutput.printToAll("(Entered Game mode)\n");
         game.setGameState(true);
         game.setPlayer( new Player() );
 
@@ -47,16 +41,16 @@ public class PlayCommand implements Command {
                 "Your objective is: " + chosenMap.getMapObjective(),
                 ""
         };
-        MessageOutput.print(msg);
+        MessageOutput.printToAll(msg);
         game.getMap().getCurrentRoom().lookAround();
 
     }
 
 
     @Override
-    public boolean callableNow() {
+    public boolean callableNow(String username) {
         // if game is in process, can't start the game again
-        return ! game.gameInProcess();
+        return ! OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

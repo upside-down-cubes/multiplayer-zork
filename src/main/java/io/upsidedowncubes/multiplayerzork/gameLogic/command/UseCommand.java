@@ -6,6 +6,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,41 +15,36 @@ import java.util.List;
 @Component
 public class UseCommand implements Command{
 
-    @Autowired
-    Game game;
-
     @Override
     public String getCommandName() {
         return "use";
     }
 
-    @Override
-    public String getDescription() {
-        return "This command is for consuming an item in your inventory, usually followed by an item name";
-    }
 
     @Override
-    public void execute(List<String> args) {
+    public void execute(List<String> args, String username) {
+
         Item item = ItemFactory.getItem(args.get(1));
-        Inventory inventory = game.getInventory();
+        Inventory inventory = new Inventory(username);
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.print("No such item");
+            MessageOutput.printToAll("No such item");
             return;
         }
 
         if (! (item instanceof Consumable) ){
-            MessageOutput.print("This item is not a Consumable");
+            MessageOutput.printToAll("This item is not a Consumable");
             return;
         }
 
-        ((Consumable) item).use();
+        ((Consumable) item).use(username);
+        // the item.use will deal with database
 
     }
 
 
     @Override
-    public boolean callableNow() {
-        return game.gameInProcess();
+    public boolean callableNow(String username) {
+        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

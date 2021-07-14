@@ -57,7 +57,7 @@ public class Room {
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
         }
-        MessageOutput.print(msg.toString());
+        MessageOutput.printToAll(msg.toString());
     }
 
     private String generateMessageItem(){

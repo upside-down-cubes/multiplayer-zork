@@ -42,19 +42,19 @@ public abstract class GameMap {
         switch (dir){
             case N:
                 currentLoc.goNorth();
-                MessageOutput.print("You proceeded to the North");
+                MessageOutput.printToAll("You proceeded to the North");
                 break;
             case E:
                 currentLoc.goEast();
-                MessageOutput.print("You proceeded to the East");
+                MessageOutput.printToAll("You proceeded to the East");
                 break;
             case W:
                 currentLoc.goWest();
-                MessageOutput.print("You proceeded to the West");
+                MessageOutput.printToAll("You proceeded to the West");
                 break;
             case S:
                 currentLoc.goSouth();
-                MessageOutput.print("You proceeded to the South");
+                MessageOutput.printToAll("You proceeded to the South");
                 break;
         }
         return dir;

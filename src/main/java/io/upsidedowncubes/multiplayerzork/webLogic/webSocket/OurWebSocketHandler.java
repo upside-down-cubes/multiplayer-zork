@@ -22,16 +22,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        // TODO: uncomment and fix when Pat pushes his commands
-//        String[] msg = {
-//                "============================",
-//                "Welcome to the world of Zork",
-//                "Type 'help' to see the available commands",
-//                "============================"
-//        };
-//        MessageOutput.init();
-//        MessageOutput.print(msg);
-//        session.sendMessage(MessageOutput.getAllOutput());
+
     }
 
     @Override
@@ -43,38 +34,44 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         if (!webSocketSessions.containsKey(session)) {
             UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
 
+            MessageOutput.clear();
+            String[] msg = {
+                    "============================",
+                    "Welcome to the world of Zork",
+                    "You are in chat room " + thisUser.chatroom,
+                    "Type 'help' to see the available commands",
+                    "============================"
+            };
+            MessageOutput.printToUser(msg); // print welcome to the user
             webSocketSessions.put(session, thisUser);
-            message = new TextMessage(thisUser.username + " has joined the chatroom, " + thisUser.chatroom);
+            MessageOutput.printToOthers(thisUser.username + " has joined the chatroom, " + thisUser.chatroom); // notify other user
+
             if (! CHATROOM_TO_GAME.containsKey(thisUser.chatroom)) {
                 CHATROOM_TO_GAME.put(thisUser.chatroom, new Game());
             }
             USERNAME_TO_CHATROOM.put(thisUser.username, thisUser.chatroom);
+
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
-            MessageOutput.init();
-            commandParser.commandRunner(cmd);
-            message = new TextMessage(MessageOutput.getAllOutput());
+            MessageOutput.clear();
+            commandParser.commandRunner(cmd, webSocketSessions.get(session).username);
+
         }
-        broadcastGameOutput(session, message);
+        broadcastGameOutput(session);
     }
 
     public static Game getGameByUser(String username) {
         return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username));
     }
 
-    private void broadcastGameOutput(WebSocketSession session, TextMessage message) throws IOException {
-        // this is what should work
-        // commandParser.commandRunner(cmd, username);
+
+    private void broadcastGameOutput(WebSocketSession session) throws IOException {
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()){
-            // TODO: uncomment and fix when Pat pushes his commands
-//            if (session.equals(webSocketSession)) {
-//                webSocketSession.sendMessage(MessageOutput.getAllOutput_user());
-//
-            // this is for personalize stuff
-            //else
-            if (webSocketSessions.get(session).chatroom.equals(webSocketSessions.get(webSocketSession).chatroom)) {
-                webSocketSession.sendMessage(message);
+            if (session.equals(webSocketSession))
+                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput_user() ) );
+            else if (webSocketSessions.get(session).chatroom.equals(webSocketSessions.get(webSocketSession).chatroom)) {
+                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput() ) );
             }
         }
     }
@@ -82,7 +79,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         UserSessionHandler thisUser = webSocketSessions.get(session);
-        CHATROOM_TO_GAME.remove(thisUser.chatroom);
+        //TODO: fix to make the game gone when last person leaves
+        //CHATROOM_TO_GAME.remove(thisUser.chatroom);
         USERNAME_TO_CHATROOM.remove(thisUser.username);
         webSocketSessions.remove(session);
 

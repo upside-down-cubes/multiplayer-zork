@@ -43,7 +43,7 @@ public abstract class Monster {
         else{
             amountHealed = amount;
         }
-        MessageOutput.print(getName() + " gained " + amountHealed + " HP");
+        MessageOutput.printToAll(getName() + " gained " + amountHealed + " HP");
         hp += amountHealed;
     }
 

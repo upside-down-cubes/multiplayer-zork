@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface Command {
 
-    void execute(List<String> args);
+    void execute(List<String> args, String username);
 
     String getCommandName();
 
-    boolean callableNow();
+    boolean callableNow(String username);
 
     int requiredArgs();
 
-    String getDescription();
+    // String getDescription();
 }

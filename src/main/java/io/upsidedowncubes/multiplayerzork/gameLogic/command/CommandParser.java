@@ -36,37 +36,47 @@ public class CommandParser {
                 return cmdAsList;
             }
         }
-        return null;
+
+        List<String> txt = new ArrayList<>();
+        txt.add(input);
+        return txt;
     }
 
 
     // TODO: make a version that receive the player's username and refactor *ALL* function to adapt to that
 
- // public void commandRunner(List<String> cmdAsList, String username){
-    public void commandRunner(List<String> cmdAsList){
-        if (cmdAsList == null){ // if invalid command
-            MessageOutput.print("I don't think I recognize that action...");
-            return;
-        }
+    public void commandRunner(List<String> cmdAsList, String username){
+
         // get command
         Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
 
+        if (cmd == null){
+            text(cmdAsList, username);
+            return;
+        }
+
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
-        if ( !cmd.callableNow() ){
-            MessageOutput.print("Unable to use that right now!");
+        if ( !cmd.callableNow(username) ){
+            MessageOutput.printToAll("Unable to use that right now!");
         }
         // check if the command has enough argument
         // [go].size        <=  (required 1)     --> fails
         // [go, north].size <=  (required 1)     --> doesnt fail
-        else if ( cmdAsList.size() <= cmd.requiredArgs() ){
-            MessageOutput.print("That's not how you use the command!");
+        else if ( cmdAsList.size() <= cmd.requiredArgs() && cmd.requiredArgs() != -1){
+            MessageOutput.printToAll("That's not how you use the command!");
         }
         else{
-            cmd.execute(cmdAsList);
+            cmd.execute(cmdAsList, username);
             // checkObjective();
         }
 
+    }
+
+    private void text(List<String> args, String username){
+        List<String> msg = args.subList(1, args.size());
+        MessageOutput.printToAll("[ " + username + " ]: ");
+        MessageOutput.printToAll( msg );
     }
 
 }

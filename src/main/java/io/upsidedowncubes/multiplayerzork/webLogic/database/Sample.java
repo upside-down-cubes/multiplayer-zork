@@ -3,7 +3,6 @@ package io.upsidedowncubes.multiplayerzork.webLogic.database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Sample {
     @Autowired
     PlayerRepository repository;
@@ -47,12 +46,12 @@ public class Sample {
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
         }
-        takeItem("admin", "sword");
+        //takeItem("admin", "sword");
         System.out.println("after taking 1 sword");
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
         }
-        takeItem("admin", "sword");
+        //takeItem("admin", "sword");
         System.out.println("after taking 2 swords");
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
@@ -63,12 +62,12 @@ public class Sample {
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
         }
-        dropItem("admin", "sword");
+        //dropItem("admin", "sword");
         System.out.println("after dropping 1 sword");
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
         }
-        dropItem("admin", "sword");
+        //dropItem("admin", "sword");
         System.out.println("after dropping 2 swords");
         for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername("admin")) {
             System.out.println(inventoryItem.getItem() + ": " + inventoryItem.getQuantity());
@@ -86,7 +85,7 @@ public class Sample {
     }
 
 
-    private void takeItem(String username, String item) {
+    private void takeItem(String username, String item, int quantity) {
         InventoryEntity inventory = inventoryRepository.findByUsername(username);
         if (inventory.getCurrentLoad() >= inventory.getCapacity()) {
             return;
@@ -95,14 +94,14 @@ public class Sample {
         if (inventoryItem == null) {
             inventoryItemRepository.save(new InventoryItemEntity(username, item));
         } else {
-            inventoryItem.setQuantity(inventoryItem.getQuantity()+1);
+            inventoryItem.setQuantity(inventoryItem.getQuantity()+quantity);
             inventoryItemRepository.save(inventoryItem);
         }
         inventory.setCurrentLoad(inventory.getCurrentLoad()+1);
         inventoryRepository.save(inventory);
     }
 
-    private void dropItem(String username, String item) {
+    private void dropItem(String username, String item, int quantity) {
         InventoryItemEntity inventoryItem = inventoryItemRepository.findByUsernameAndItem(username, item);
         if (inventoryItem == null) {
             return;
@@ -110,11 +109,11 @@ public class Sample {
             System.out.println("deleting");
             inventoryItemRepository.delete(inventoryItem);
         } else {
-            inventoryItem.setQuantity(inventoryItem.getQuantity()-1);
+            inventoryItem.setQuantity(inventoryItem.getQuantity()-quantity);
             inventoryItemRepository.save(inventoryItem);
         }
         InventoryEntity inventory = inventoryRepository.findByUsername(username);
-        inventory.setCurrentLoad(inventory.getCurrentLoad()-1);
+        inventory.setCurrentLoad(inventory.getCurrentLoad()-quantity);
         inventoryRepository.save(inventory);
     }
 }
