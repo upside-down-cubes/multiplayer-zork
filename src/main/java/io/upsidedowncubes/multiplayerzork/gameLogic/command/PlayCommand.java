@@ -23,7 +23,6 @@ public class PlayCommand implements Command {
     @Override
     public void execute(List<String> args, String username) {
         Game game = OurWebSocketHandler.getGameByUser(username);
-        Player p = new Player(username);
 
         // TODO: fix map
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
@@ -35,7 +34,6 @@ public class PlayCommand implements Command {
 
         MessageOutput.printToAll("(Entered Game mode)\n");
         game.setGameState(true);
-        game.setPlayer( new Player(username) );
 
         String[] msg = new String[]{
                 "You entered the region called " + chosenMap.getMapName(),
@@ -44,6 +42,7 @@ public class PlayCommand implements Command {
                 ""
         };
         MessageOutput.printToAll(msg);
+        Player p = new Player(username);
         p.getCurrentRoom().lookAround();
 
     }

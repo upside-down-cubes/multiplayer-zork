@@ -54,7 +54,7 @@ public class AttackCommand implements Command, Terminator{
         else{
             int hp_before = p.getHp();
             MonsterAction.doAct(m, p);
-            int hp_diff = hp_before - p.getHp() ;
+            int hp_diff = p.getHp() - hp_before ;
             if (hp_diff != 0){
                 entityUpdate.updateHp(username, hp_diff);
             }

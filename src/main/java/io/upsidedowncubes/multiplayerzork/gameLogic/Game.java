@@ -75,9 +75,4 @@ public class Game implements CommandLineRunner {
         return map;
     }
 
-
-    public void setPlayer(Player player){ this.player = player; }
-    public Player getPlayer(){ return player; }
-    public Inventory getInventory(){ return player.getBag(); }
-
 }

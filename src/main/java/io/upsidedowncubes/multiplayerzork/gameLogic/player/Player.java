@@ -34,7 +34,8 @@ public class Player {
     private Location currentLoc;
 
     public Player(String username){
-
+        // TODO: remove this print. for debugging
+        System.out.println(username);
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
 
         this.username = username;
