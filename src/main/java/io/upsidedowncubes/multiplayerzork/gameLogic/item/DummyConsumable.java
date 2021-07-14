@@ -15,10 +15,10 @@ public class DummyConsumable implements Item, Consumable{
     @Override
     public boolean use(String username) {
 
-        MessageOutput.printToAll("Used Dummy item on self");
+        MessageOutput.printToUser("Used Dummy item on self");
         Player p = new Player(username);
         if (p.isFullHP()){
-            MessageOutput.printToAll("Fuck you, my health is full");
+            MessageOutput.printToUser("Fuck you, my health is full");
             return false;
         }
         entityUpdate.updateHp(username, p.gainHP(50));

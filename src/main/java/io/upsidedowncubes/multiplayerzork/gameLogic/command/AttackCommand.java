@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
@@ -30,24 +29,20 @@ public class AttackCommand implements Command, Terminator{
         Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
         if ( m == null ){
-            MessageOutput.printToAll("There's no monster in the room");
+            MessageOutput.printToUser("There's no monster in the room");
             return;
         }
 
-        //TODO: edit message (to all and to others)
-        MessageOutput.printToAll("You attacked the " + m.getName() + "!");
+        MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
 
         int damage = p.attack(null);
         if (damage != -1){
             m.receiveDamage( damage );
-            //TODO: edit message (to all and to others)
             MessageOutput.printToAll(m.getName() + " took " + damage + " damage");
         }
 
         if (m.isDead()){
-            //TODO: edit how it will increase everyone's attack
-            //TODO: edit message (to all and to others)
-            MessageOutput.printToAll("You defeated " + m.getName());
+            MessageOutput.printToAll("[ " + username + " ] defeated " + m.getName());
             entityUpdate.updateAtk(username, 1);
             r.removeMonster();
         }

@@ -24,16 +24,18 @@ public class PlayCommand implements Command {
     public void execute(List<String> args, String username) {
         Game game = OurWebSocketHandler.getGameByUser(username);
 
-        // TODO: fix map
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
         if (chosenMap == null){
-            MessageOutput.printToAll("No such map");
+            MessageOutput.printToUser("No such map");
             return;
         }
+
         game.setMap( chosenMap );
 
-        MessageOutput.printToAll("(Entered Game mode)\n");
         game.setGameState(true);
+        MessageOutput.printToUser("Map selection success");
+        MessageOutput.printToOthers("[ " + username + " ] has selected a map");
+        MessageOutput.printToAll("");
 
         String[] msg = new String[]{
                 "You entered the region called " + chosenMap.getMapName(),

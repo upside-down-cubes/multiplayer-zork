@@ -99,16 +99,16 @@ public class Inventory {
 
     // display the inventory as text
     public void viewInventory(){
-        MessageOutput.printToAll("==== Inventory Detail ====");
+        MessageOutput.printToUser("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            MessageOutput.printToAll("\n==     Nothing here    ==");
+            MessageOutput.printToUser("\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                MessageOutput.printToAll( "[" + entry.getKey().getName() + "]: " + entry.getValue());
+                MessageOutput.printToUser( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        MessageOutput.printToAll("\n==========================");
+        MessageOutput.printToUser("\n==========================");
     }
 
 }

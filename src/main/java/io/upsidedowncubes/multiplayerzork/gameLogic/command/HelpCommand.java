@@ -9,7 +9,6 @@ import java.util.List;
 // PROBABLY BECOME USELESS NOW THAT WE HAVE FRONTEND
 // BUT WE WILL KEEP IT FOR NOW UNTIL EVERYTHING WORKS
 
-@Component
 public class HelpCommand implements Command{
 
     @Override

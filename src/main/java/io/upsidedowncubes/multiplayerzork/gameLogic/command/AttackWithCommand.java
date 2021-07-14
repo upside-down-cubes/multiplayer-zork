@@ -39,8 +39,7 @@ public class AttackWithCommand implements Command, Terminator{
         Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
         if ( m == null ){
-            //TODO: edit message (to all and to others)
-            MessageOutput.printToAll("There's no monster in the room");
+            MessageOutput.printToUser("There's no monster in the room");
             return;
         }
 
@@ -49,31 +48,25 @@ public class AttackWithCommand implements Command, Terminator{
         Item item = ItemFactory.getItem(args.get(1));
 
         if (item == null || inventory.hasNo( item ) ){
-            //TODO: edit message (to all and to others)
-            MessageOutput.printToAll("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
         if (! (item instanceof Weapon) ){
-            //TODO: edit message (to all and to others)
-            MessageOutput.printToAll("This item is not a Weapon");
+            MessageOutput.printToUser("This item is not a Weapon");
             return;
         }
         Weapon wp = (Weapon) item;
 
-
-        //TODO: edit message (to all and to others)
-        MessageOutput.printToAll("You attacked the " + m.getName() + "!");
+        MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + " with a " + item.getName() + "!");
 
         int damage = p.attack(wp);
         if (damage != -1){
             m.receiveDamage( damage );
-            //TODO: edit message (to all and to others)
             MessageOutput.printToAll(m.getName() + " took " + damage + " damage");
         }
 
         if (m.isDead()){
-            //TODO: edit message (to all and to others)
-            MessageOutput.printToAll("You defeated " + m.getName());
+            MessageOutput.printToAll("[ " + username + " ] defeated " + m.getName());
             entityUpdate.updateAtk(username, 1);
             r.removeMonster();
         }

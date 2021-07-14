@@ -27,16 +27,16 @@ public class UseCommand implements Command{
         Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = new Inventory(username);
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.printToAll("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
         if (! (item instanceof Consumable) ){
-            MessageOutput.printToAll("This item is not a Consumable");
+            MessageOutput.printToUser("This item is not a Consumable");
             return;
         }
 
-        boolean useSuccess = ((Consumable) item).use(username);
+        ((Consumable) item).use(username);
         // the Consumable.use will deal with database
 
     }

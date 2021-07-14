@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Room {
     // subject to be List
-    Item item;
+    List<Item> items;
 
     // will have only one
     Monster monster;
@@ -55,8 +55,10 @@ public class Room {
         if (monster != null){
             msg.append( generateMessageMonster() );
         }
-        if (item != null){
-            msg.append( generateMessageItem() );
+        if ( ! items.isEmpty() ){
+            for (Item item : items){
+                msg.append(generateMessageItem(item));
+            }
         }
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
@@ -67,10 +69,10 @@ public class Room {
             msg.append("   " + dir.name);
         }
 
-        MessageOutput.printToAll(msg.toString());
+        MessageOutput.printToUser(msg.toString());
     }
 
-    private String generateMessageItem(){
+    private String generateMessageItem(Item item){
         Random rand = new Random();
         switch ( rand.nextInt(3) ){
             case 0:
@@ -103,12 +105,12 @@ public class Room {
     }
 
 
-    protected void addMonster(Monster mon){
+    public void addMonster(Monster mon){
         monster = mon;
     }
 
-    protected void addItem(Item it){
-        item = it;
+    public void addItem(Item it){
+        items.add(it);
     }
 
     public Monster getMonster(){
@@ -119,20 +121,22 @@ public class Room {
         monster = null;
     }
 
-    public Item getItem(){
-        return item;
-    }
-
     public boolean canTake(Item item){
-        if (this.item == null){ // if this room has no item
+
+        if (items.isEmpty()){ // if this room has no item
             return false;
         }
         // if this room has the same item as the inputted item
-        return this.item.getItemID() == item.getItemID() ;
+        for (Item roomItem : items){
+            if ( roomItem.getItemID() == item.getItemID() ){
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void removeItem(){
-        item = null;
+    public void removeItem(Item item){
+        items.remove(item);
     }
 
 }

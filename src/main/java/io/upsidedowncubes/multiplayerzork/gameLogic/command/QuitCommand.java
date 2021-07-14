@@ -13,18 +13,16 @@ public class QuitCommand implements Command, Terminator {
         return "quit";
     }
 
-    // TODO: change how this quit thing works
     @Override
     public void execute(List<String> args, String username) {
         // Game.isPlaying = false
-        MessageOutput.printToAll(username + " has quit the game.");
+        MessageOutput.printToOthers("[" +username + " ] has quit the game.");
+        MessageOutput.printToUser("You left the game session...");
     }
 
     @Override
     public boolean callableNow(String username) {
-        // can call if game is in process
-        // will go back to menu
-//        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
+        // return OurWebSocketHandler.getGameByUser(username).gameInProcess();
         return true;
     }
 

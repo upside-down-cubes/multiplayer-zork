@@ -29,15 +29,13 @@ public class GoCommand implements Command{
 
         Direction d = stringToDirection(args.get(1));
         if (d == null){
-            // TODO: edit message
-            MessageOutput.printToAll("Invalid Direction");
+            MessageOutput.printToUser("Invalid Direction");
             return;
         }
 
         Direction dir = p.move(d);
         if (dir == null){
-            // TODO: edit message
-            MessageOutput.printToAll("It seems like you could not proceed in that direction");
+            MessageOutput.printToUser("It seems like you could not proceed in that direction");
         }
         else{
             if ( ! p.isFullHP()){
@@ -46,6 +44,7 @@ public class GoCommand implements Command{
             }
             Location loc = p.getCurrentLoc();
             entityUpdate.updateLoc(username, loc.getRow(), loc.getCol());
+
             p.getCurrentRoom().lookAround();
         }
 

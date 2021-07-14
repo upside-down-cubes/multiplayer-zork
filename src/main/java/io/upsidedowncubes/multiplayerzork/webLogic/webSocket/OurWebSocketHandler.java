@@ -65,7 +65,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         boolean quit = false;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
-        } else {
+        }
+        else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             MessageOutput.clear();

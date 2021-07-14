@@ -34,8 +34,7 @@ public class Player {
     private Location currentLoc;
 
     public Player(String username){
-        // TODO: remove this print. for debugging
-        System.out.println(username);
+
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
 
         this.username = username;
@@ -74,7 +73,8 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.printToAll( username + " gained " + amountHealed + " HP");
+        MessageOutput.printToOthers( username + " gained " + amountHealed + " HP");
+        MessageOutput.printToUser( "You gained " + amountHealed + " HP");
         hp += amountHealed;
         return amountHealed;
     }
@@ -88,10 +88,10 @@ public class Player {
     public Inventory getBag(){ return bag; }
 
     public void viewStatus(){
-        MessageOutput.printToAll("==== Player Information: " + username + " ====");
-        MessageOutput.printToAll("HP: " + hp + "/" + maxHP);
-        MessageOutput.printToAll("ATK: " + atk);
-        MessageOutput.printToAll("============================");
+        MessageOutput.printToUser("==== Player Information: " + username + " ====");
+        MessageOutput.printToUser("HP: " + hp + "/" + maxHP);
+        MessageOutput.printToUser("ATK: " + atk);
+        MessageOutput.printToUser("============================");
     }
 
     public int attack(Weapon wp){
@@ -99,7 +99,8 @@ public class Player {
 
         // determines if the attack lands
         if (attackMiss()){
-            MessageOutput.printToAll( username + "'s attack misses...");
+            MessageOutput.printToUser( "Your attack miss...");
+            MessageOutput.printToOthers( "[ " + username + " ] 's attack misses...");
             damage = -1;
         }
         else{
@@ -148,19 +149,19 @@ public class Player {
         switch (dir){
             case N:
                 currentLoc.goNorth();
-                MessageOutput.printToAll("You proceeded to the North");
+                MessageOutput.printToUser("You proceeded to the North");
                 break;
             case E:
                 currentLoc.goEast();
-                MessageOutput.printToAll("You proceeded to the East");
+                MessageOutput.printToUser("You proceeded to the East");
                 break;
             case W:
                 currentLoc.goWest();
-                MessageOutput.printToAll("You proceeded to the West");
+                MessageOutput.printToUser("You proceeded to the West");
                 break;
             case S:
                 currentLoc.goSouth();
-                MessageOutput.printToAll("You proceeded to the South");
+                MessageOutput.printToUser("You proceeded to the South");
                 break;
         }
         return dir;

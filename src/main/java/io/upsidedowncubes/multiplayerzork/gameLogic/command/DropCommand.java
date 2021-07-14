@@ -1,9 +1,9 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -27,10 +27,11 @@ public class DropCommand implements Command{
     @Override
     public void execute(List<String> args, String username) {
         Item item = ItemFactory.getItem(args.get(1));
-        Inventory inventory = new Inventory(username);
+        Player p = new Player(username);
+        Inventory inventory = p.getBag();
 
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.printToAll("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
@@ -39,24 +40,26 @@ public class DropCommand implements Command{
             try{
                 amount = Integer.parseInt(args.get(2));
                 if (amount <= 0){
-                    MessageOutput.printToAll("Invalid Amount");
+                    MessageOutput.printToUser("Invalid Amount");
                     return;
                 }
 
             }
             catch( NumberFormatException e ){
-                MessageOutput.printToAll("Invalid Number format");
+                MessageOutput.printToUser("Invalid Number format");
                 return;
             }
 
         }
 
         if (inventory.lose(item, amount)){
-            MessageOutput.printToAll("Dropped " + amount + " " + item.getName() + " successfully");
+            MessageOutput.printToAll("[ " + username + " ] dropped " + amount + " " + item.getName() + " successfully");
             entityUpdate.dropItem(username, item.getName(), amount);
+
+            p.getCurrentRoom().addItem(item);
         }
         else{
-            MessageOutput.printToAll("Unable to drop " + amount + " " + item.getName() );
+            MessageOutput.printToUser("Unable to drop " + amount + " " + item.getName() );
         }
 
 

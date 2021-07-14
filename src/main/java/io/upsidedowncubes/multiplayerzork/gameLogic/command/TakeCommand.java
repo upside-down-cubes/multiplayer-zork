@@ -27,33 +27,34 @@ public class TakeCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
-        Game game = OurWebSocketHandler.getGameByUser(username);
         Player p = new Player(username);
 
         Item item = ItemFactory.getItem(args.get(1));
 
         if (item == null){
             // invalid item name
-            MessageOutput.printToAll("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
         Room r = p.getCurrentRoom();
         if ( ! r.canTake(item) ){
             // no such item in room / no item in room
-            MessageOutput.printToAll("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
         Inventory inventory = p.getBag();
         if ( inventory.obtain(item) ){
             // if bag not full
-            r.removeItem(); // remove item from room
-            MessageOutput.printToAll("Picked up " + item.getName());
+            r.removeItem(item); // remove item from room
+            MessageOutput.printToOthers("[ " + username + " ] picked up the " + item.getName());
+            MessageOutput.printToUser("You picked up the " + item.getName());
+
             entityUpdate.takeItem(username, item.getName(), 1);
         }
         else{
-            MessageOutput.printToAll("Can't pick up the item");
+            MessageOutput.printToUser("Can't pick up the item");
         }
 
     }

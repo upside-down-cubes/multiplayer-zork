@@ -11,23 +11,29 @@ import java.util.List;
 @Service
 public class CommandParser {
 
+    private final String COMMAND_PREFIX = "/";
 
     public List<String> parse(String input){
         // clean string
         input = input.trim();
+        if (! input.startsWith(COMMAND_PREFIX)){
+            List<String> txt = new ArrayList<>();
+            txt.add(input);
+            return txt;
+        }
 
         // loop through list of valid command (retrieved from CommandFactory)
         for ( String cmd : CommandFactory.COMMAND_NAME_LIST){
 
             // if the input is exactly the command
-            if (cmd.equals(input)){
+            if (input.equals( COMMAND_PREFIX + cmd )){
                 return Collections.singletonList(input);
             }
 
             // if the input starts with the command (followed by a space)
-            else if ( input.startsWith(cmd + " ") ){
+            else if ( input.startsWith(COMMAND_PREFIX + cmd + " ") ){
                 List<String> cmdAsList = new ArrayList<>();
-                cmdAsList.add(cmd);
+                cmdAsList.add(COMMAND_PREFIX + cmd);
                 String[] temp = input
                         .trim()
                         .substring(cmd.length()+1)
@@ -37,41 +43,42 @@ public class CommandParser {
             }
         }
 
-        List<String> txt = new ArrayList<>();
-        txt.add(input);
-        return txt;
+        return null;
     }
 
-    private void text(List<String> args, String username){
-        List<String> msg = args.subList(1, args.size());
-        MessageOutput.printToAll("[ " + username + " ]: ");
-        MessageOutput.printToAll( msg );
+    private void text(String msg, String username){
+        MessageOutput.printToAll("[ " + username + " ] says: " + msg);
     }
 
 
     // returns true if user wants to quit
     public boolean commandRunner(List<String> cmdAsList, String username){
 
+        if (cmdAsList == null){
+            MessageOutput.printToUser("Invalid command");
+            return false;
+        }
+        else if ( ! cmdAsList.get(0).startsWith( COMMAND_PREFIX )){
+            text(cmdAsList.get(0), username);
+            return false;
+        }
+
         // get command
         Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
 
-        if (cmd == null){
-            text(cmdAsList, username);
-            return false;
-        }
 
         boolean quit = false;
 
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
         if ( !cmd.callableNow(username) ){
-            MessageOutput.printToAll("Unable to use that right now!");
+            MessageOutput.printToUser("Unable to use that right now!");
         }
         // check if the command has enough argument
         // [go].size        <=  (required 1)     --> fails
         // [go, north].size <=  (required 1)     --> doesnt fail
         else if ( cmdAsList.size() <= cmd.requiredArgs() && cmd.requiredArgs() != -1){
-            MessageOutput.printToAll("That's not how you use the command!");
+            MessageOutput.printToUser("That's not how you use the command!");
         }
         else{
             cmd.execute(cmdAsList, username);
