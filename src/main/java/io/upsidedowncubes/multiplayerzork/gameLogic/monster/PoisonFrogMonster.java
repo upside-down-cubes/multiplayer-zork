@@ -33,7 +33,7 @@ public class PoisonFrogMonster extends Monster{
 
     public void poison(Player p) {
         System.out.println("DEBUG LOG: monster attacks");
-        MessageOutput.printToAll(name + " got poisoned!");
+        MessageOutput.printToAll(name + " poisoned!");
 
         int damage = atk;
 

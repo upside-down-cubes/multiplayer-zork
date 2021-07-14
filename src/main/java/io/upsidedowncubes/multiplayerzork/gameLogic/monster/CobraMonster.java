@@ -31,7 +31,7 @@ public class CobraMonster extends Monster{
 
     public void attack(Player p) {
         System.out.println("DEBUG LOG: monster attacks");
-        MessageOutput.printToAll(name + " got attack!");
+        MessageOutput.printToAll(name + " attack!");
 
         int damage = atk;
 
