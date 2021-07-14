@@ -1,8 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
 public class Location {
 
@@ -13,20 +15,23 @@ public class Location {
     private int col;
 
     public Location(int row, int col){
-        if (row < 0 || col < 0){
-            this.row = 0;
-            this.col = 0;
-        }
-        else{
-            this.row = row;
-            this.col = col;
-        }
-
+        this.row = row;
+        this.col = col;
     }
 
     public Location(String username){
         PlayerEntity p = PLAYER_REPOSITORY.findByUsername(username);
-        new Location(p.getRow(), p.getCol());
+        if (p.getRow() < 0 || p.getCol() < 0){
+            Game game = OurWebSocketHandler.getGameByUser(username);
+            Location loc = game.getMap().getStartingLoc();
+            this.row = loc.getRow();
+            this.col = loc.getCol();
+        }
+        else{
+            this.row = p.getRow();
+            this.col = p.getCol();
+        }
+
     }
 
     public void goNorth(){

@@ -22,9 +22,6 @@ public abstract class GameMap {
         return map.get( row ).get( col );
     }
 
-
-    public abstract String getMapObjective();
-
-    public abstract boolean objectiveSuccess();
+    public abstract Location getStartingLoc();
 
 }

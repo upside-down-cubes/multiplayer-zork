@@ -53,27 +53,8 @@ public class TestGameMap extends GameMap {
 
     }
 
-
     @Override
-    public String getMapObjective() {
-        return "Collect All Items and Defeat All Monsters";
+    public Location getStartingLoc() {
+        return new Location(0,0);
     }
-
-    @Override
-    public boolean objectiveSuccess(){
-        for (int row = 0; row < MAP_HEIGHT; row++){
-            for (int col = 0; col < MAP_WIDTH; col++){
-                Room r = map.get( row ).get( col );
-                if (r.getItem() != null){
-                    return false;
-                }
-                if (r.getMonster() != null){
-                    return false;
-                }
-            }
-
-        }
-        return true;
-    }
-
 }

@@ -19,7 +19,7 @@ public class PlayCommand implements Command {
         return "play";
     }
 
-    // TODO: fix how player will select the map
+
     @Override
     public void execute(List<String> args, String username) {
         Game game = OurWebSocketHandler.getGameByUser(username);
