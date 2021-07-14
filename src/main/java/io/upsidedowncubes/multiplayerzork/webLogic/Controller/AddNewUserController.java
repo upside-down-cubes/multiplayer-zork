@@ -12,6 +12,8 @@ import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 public class AddNewUserController {
@@ -21,8 +23,12 @@ public class AddNewUserController {
     @Autowired
     private InventoryRepository inventoryRepository;
 
-    private void createUser(String username, String password) throws AuthenticationException {
-        if (repository.findByUsername(username) == null) {
+    private void createUser(String username, String password) throws AuthenticationException, IllegalArgumentException {
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(username);
+        if (m.find()) {
+            throw new IllegalArgumentException("No special characters allowed!!!");
+        } else if (repository.findByUsername(username) == null) {
             inventoryRepository.save(new InventoryEntity(username));
             repository.save(new PlayerEntity(username, password));
         } else {
@@ -50,6 +56,12 @@ public class AddNewUserController {
                     .builder()
                     .success(false)
                     .message("Username has been taken")
+                    .build());
+        } catch (IllegalArgumentException e) {
+            return JsonConvertor.convert(SimpleResponseDTO
+                    .builder()
+                    .success(false)
+                    .message("No special characters allowed")
                     .build());
         }
     }
