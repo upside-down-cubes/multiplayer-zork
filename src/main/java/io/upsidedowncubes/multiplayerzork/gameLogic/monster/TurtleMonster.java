@@ -7,33 +7,34 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 /*
 * This monster has low health but you can Weather gain or lose health or ...
 * */
-public class CobraMonster extends Monster{
+public class TurtleMonster extends Monster{
 
-    public CobraMonster(){
+    public TurtleMonster(){
         super();
-        maxHP = 40;
+        maxHP = 900;
         hp = maxHP;
-        atk = 20;
-        name = "Cobra";
+        atk = 1;
+        name = "Turtle";
     }
 
     @Override
     public void act(Player player) {
         System.out.println("DEBUG LOG: monster acts");
-        int luck = rand.nextInt(5);
+        int luck = rand.nextInt(20);
         if(luck == 1){
-            attack( player );
+            MessageOutput.printToAll(name+ " ate plastic and die");
+            hp = 0;
         }
         else{
-            MessageOutput.printToUser("Miss the attack");
+            attack(player);
         }
     }
 
     public void attack(Player p) {
         System.out.println("DEBUG LOG: monster attacks");
-        MessageOutput.printToAll(name + " attack!");
+        MessageOutput.printToAll(name + " poisoned!");
 
-        int damage = atk+rand.nextInt(15);
+        int damage = atk;
 
         p.loseHP( damage );
         MessageOutput.printToAll("You took " + damage + " damage");
