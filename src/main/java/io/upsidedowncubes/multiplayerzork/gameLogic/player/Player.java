@@ -27,8 +27,6 @@ public class Player {
     private final double critMultiplier = 1.5;
     private final Random rand = new Random();
 
-    @Autowired
-    Game game;
 
     private Inventory bag;
 

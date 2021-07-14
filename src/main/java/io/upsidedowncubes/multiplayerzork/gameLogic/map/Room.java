@@ -57,6 +57,12 @@ public class Room {
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
         }
+
+        msg.append("Available exit:");
+        for (Direction dir : exits){
+            msg.append("   " + dir.name);
+        }
+
         MessageOutput.printToAll(msg.toString());
     }
 
