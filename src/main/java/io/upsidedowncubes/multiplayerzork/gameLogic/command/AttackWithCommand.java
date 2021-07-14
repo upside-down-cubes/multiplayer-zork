@@ -10,6 +10,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ import java.util.List;
 @Component
 public class AttackWithCommand implements Command{
 
+    @Autowired
+    EntityUpdate entityUpdate;
+
     @Override
     public String getCommandName() {
         return "attack with";
@@ -26,10 +30,9 @@ public class AttackWithCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        Player p = new Player(username);
 
-        Game game = OurWebSocketHandler.getGameByUser(username);
-
-        Room r = game.getMap().getCurrentRoom();
+        Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
         if ( m == null ){
             //TODO: edit message (to all and to others)
@@ -37,7 +40,7 @@ public class AttackWithCommand implements Command{
             return;
         }
 
-        Player p = new Player(username);
+
         Inventory inventory = p.getBag();
         Item item = ItemFactory.getItem(args.get(1));
 
@@ -68,11 +71,16 @@ public class AttackWithCommand implements Command{
             //TODO: edit how it will increase everyone's attack
             //TODO: edit message (to all and to others)
             MessageOutput.printToAll("You defeated " + m.getName());
-            p.gainATK(1);
+            entityUpdate.updateAtk(username, 1);
             r.removeMonster();
         }
         else{
+            int hp_before = p.getHp();
             MonsterAction.doAct(m, p);
+            int hp_diff = hp_before - p.getHp() ;
+            if (hp_diff != 0){
+                entityUpdate.updateHp(username, hp_diff);
+            }
         }
         p.check();
 

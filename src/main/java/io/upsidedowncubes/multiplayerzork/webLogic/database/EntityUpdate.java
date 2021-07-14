@@ -34,6 +34,12 @@ public class EntityUpdate {
         playerRepository.save(player);
     }
 
+    public void updateLoc(String username, int row, int col) {
+        PlayerEntity player = playerRepository.findByUsername(username);
+        // TODO: implement this
+        playerRepository.save(player);
+    }
+
 
     public void takeItem(String username, String item, int quantity) {
         InventoryEntity inventory = inventoryRepository.findByUsername(username);

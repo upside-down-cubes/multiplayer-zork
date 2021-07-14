@@ -19,8 +19,8 @@ public class Room {
     int col;
 
     // set of available exits
-    Set<Direction> exits;
-    String description;
+    private Set<Direction> exits;
+    private String description;
 
     public Room(int row, int col){
         this.row = row;
@@ -43,6 +43,10 @@ public class Room {
         description = des;
     }
 
+    public Set<Direction> getAvailableExit() {
+        return exits;
+    }
+
     public void lookAround(){
         StringBuilder msg = new StringBuilder();
         if (description != null){
@@ -57,6 +61,12 @@ public class Room {
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
         }
+
+        msg.append("Available exit:");
+        for (Direction dir : exits){
+            msg.append("   " + dir.name);
+        }
+
         MessageOutput.printToAll(msg.toString());
     }
 

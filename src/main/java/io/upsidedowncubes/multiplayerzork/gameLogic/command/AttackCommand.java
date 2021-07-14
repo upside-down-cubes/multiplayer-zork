@@ -21,16 +21,15 @@ public class AttackCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
-        Game game = OurWebSocketHandler.getGameByUser(username);
 
-        Room r = game.getMap().getCurrentRoom();
+        Player p = new Player(username);
+
+        Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
         if ( m == null ){
             MessageOutput.printToAll("There's no monster in the room");
             return;
         }
-
-        Player p = new Player(username);
 
         //TODO: edit message (to all and to others)
         MessageOutput.printToAll("You attacked the " + m.getName() + "!");
@@ -50,7 +49,12 @@ public class AttackCommand implements Command{
             r.removeMonster();
         }
         else{
+            int hp_before = p.getHp();
             MonsterAction.doAct(m, p);
+            int hp_diff = hp_before - p.getHp() ;
+            if (hp_diff != 0){
+                entityUpdate.updateHp(username, hp_diff);
+            }
         }
         p.check();
 

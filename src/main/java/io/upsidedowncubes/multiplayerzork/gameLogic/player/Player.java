@@ -1,11 +1,19 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.player;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -13,7 +21,7 @@ public class Player {
     private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
             .getApplicationContext().getBean("playerRepository");
 
-    String username;
+    private String username;
     private int hp;
     private int maxHP;
 
@@ -25,14 +33,7 @@ public class Player {
     private final Random rand = new Random();
 
     private Inventory bag;
-
-    public Player(){
-        hp = 50;
-        maxHP = 50;
-        atk = 5;
-
-        bag = new Inventory();
-    }
+    private Location currentLoc;
 
     public Player(String username){
 
@@ -44,8 +45,27 @@ public class Player {
         this.atk = player.getAttack();
 
         bag = new Inventory(username);
+        currentLoc = new Location(username);
     }
 
+    public Room getCurrentRoom() {
+        Game game = OurWebSocketHandler.getGameByUser(username);
+        GameMap gm = game.getMap();
+
+        return gm.getRoom( currentLoc.getRow(), currentLoc.getCol() );
+    }
+
+    public Location getCurrentLoc(){
+        return currentLoc;
+    }
+
+    public int getHp(){
+        return hp;
+    }
+
+    public int getMaxHP(){
+        return maxHP;
+    }
 
     public int gainHP(int amount){
         int amountHealed;
@@ -69,7 +89,7 @@ public class Player {
     public Inventory getBag(){ return bag; }
 
     public void viewStatus(){
-        MessageOutput.printToAll("==== Player Information ====");
+        MessageOutput.printToAll("==== Player Information: " + username + " ====");
         MessageOutput.printToAll("HP: " + hp + "/" + maxHP);
         MessageOutput.printToAll("ATK: " + atk);
         MessageOutput.printToAll("============================");
@@ -102,11 +122,6 @@ public class Player {
         return atk + wp.getAttackStat();
     }
 
-    public void gainATK(int amount){
-        MessageOutput.printToAll( username + " gained " + amount + " attack stat" );
-        atk += amount;
-    }
-
     public boolean performCrit(){
         return rand.nextDouble() < critRate;
     }
@@ -131,6 +146,35 @@ public class Player {
             //game.setGameState(false);
             //MessageOutput.printToAll("(Returned to Menu mode)");
         }
+    }
+
+    public Direction move(Direction dir) {
+        Room r = getCurrentRoom();
+        // check if can move there
+        if (! r.getAvailableExit().contains(dir) ){
+            return null;
+        }
+
+        // if can move, change currentLocation to be the location in that direction
+        switch (dir){
+            case N:
+                currentLoc.goNorth();
+                MessageOutput.printToAll("You proceeded to the North");
+                break;
+            case E:
+                currentLoc.goEast();
+                MessageOutput.printToAll("You proceeded to the East");
+                break;
+            case W:
+                currentLoc.goWest();
+                MessageOutput.printToAll("You proceeded to the West");
+                break;
+            case S:
+                currentLoc.goSouth();
+                MessageOutput.printToAll("You proceeded to the South");
+                break;
+        }
+        return dir;
     }
 
 }

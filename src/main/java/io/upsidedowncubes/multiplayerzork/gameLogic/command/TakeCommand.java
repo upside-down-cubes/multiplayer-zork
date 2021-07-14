@@ -5,6 +5,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -27,21 +28,24 @@ public class TakeCommand implements Command{
     @Override
     public void execute(List<String> args, String username) {
         Game game = OurWebSocketHandler.getGameByUser(username);
+        Player p = new Player(username);
+
         Item item = ItemFactory.getItem(args.get(1));
+
         if (item == null){
             // invalid item name
             MessageOutput.printToAll("No such item");
             return;
         }
 
-        Room r = game.getMap().getCurrentRoom();
+        Room r = p.getCurrentRoom();
         if ( ! r.canTake(item) ){
             // no such item in room / no item in room
             MessageOutput.printToAll("No such item");
             return;
         }
 
-        Inventory inventory = game.getInventory();
+        Inventory inventory = p.getBag();
         if ( inventory.obtain(item) ){
             // if bag not full
             r.removeItem(); // remove item from room

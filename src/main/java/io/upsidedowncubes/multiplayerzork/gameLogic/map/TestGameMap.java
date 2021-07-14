@@ -26,7 +26,6 @@ public class TestGameMap extends GameMap {
             map.add(temp);
         }
 
-        currentLoc = new Location(0,0);
 
         map.get(0).get(0).setExit( false, false, false, true );
 

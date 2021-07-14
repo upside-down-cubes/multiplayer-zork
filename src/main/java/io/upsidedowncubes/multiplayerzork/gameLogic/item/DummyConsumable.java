@@ -22,7 +22,7 @@ public class DummyConsumable implements Item, Consumable{
             return;
         }
         entityUpdate.updateHp(username, p.gainHP(50));
-
+        entityUpdate.dropItem( username, getName(), 1 );
     }
 
     @Override
