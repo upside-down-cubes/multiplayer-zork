@@ -36,7 +36,8 @@ public class EntityUpdate {
 
     public void updateLoc(String username, int row, int col) {
         PlayerEntity player = playerRepository.findByUsername(username);
-        // TODO: implement this
+        player.setRow(row);
+        player.setCol(col);
         playerRepository.save(player);
     }
 

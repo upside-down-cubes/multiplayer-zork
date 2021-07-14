@@ -26,7 +26,7 @@ public class Location {
 
     public Location(String username){
         PlayerEntity p = PLAYER_REPOSITORY.findByUsername(username);
-        //this(p.getRow(), p.getCol());
+        new Location(p.getRow(), p.getCol());
     }
 
     public void goNorth(){

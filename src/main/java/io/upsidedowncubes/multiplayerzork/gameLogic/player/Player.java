@@ -134,18 +134,8 @@ public class Player {
         return critMultiplier;
     }
 
-
-    // TODO: figure out how to deal with gameover
     public boolean isDead(){
         return hp <= 0;
-    }
-
-    public void check(){
-        if (isDead()){
-            MessageOutput.printToAll("***** Game Over *****");
-            //game.setGameState(false);
-            //MessageOutput.printToAll("(Returned to Menu mode)");
-        }
     }
 
     public Direction move(Direction dir) {

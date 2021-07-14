@@ -42,18 +42,25 @@ public class CommandParser {
         return txt;
     }
 
+    private void text(List<String> args, String username){
+        List<String> msg = args.subList(1, args.size());
+        MessageOutput.printToAll("[ " + username + " ]: ");
+        MessageOutput.printToAll( msg );
+    }
 
-    // TODO: make a version that receive the player's username and refactor *ALL* function to adapt to that
 
-    public void commandRunner(List<String> cmdAsList, String username){
+    // returns true if user wants to quit
+    public boolean commandRunner(List<String> cmdAsList, String username){
 
         // get command
         Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
 
         if (cmd == null){
             text(cmdAsList, username);
-            return;
+            return false;
         }
+
+        boolean quit = false;
 
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
@@ -68,15 +75,14 @@ public class CommandParser {
         }
         else{
             cmd.execute(cmdAsList, username);
-            // checkObjective();
+            if (cmd instanceof Terminator){
+                quit = ((Terminator) cmd).willTerminate();
+            }
         }
 
+        return quit;
+
     }
 
-    private void text(List<String> args, String username){
-        List<String> msg = args.subList(1, args.size());
-        MessageOutput.printToAll("[ " + username + " ]: ");
-        MessageOutput.printToAll( msg );
-    }
 
 }

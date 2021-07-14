@@ -18,7 +18,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AttackWithCommand implements Command{
+public class AttackWithCommand implements Command, Terminator{
+
+    private boolean quit;
 
     @Autowired
     EntityUpdate entityUpdate;
@@ -30,6 +32,8 @@ public class AttackWithCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        quit = false;
+
         Player p = new Player(username);
 
         Room r = p.getCurrentRoom();
@@ -68,7 +72,6 @@ public class AttackWithCommand implements Command{
         }
 
         if (m.isDead()){
-            //TODO: edit how it will increase everyone's attack
             //TODO: edit message (to all and to others)
             MessageOutput.printToAll("You defeated " + m.getName());
             entityUpdate.updateAtk(username, 1);
@@ -82,10 +85,7 @@ public class AttackWithCommand implements Command{
                 entityUpdate.updateHp(username, hp_diff);
             }
         }
-        p.check();
-
-        //TODO: update player into
-
+        quit = p.isDead();
 
     }
 
@@ -97,5 +97,10 @@ public class AttackWithCommand implements Command{
     @Override
     public int requiredArgs() {
         return 1;
+    }
+
+    @Override
+    public boolean willTerminate() {
+        return quit;
     }
 }

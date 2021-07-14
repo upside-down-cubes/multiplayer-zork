@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class QuitCommand implements Command {
-
+public class QuitCommand implements Command, Terminator {
 
     @Override
     public String getCommandName()  {
@@ -36,5 +35,10 @@ public class QuitCommand implements Command {
     @Override
     public int requiredArgs() {
         return 0;
+    }
+
+    @Override
+    public boolean willTerminate() {
+        return true;
     }
 }
