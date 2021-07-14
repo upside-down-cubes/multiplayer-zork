@@ -49,7 +49,6 @@ public class Player {
     public Room getCurrentRoom() {
         Game game = OurWebSocketHandler.getGameByUser(username);
         GameMap gm = game.getMap();
-
         return gm.getRoom( currentLoc.getRow(), currentLoc.getCol() );
     }
 

@@ -48,7 +48,7 @@ public class Room {
         return exits;
     }
 
-    public void lookAround(){
+    public String lookAround(){
         StringBuilder msg = new StringBuilder();
         if (description != null){
             msg.append(description);
@@ -69,8 +69,8 @@ public class Room {
         for (Direction dir : exits){
             msg.append("   " + dir.name);
         }
-
         MessageOutput.printToUser(msg.toString());
+        return msg.toString();
     }
 
     private String generateMessageItem(Item item){

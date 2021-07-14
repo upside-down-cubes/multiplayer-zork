@@ -3,6 +3,7 @@ package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.messageoutput.UserStateGenerator;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.web.socket.CloseStatus;
@@ -85,9 +86,13 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
             if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
-                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput_user()));
+                webSocketSession.sendMessage( new TextMessage(
+                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
+                                MessageOutput.getAllOutput_user())));
             } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) {
-                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput() ) );
+                webSocketSession.sendMessage( new TextMessage(
+                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
+                                MessageOutput.getAllOutput())));
             }
         }
     }

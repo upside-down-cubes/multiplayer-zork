@@ -25,7 +25,6 @@ public class InfoCommand implements Command{
         p.viewStatus();
         p.getBag().viewInventory();
         p.getCurrentRoom().lookAround();
-
     }
 
 
