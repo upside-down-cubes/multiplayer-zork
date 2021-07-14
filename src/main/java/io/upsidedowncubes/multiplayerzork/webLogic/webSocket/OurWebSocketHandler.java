@@ -3,6 +3,8 @@ package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class OurWebSocketHandler extends TextWebSocketHandler {
+    private final static PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
+            .getApplicationContext().getBean("playerRepository");
     // use this to map username with corresponding session
     private final Map<WebSocketSession, UserSessionHandler> webSocketSessions = new HashMap<>();
 
@@ -25,6 +29,33 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     }
 
+    private void newUserJoined(WebSocketSession session, String[] splitMessage) {
+        UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
+
+        MessageOutput.clear();
+        String[] msg = {
+                "============================",
+                "Welcome to the world of Zork",
+                "You are in chat room " + thisUser.getChatroom(),
+                "Type 'help' to see the available commands",
+                "============================"
+        };
+
+        MessageOutput.printToUser(msg); // print welcome to the user
+        webSocketSessions.put(session, thisUser);
+        MessageOutput.printToOthers(thisUser.getUsername() + " has joined the chatroom, " + thisUser.getChatroom()); // notify other user
+
+        PlayerEntity player = PLAYER_REPOSITORY.findByUsername(thisUser.getUsername());
+        player.setSessionID(thisUser.getChatroom());
+        PLAYER_REPOSITORY.save(player);
+
+        if (! CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
+            CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
+        }
+        USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
+        CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment();
+    }
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String[] splitMessage = message.getPayload().split(":");
@@ -32,26 +63,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             return;
         }
         if (!webSocketSessions.containsKey(session)) {
-            UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
-
-            MessageOutput.clear();
-            String[] msg = {
-                    "============================",
-                    "Welcome to the world of Zork",
-                    "You are in chat room " + thisUser.getChatroom(),
-                    "Type 'help' to see the available commands",
-                    "============================"
-            };
-            MessageOutput.printToUser(msg); // print welcome to the user
-            webSocketSessions.put(session, thisUser);
-            MessageOutput.printToOthers(thisUser.getUsername() + " has joined the chatroom, " + thisUser.getChatroom()); // notify other user
-
-            if (! CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
-                CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
-            }
-            USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
-            CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment();
-
+            newUserJoined(session, splitMessage);
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
@@ -85,7 +97,13 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CHATROOM_TO_GAME.remove(thisUser.getChatroom());
         }
         USERNAME_TO_CHATROOM.remove(thisUser.getUsername());
+        PlayerEntity player = PLAYER_REPOSITORY.findByUsername(thisUser.getUsername());
+        player.setRow(-1);
+        player.setCol(-1);
+        player.setSessionID(null);
+        PLAYER_REPOSITORY.save(player);
         webSocketSessions.remove(session);
+
 
     }
 }

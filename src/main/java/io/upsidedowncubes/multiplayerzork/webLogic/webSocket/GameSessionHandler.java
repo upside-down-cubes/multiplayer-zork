@@ -16,9 +16,13 @@ public class GameSessionHandler {
 
     public void decrement() {
         this.count--;
+        // FIXME: remove prints
+        System.out.println(count);
     }
 
     public void increment() {
         this.count++;
+        // FIXME: remove prints
+        System.out.println(count);
     }
 }

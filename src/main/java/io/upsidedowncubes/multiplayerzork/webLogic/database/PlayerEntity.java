@@ -21,7 +21,15 @@ public class PlayerEntity {
 
     @Column(name = "session_id")
     @Setter
-    private Integer sessionID;
+    private String sessionID;
+
+    @Column(name = "row")
+    @Setter
+    private int row;
+
+    @Column(name = "col")
+    @Setter
+    private int col;
 
     @Column(name = "hp")
     @Setter
@@ -46,6 +54,8 @@ public class PlayerEntity {
         this.hp = 50;
         this.maxHp = 50;
         this.attack = 5;
+        this.row = -1;
+        this.col = -1;
     }
 
     public void setEncodedPassword(String password) {
