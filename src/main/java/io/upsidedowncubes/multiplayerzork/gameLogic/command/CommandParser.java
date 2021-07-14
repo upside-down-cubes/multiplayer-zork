@@ -36,7 +36,7 @@ public class CommandParser {
                 cmdAsList.add(COMMAND_PREFIX + cmd);
                 String[] temp = input
                         .trim()
-                        .substring(cmd.length()+1)
+                        .substring(cmd.length()+2)
                         .split(" ");
                 cmdAsList.addAll( Arrays.asList( temp ) );
                 return cmdAsList;
@@ -64,7 +64,7 @@ public class CommandParser {
         }
 
         // get command
-        Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
+        Command cmd = CommandFactory.getCommand(cmdAsList.get(0).split("[/]")[1]);
 
 
         boolean quit = false;

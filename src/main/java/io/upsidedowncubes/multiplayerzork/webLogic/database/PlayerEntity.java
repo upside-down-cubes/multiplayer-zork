@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.database;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,38 +10,33 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Players")
 @Getter
+@Setter
 public class PlayerEntity {
 
     @Id
     @Column(name = "username")
-    @Setter
     private String username;
 
     @Column(name = "encoded_password")
+    @Setter(AccessLevel.NONE)
     private String encodedPassword;
 
     @Column(name = "session_id")
-    @Setter
     private String sessionID;
 
     @Column(name = "row")
-    @Setter
     private int row;
 
     @Column(name = "col")
-    @Setter
     private int col;
 
     @Column(name = "hp")
-    @Setter
     private Integer hp;
 
     @Column(name = "max_hp")
-    @Setter
     private Integer maxHp;
 
     @Column(name = "attack")
-    @Setter
     private Integer attack;
 
     protected PlayerEntity() {

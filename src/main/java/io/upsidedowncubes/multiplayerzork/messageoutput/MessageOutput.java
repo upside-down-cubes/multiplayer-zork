@@ -93,7 +93,7 @@ public class MessageOutput {
     }
 
     public static String getJsonOutput_user(){
-        return JsonConvertor.convert(sb.toString());
+        return JsonConvertor.convert(sb_user.toString());
     }
 
 }

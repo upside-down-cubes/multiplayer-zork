@@ -26,6 +26,7 @@ public class Room {
         this.row = row;
         this.col = col;
         exits = new HashSet<>();
+        items = new ArrayList<>();
     }
 
     protected void setExit(boolean north, boolean east, boolean west, boolean south){

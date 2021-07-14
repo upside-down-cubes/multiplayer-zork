@@ -65,8 +65,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         boolean quit = false;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
-        }
-        else {
+        } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             MessageOutput.clear();
@@ -84,14 +83,15 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
 
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
-        for (WebSocketSession webSocketSession : webSocketSessions.keySet()){
-            if (session.equals(webSocketSession))
-                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput_user() ) );
-            else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) {
+        for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
+            if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
+                webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput_user()));
+            } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) {
                 webSocketSession.sendMessage( new TextMessage( MessageOutput.getJsonOutput() ) );
             }
         }
     }
+
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
