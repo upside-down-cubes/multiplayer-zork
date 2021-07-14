@@ -68,8 +68,9 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             MessageOutput.clear();
-            commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
-
+            if (commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername())) {
+                session.close(new CloseStatus(1000, "User quit the game."));
+            }
         }
         broadcastGameOutput(session);
     }

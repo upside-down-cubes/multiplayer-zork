@@ -13,16 +13,17 @@ public class DummyConsumable implements Item, Consumable{
     EntityUpdate entityUpdate;
 
     @Override
-    public void use(String username) {
+    public boolean use(String username) {
 
         MessageOutput.printToAll("Used Dummy item on self");
         Player p = new Player(username);
         if (p.isFullHP()){
             MessageOutput.printToAll("Fuck you, my health is full");
-            return;
+            return false;
         }
         entityUpdate.updateHp(username, p.gainHP(50));
         entityUpdate.dropItem( username, getName(), 1 );
+        return false;
     }
 
     @Override
