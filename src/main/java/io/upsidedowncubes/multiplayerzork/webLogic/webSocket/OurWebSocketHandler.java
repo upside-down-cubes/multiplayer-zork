@@ -16,6 +16,7 @@ import java.util.Map;
 public class OurWebSocketHandler extends TextWebSocketHandler {
     // use this to map username with corresponding session
     private final Map<WebSocketSession, UserSessionHandler> webSocketSessions = new HashMap<>();
+
     private static final Map<String, Game> CHATROOM_TO_GAME = new HashMap<>();
     private static final Map<String, String> USERNAME_TO_CHATROOM = new HashMap<>();
 
@@ -46,8 +47,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             message = new TextMessage(thisUser.username + " has joined the chatroom, " + thisUser.chatroom);
             if (! CHATROOM_TO_GAME.containsKey(thisUser.chatroom)) {
                 CHATROOM_TO_GAME.put(thisUser.chatroom, new Game());
-                USERNAME_TO_CHATROOM.put(thisUser.username, thisUser.chatroom);
             }
+            USERNAME_TO_CHATROOM.put(thisUser.username, thisUser.chatroom);
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
