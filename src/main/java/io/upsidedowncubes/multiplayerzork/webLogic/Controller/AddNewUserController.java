@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @RestController
 public class AddNewUserController {
     @Autowired
-    private PlayerRepository repository;
+    private PlayerRepository playerRepository;
 
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -28,9 +28,9 @@ public class AddNewUserController {
         Matcher m = p.matcher(username);
         if (m.find()) {
             throw new IllegalArgumentException("No special characters allowed!!!");
-        } else if (repository.findByUsername(username) == null) {
+        } else if (playerRepository.findByUsername(username) == null) {
             inventoryRepository.save(new InventoryEntity(username));
-            repository.save(new PlayerEntity(username, password));
+            playerRepository.save(new PlayerEntity(username, password));
         } else {
             throw new AuthenticationException("Username already exists!!!");
         }

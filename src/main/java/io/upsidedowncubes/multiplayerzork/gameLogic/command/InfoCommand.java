@@ -20,18 +20,11 @@ public class InfoCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
-        Game game = OurWebSocketHandler.getGameByUser(username);
         Player p = new Player(username);
         p.viewStatus();
         p.getBag().viewInventory();
 
-        // for testing / debugging only
-        // TODO: display available exits
-        GameMap m = game.getMap();
-        Location l = m.getCurrentLocation();
-
-
-        game.getMap().getCurrentRoom().lookAround();
+        p.getCurrentRoom().lookAround();
 
     }
 

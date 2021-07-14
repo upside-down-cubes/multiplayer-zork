@@ -1,24 +1,19 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.*;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class Inventory {
 
-    @Autowired
-    InventoryItemRepository inventoryItemRepository;
+    private static final InventoryItemRepository INVENTORY_ITEM_REPOSITORY = (InventoryItemRepository) ContextAwareClass
+            .getApplicationContext().getBean("inventoryItemRepository");
 
-    @Autowired
-    InventoryRepository inventoryRepository;
+    private static final InventoryRepository INVENTORY_REPOSITORY = (InventoryRepository) ContextAwareClass
+            .getApplicationContext().getBean("inventoryRepository");
 
     // capacity at the moment
     private int capacity;
@@ -41,11 +36,11 @@ public class Inventory {
     public Inventory(String username){
         inventory = new HashMap<>();
 
-        InventoryEntity inventoryEntity = inventoryRepository.findByUsername(username);
+        InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
         capacity = inventoryEntity.getCapacity();
         currentLoad = inventoryEntity.getCurrentLoad();
 
-        for (InventoryItemEntity inventoryItem : inventoryItemRepository.findAllByUsername(username)) {
+        for (InventoryItemEntity inventoryItem : INVENTORY_ITEM_REPOSITORY.findAllByUsername(username)) {
             String itemName = inventoryItem.getItem();
             Item item = ItemFactory.getItem( itemName );
             int quan = inventoryItem.getQuantity();

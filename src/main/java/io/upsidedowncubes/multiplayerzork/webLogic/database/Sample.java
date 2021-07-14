@@ -1,11 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 public class Sample {
     @Autowired
-    PlayerRepository repository;
+    PlayerRepository playerRepository;
 
     @Autowired
     InventoryItemRepository inventoryItemRepository;
@@ -17,7 +16,7 @@ public class Sample {
     // example for loading player stats and inventory
 //    @Bean
     public PlayerEntity loadPlayerStats() {
-        PlayerEntity player = repository.findByUsername("admin");
+        PlayerEntity player = playerRepository.findByUsername("admin");
         System.out.println("HP: " + player.getHp());
         System.out.println("Max HP: " + player.getMaxHp());
         System.out.println("Attack: " + player.getAttack());
@@ -36,7 +35,7 @@ public class Sample {
 
     // ignore the ugliness, for debugging
     public PlayerEntity updatePlayerStats() {
-        PlayerEntity player = repository.findByUsername("admin");
+        PlayerEntity player = playerRepository.findByUsername("admin");
         System.out.println("hp before: " + player.getHp());
         updateHp(player);
         System.out.println("hp after: " + player.getHp());
@@ -81,7 +80,7 @@ public class Sample {
         if (player.getHp() > player.getMaxHp()) {
             player.setHp(player.getMaxHp());
         }
-        repository.save(player);
+        playerRepository.save(player);
     }
 
 

@@ -19,8 +19,8 @@ public class Room {
     int col;
 
     // set of available exits
-    Set<Direction> exits;
-    String description;
+    private Set<Direction> exits;
+    private String description;
 
     public Room(int row, int col){
         this.row = row;
@@ -41,6 +41,10 @@ public class Room {
 
     protected void setDescription(String des){
         description = des;
+    }
+
+    public Set<Direction> getAvailableExit() {
+        return exits;
     }
 
     public void lookAround(){

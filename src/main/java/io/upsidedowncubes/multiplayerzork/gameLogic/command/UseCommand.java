@@ -36,8 +36,8 @@ public class UseCommand implements Command{
             return;
         }
 
-        ((Consumable) item).use(username);
-        // the item.use will deal with database
+        boolean useSuccess = ((Consumable) item).use(username);
+        // the Consumable.use will deal with database
 
     }
 

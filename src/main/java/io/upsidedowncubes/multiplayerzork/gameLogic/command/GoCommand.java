@@ -2,6 +2,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
@@ -24,7 +25,6 @@ public class GoCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
-        Game game = OurWebSocketHandler.getGameByUser(username);
         Player p = new Player(username);
 
         Direction d = stringToDirection(args.get(1));
@@ -33,7 +33,8 @@ public class GoCommand implements Command{
             MessageOutput.printToAll("Invalid Direction");
             return;
         }
-        Direction dir = game.getMap().move(d);
+
+        Direction dir = p.move(d);
         if (dir == null){
             // TODO: edit message
             MessageOutput.printToAll("It seems like you could not proceed in that direction");
@@ -43,7 +44,9 @@ public class GoCommand implements Command{
                 p.gainHP(1);
                 entityUpdate.updateHp(username, 1);
             }
-            game.getMap().getCurrentRoom().lookAround();
+            Location loc = p.getCurrentLoc();
+            entityUpdate.updateLoc(username, loc.getRow(), loc.getCol());
+            p.getCurrentRoom().lookAround();
         }
 
     }

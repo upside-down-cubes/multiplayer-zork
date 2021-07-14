@@ -23,7 +23,9 @@ public class PlayCommand implements Command {
     @Override
     public void execute(List<String> args, String username) {
         Game game = OurWebSocketHandler.getGameByUser(username);
+        Player p = new Player(username);
 
+        // TODO: fix map
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
         if (chosenMap == null){
             MessageOutput.printToAll("No such map");
@@ -33,16 +35,16 @@ public class PlayCommand implements Command {
 
         MessageOutput.printToAll("(Entered Game mode)\n");
         game.setGameState(true);
-        game.setPlayer( new Player() );
+        game.setPlayer( new Player(username) );
 
         String[] msg = new String[]{
-                "You entered the world of " + chosenMap.getMapName(),
-                "You arrived into a room you have never seen...",
-                "Your objective is: " + chosenMap.getMapObjective(),
+                "You entered the region called " + chosenMap.getMapName(),
+                "You arrived into a room you might not recognize...",
+                //"Your objective is: " + chosenMap.getMapObjective(),
                 ""
         };
         MessageOutput.printToAll(msg);
-        game.getMap().getCurrentRoom().lookAround();
+        p.getCurrentRoom().lookAround();
 
     }
 
