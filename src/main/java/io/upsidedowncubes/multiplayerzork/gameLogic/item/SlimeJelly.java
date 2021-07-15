@@ -7,32 +7,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DummyConsumable implements Item, Consumable{
+public class SlimeJelly implements Item, Consumable{
+
+    // drop from slimes
 
     @Autowired
     EntityUpdate entityUpdate;
 
     @Override
-    public boolean use(String username) {
-
-        MessageOutput.printToUser("Used Dummy item on self");
+    public void use(String username) {
         Player p = new Player(username);
         if (p.isFullHP()){
-            MessageOutput.printToUser("Fuck you, my health is full");
-            return false;
+            MessageOutput.printToUser("Your health is full, you can't use the " + getName());
+            return;
         }
-        entityUpdate.updateHp(username, p.gainHP(50));
+        MessageOutput.printToUser("You used " + getName());
+        entityUpdate.updateHp(username, p.gainHP(5));
         entityUpdate.dropItem( username, getName(), 1 );
-        return false;
+
     }
 
     @Override
     public String getName() {
-        return "dummy_con";
+        return "slime_jelly";
     }
 
     @Override
     public int getItemID() {
-        return -1;
+        return 3;
     }
+
+
 }

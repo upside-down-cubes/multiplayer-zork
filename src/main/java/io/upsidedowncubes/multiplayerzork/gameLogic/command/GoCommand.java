@@ -33,6 +33,11 @@ public class GoCommand implements Command{
             return;
         }
 
+        if (p.getCurrentRoom().getMonster() != null){
+            MessageOutput.printToUser("Can't escape from the Monster! Must deal with it somehow...");
+            return;
+        }
+
         Direction dir = p.move(d);
         if (dir == null){
             MessageOutput.printToUser("It seems like you could not proceed in that direction");

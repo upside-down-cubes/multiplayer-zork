@@ -1,10 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Consumable;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.*;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,10 @@ public class UseCommand implements Command{
             return;
         }
 
+        if ( (item instanceof Targetable) ){
+            MessageOutput.printToUser("This item Can't be used on self (HINT: check out \"use on\" command)");
+            return;
+        }
         if (! (item instanceof Consumable) ){
             MessageOutput.printToUser("This item is not a Consumable");
             return;

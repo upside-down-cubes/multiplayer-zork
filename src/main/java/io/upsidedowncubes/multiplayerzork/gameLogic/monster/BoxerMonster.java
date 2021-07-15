@@ -20,18 +20,18 @@ public class BoxerMonster extends Monster{
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
+
         int luck = rand.nextInt(4);
         if (luck <= 1){
-            MessageOutput.printToUser(name + " miss the attack.");
+            MessageOutput.printToUser(name + "'s attack misses");
         }
         else{
             attack( player );
         }
-        attackIncrease();
+        attackDecrease();
     }
 
-    private void attackIncrease(){
+    private void attackDecrease(){
         atk -= amountOfAttacks;
         if (atk < 1){
             atk = 40;
@@ -40,19 +40,13 @@ public class BoxerMonster extends Monster{
     }
 
     public void attack( Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
+
         MessageOutput.printToAll(name + " attacked!");
+
         int damage = atk;
         p.loseHP( damage );
-        MessageOutput.printToAll("You took " + damage + " damage");
+        MessageOutput.printToUser("You took " + damage + " damage");
 
     }
 
-    public void defend() {
-        System.out.println("DEBUG LOG: monster defends");
-    }
-
-    public void skill() {
-        System.out.println("DEBUG LOG: monster uses a skill");
-    }
 }

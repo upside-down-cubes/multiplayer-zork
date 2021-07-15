@@ -13,7 +13,7 @@ public class DragonMonster extends Monster{
         maxHP = 300;
         hp = maxHP;
         atk = 3;
-        name = "Dragon form hell";
+        name = "Dragon from hell";
     }
 
     @Override

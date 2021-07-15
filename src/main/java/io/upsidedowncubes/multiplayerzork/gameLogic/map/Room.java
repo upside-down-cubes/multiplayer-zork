@@ -29,7 +29,7 @@ public class Room {
         items = new ArrayList<>();
     }
 
-    protected void setExit(boolean north, boolean east, boolean west, boolean south){
+    protected Room setExit(boolean north, boolean east, boolean west, boolean south){
         if (north)
             exits.add(Direction.N);
         if (east)
@@ -38,10 +38,48 @@ public class Room {
             exits.add(Direction.W);
         if (south)
             exits.add(Direction.S);
+        return this;
     }
 
-    protected void setDescription(String des){
+    protected Room setDescription(String des){
         description = des;
+        return this;
+    }
+
+    public Room addMonster(Monster mon){
+        monster = mon;
+        return this;
+    }
+
+    public Room addItem(Item it){
+        items.add(it);
+        return this;
+    }
+
+    public Monster getMonster(){
+        return monster;
+    }
+
+    public void removeMonster(){
+        monster = null;
+    }
+
+    public boolean canTake(Item item){
+
+        if (items.isEmpty()){ // if this room has no item
+            return false;
+        }
+        // if this room has the same item as the inputted item
+        for (Item roomItem : items){
+            if ( roomItem.getItemID() == item.getItemID() ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeItem(Item item){
+        items.remove(item);
     }
 
     public Set<Direction> getAvailableExit() {
@@ -106,38 +144,6 @@ public class Room {
     }
 
 
-    public void addMonster(Monster mon){
-        monster = mon;
-    }
 
-    public void addItem(Item it){
-        items.add(it);
-    }
-
-    public Monster getMonster(){
-        return monster;
-    }
-
-    public void removeMonster(){
-        monster = null;
-    }
-
-    public boolean canTake(Item item){
-
-        if (items.isEmpty()){ // if this room has no item
-            return false;
-        }
-        // if this room has the same item as the inputted item
-        for (Item roomItem : items){
-            if ( roomItem.getItemID() == item.getItemID() ){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void removeItem(Item item){
-        items.remove(item);
-    }
 
 }

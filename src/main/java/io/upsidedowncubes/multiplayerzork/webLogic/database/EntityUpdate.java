@@ -15,6 +15,11 @@ public class EntityUpdate {
     @Autowired
     InventoryRepository inventoryRepository;
 
+    public void updateMaxHp(String username, int amount) {
+        PlayerEntity player = playerRepository.findByUsername(username);
+        player.setMaxHp( player.getMaxHp() + amount );
+        playerRepository.save(player);
+    }
 
     public void updateHp(String username, int amount) {
         PlayerEntity player = playerRepository.findByUsername(username);

@@ -19,21 +19,21 @@ public class CobraMonster extends Monster{
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
+
         int luck = rand.nextInt(5);
         if(luck == 1){
             attack( player );
         }
         else{
-            MessageOutput.printToUser("Miss the attack");
+            MessageOutput.printToUser(name + "'s attack misses'");
         }
     }
 
     public void attack(Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
+
         MessageOutput.printToAll(name + " attack!");
 
-        int damage = atk+rand.nextInt(15);
+        int damage = atk + rand.nextInt(15);
 
         p.loseHP( damage );
         MessageOutput.printToAll("You took " + damage + " damage");

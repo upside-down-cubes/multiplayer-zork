@@ -56,12 +56,23 @@ public class Player {
         return currentLoc;
     }
 
+    public String getUsername(){
+        return username;
+    }
+
     public int getHp(){
         return hp;
     }
 
     public int getMaxHP(){
         return maxHP;
+    }
+
+    public void gainMaxHP(int amount){
+
+        MessageOutput.printToUser( "You MaxHP is increased by " + amount );
+        maxHP += amount;
+
     }
 
     public int gainHP(int amount){

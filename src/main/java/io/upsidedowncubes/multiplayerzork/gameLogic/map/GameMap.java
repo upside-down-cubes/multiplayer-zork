@@ -1,9 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-
 import java.util.List;
-import java.util.Set;
 
 public abstract class GameMap {
 

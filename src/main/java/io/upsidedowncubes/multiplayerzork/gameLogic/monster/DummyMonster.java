@@ -16,12 +16,10 @@ public class DummyMonster extends Monster{
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
         attack( player );
     }
 
     public void attack( Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
         MessageOutput.printToUser(name + " attacked!");
 
         int damage = atk;

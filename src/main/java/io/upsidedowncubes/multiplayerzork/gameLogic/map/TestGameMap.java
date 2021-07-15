@@ -1,8 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyConsumable;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyWeapon;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.DummyMonster;
 import org.springframework.stereotype.Component;
 
@@ -27,25 +27,29 @@ public class TestGameMap extends GameMap {
         }
 
 
-        map.get(0).get(0).setExit( false, false, false, true );
+        map.get(0).get(0)
+                .setExit( false, false, false, true )
+                .setDescription("Seems like an entrance to some kind of dungeon...");
 
-        map.get(0).get(1).setExit(  false, false, true, false );
-        map.get(0).get(1).addItem( new DummyWeapon() );
-        map.get(0).get(1).addMonster( new DummyMonster() );
+        map.get(0).get(1)
+                .setExit(  false, false, true, false )
+                .setDescription("Seems like an entrance to some kind of dungeon...")
+                .addItem( ItemFactory.getItem("sword") )
+                .addMonster( new DummyMonster() );
 
-        map.get(0).get(2).setExit(  false, true, false, true );
-        map.get(0).get(2).addMonster( new DummyMonster() );
+        map.get(0).get(2).setExit(  false, true, false, true )
+                .addMonster( new DummyMonster() );
 
-        map.get(1).get(0).setExit( true, false, false, true );
-        map.get(1).get(0).addItem( new DummyConsumable() );
+        map.get(1).get(0).setExit( true, false, false, true )
+                .addItem( ItemFactory.getItem("potion") );
 
-        map.get(1).get(1).setExit( false, false, true, false );
-        map.get(1).get(1).addItem( new DummyConsumable() );
+        map.get(1).get(1).setExit( false, false, true, false )
+                .addItem( ItemFactory.getItem("potion") );
 
         map.get(1).get(2).setExit( true, true, false, true );
 
-        map.get(2).get(0).setExit( true, false, true, false );
-        map.get(2).get(0).addMonster( new DummyMonster() );
+        map.get(2).get(0).setExit( true, false, true, false )
+                .addMonster( new DummyMonster() );
 
         map.get(2).get(1).setExit( false, true, true, false );
 
