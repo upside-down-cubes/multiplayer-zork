@@ -26,6 +26,9 @@ public class Location {
             Location loc = game.getMap().getStartingLoc();
             this.row = loc.getRow();
             this.col = loc.getCol();
+            p.setCol(loc.getCol());
+            p.setRow(loc.getRow());
+            PLAYER_REPOSITORY.save(p);
         }
         else{
             this.row = p.getRow();

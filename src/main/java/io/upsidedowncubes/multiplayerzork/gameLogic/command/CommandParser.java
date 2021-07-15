@@ -64,7 +64,7 @@ public class CommandParser {
         }
 
         // get command
-        Command cmd = CommandFactory.getCommand(cmdAsList.get(0));
+        Command cmd = CommandFactory.getCommand(cmdAsList.get(0).split("[/]")[1]);
 
 
         boolean quit = false;
