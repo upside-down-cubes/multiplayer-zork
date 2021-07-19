@@ -1,5 +1,9 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
@@ -23,6 +27,7 @@ public class AttackCommand implements Command, Terminator{
     @Override
     public void execute(List<String> args, String username) {
         quit = false;
+        boolean useItem = false;
 
         Player p = new Player(username);
 
@@ -33,10 +38,41 @@ public class AttackCommand implements Command, Terminator{
             return;
         }
 
-        // 10
-        MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
+        //=====================
+        // with item
+        Weapon wp = null;
+        Item item = null;
+        if (args.size() > 1){
+            if (! args.get(1).equals("with")){
+                MessageOutput.printToUser("Invalid command");
+                return;
+            }
 
-        int damage = p.attack(null);
+            Inventory inventory = p.getBag();
+            item = ItemFactory.getItem(args.get(1));
+
+            if (item == null || inventory.hasNo( item ) ){
+                MessageOutput.printToUser("No such item");
+                return;
+            }
+            if (! (item instanceof Weapon) ){
+                MessageOutput.printToUser("This item is not a Weapon");
+                return;
+            }
+            wp = (Weapon) item;
+            useItem = true;
+        }
+
+        //=====================
+
+        if (useItem){
+            MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + " with a " + item.getName() + "!");
+        }
+        else{
+            MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
+        }
+
+        int damage = p.attack(wp);
         if (damage != -1){
             m.receiveDamage( damage );
             MessageOutput.printToAll(m.getName() + " took " + damage + " damage");
@@ -55,7 +91,15 @@ public class AttackCommand implements Command, Terminator{
                 entityUpdate.updateHp(username, hp_diff);
             }
         }
+
         quit = p.isDead();
+        if (quit){
+            MessageOutput.printToUser("You have fallen...");
+            MessageOutput.printToOthers("[ " + username + " ] has fallen...");
+
+            entityUpdate.setHp(username, p.getMaxHP() );
+            // TODO: drop all item
+        }
 
     }
 

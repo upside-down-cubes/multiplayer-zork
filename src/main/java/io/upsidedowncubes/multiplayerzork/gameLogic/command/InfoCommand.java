@@ -18,7 +18,6 @@ public class InfoCommand implements Command{
         return "info";
     }
 
-    // TODO: implement info to json
     @Override
     public void execute(List<String> args, String username) {
         Player p = new Player(username);
