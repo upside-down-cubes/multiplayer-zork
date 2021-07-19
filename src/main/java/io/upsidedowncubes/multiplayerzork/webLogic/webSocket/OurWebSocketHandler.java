@@ -65,6 +65,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        MessageOutput.clear();
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
             return;
@@ -75,7 +76,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
-            MessageOutput.clear();
             quit = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
         }
         broadcastGameOutput(session);
@@ -90,21 +90,21 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
 
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
-        List<String> DMMessage = MessageOutput.getAllOutput_DM();
+        List<String> DMMessage = MessageOutput.getAllOutput_DM_br();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
             if (DMMessage != null && webSocketSessions.get(webSocketSession).getUsername().equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
                                 DMMessage.get(2))));
-            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
+            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user_br().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput_user())));
+                                MessageOutput.getAllOutput_user_br())));
             } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
-                        && !MessageOutput.getAllOutput().isBlank()) {
+                        && !MessageOutput.getAllOutput_br().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput())));
+                                MessageOutput.getAllOutput_br())));
             }
         }
     }
