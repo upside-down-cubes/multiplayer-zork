@@ -3,14 +3,28 @@ package io.upsidedowncubes.multiplayerzork.messageoutput;
 
 import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MessageOutput {
 
     private static StringBuilder sb;
     private static StringBuilder sb_user;
+    private static StringBuilder sb_dm;
+    private static List<String> dm;
 
     public static void clear(){
         sb = new StringBuilder();
         sb_user = new StringBuilder();
+        sb_dm = new StringBuilder();
+        dm = new ArrayList<>();
+    }
+
+    // DM List --> [ from who , to whom , message ]
+    // if error happen --> list == null
+    public static void setSenderReceiver(String from, String to){
+        dm.add(from);
+        dm.add(to);
     }
 
     //===============================================
@@ -22,7 +36,9 @@ public class MessageOutput {
 
         sb_user.append(message);
         sb_user.append("\n");
-        //System.out.println(message);
+
+        sb_dm.append(message);
+        sb_dm.append("\n");
     }
 
     public static void printToOthers(String message){
@@ -32,6 +48,12 @@ public class MessageOutput {
     }
 
     public static void printToUser(String message){
+        sb_user.append(message);
+        sb_user.append("\n");
+        //System.out.println(message);
+    }
+
+    public static void printToDM(String message){
         sb_user.append(message);
         sb_user.append("\n");
         //System.out.println(message);
@@ -58,6 +80,12 @@ public class MessageOutput {
         }
     }
 
+    public static void printToDM(Iterable<String> messages){
+        for (String message : messages){
+            printToDM(message);
+        }
+    }
+
     public static void printToUser(Iterable<String> messages){
         for (String message : messages){
             printToUser(message);
@@ -76,6 +104,12 @@ public class MessageOutput {
         }
     }
 
+    public static void printToDM(String[] messages){
+        for (String message : messages){
+            printToDM(message);
+        }
+    }
+
     //===============================================
     ///*
     public static String getAllOutput(){
@@ -86,8 +120,18 @@ public class MessageOutput {
          return sb_user.toString();
     }
 
+    public static List<String> getAllOutput_DM(){
+        if ( sb_dm.toString().isBlank() || dm.isEmpty() ){
+            return null;
+        }
+
+        dm.add( sb_dm.toString() );
+        return dm;
+    }
+
      //*/
 
+    /*
     public static String getJsonOutput(){
         return JsonConvertor.convert(sb.toString());
     }
@@ -95,5 +139,7 @@ public class MessageOutput {
     public static String getJsonOutput_user(){
         return JsonConvertor.convert(sb_user.toString());
     }
+
+     */
 
 }
