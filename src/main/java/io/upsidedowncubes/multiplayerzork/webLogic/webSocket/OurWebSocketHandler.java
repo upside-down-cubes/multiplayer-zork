@@ -100,7 +100,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
                                 MessageOutput.getAllOutput_user())));
-            } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) {
+            } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
+                        && !MessageOutput.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
                                 MessageOutput.getAllOutput())));
