@@ -49,7 +49,7 @@ public class AttackCommand implements Command, Terminator{
             }
 
             Inventory inventory = p.getBag();
-            item = ItemFactory.getItem(args.get(1));
+            item = ItemFactory.getItem(args.get(2));
 
             if (item == null || inventory.hasNo( item ) ){
                 MessageOutput.printToUser("No such item");
