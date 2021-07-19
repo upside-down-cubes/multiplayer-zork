@@ -99,10 +99,10 @@ public class Room {
             }
         }
         if (msg.length() <= 0){
-            msg.append("There does not seem to be anything interesting in this room...");
+            msg.append("There does not seem to be anything interesting in this room...\n");
         }
 
-        msg.append("Available exit:");
+        msg.append("\nAvailable exit:");
         for (Direction dir : exits){
             msg.append("   " + dir.name);
         }
@@ -114,15 +114,15 @@ public class Room {
         Random rand = new Random();
         switch ( rand.nextInt(3) ){
             case 0:
-                return "Seems like a(n) " +  item.getName() + " is lying on the ground...";
+                return "Seems like a(n) " +  item.getName() + " is lying on the ground...\n";
             case 1:
-                return "You saw a(n) " + item.getName() + " is lying on the ground...";
+                return "You saw a(n) " + item.getName() + " is lying on the ground...\n";
             case 2:
-                return "That " + item.getName() + " on the floor seems to be obtainable...";
+                return "That " + item.getName() + " on the floor seems to be obtainable...\n";
             case 3:
-                return "A(n) " + item.getName() + " appears to be located in the middle of the room...";
+                return "A(n) " + item.getName() + " appears to be located in the middle of the room...\n";
             default:
-                return "When you entered the room, a(n) " + item.getName() + " piqued your interest...";
+                return "When you entered the room, a(n) " + item.getName() + " piqued your interest...\n";
         }
     }
 
@@ -130,15 +130,15 @@ public class Room {
         Random rand = new Random();
         switch ( rand.nextInt(3) ){
             case 0:
-                return "A(n) " + monster.getName() + " appears to be in this room...";
+                return "A(n) " + monster.getName() + " appears to be in this room...\n";
             case 1:
-                return "You feel a presence of the " + monster.getName() + " when you entered the room...";
+                return "You feel a presence of the " + monster.getName() + " when you entered the room...\n";
             case 2:
-                return "Seems like you saw a(n) " + monster.getName() + " in the other side of the room...";
+                return "Seems like you saw a(n) " + monster.getName() + " in the other side of the room...\n";
             case 3:
-                return "You saw a(n) " + monster.getName() + " standing still as if it is waiting for something...";
+                return "You saw a(n) " + monster.getName() + " standing still as if it is waiting for something...\n";
             default:
-                return "A wild " + monster.getName() + " appears at the corner of the room...";
+                return "A wild " + monster.getName() + " appears at the corner of the room...\n";
         }
     }
 
