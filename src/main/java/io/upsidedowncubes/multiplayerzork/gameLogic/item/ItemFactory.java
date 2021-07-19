@@ -22,6 +22,7 @@ public class ItemFactory {
         for (Item item : REGISTERED_ITEMS){
             ITEM_MAP.put(item.getName().toLowerCase(Locale.ROOT), item);
             ITEM_ID_MAP.put(item.getItemID(), item);
+            System.out.println("LOG: " + item.getName() + " is registered");
         }
     }
 

@@ -98,7 +98,8 @@ public class AttackCommand implements Command, Terminator{
             MessageOutput.printToOthers("[ " + username + " ] has fallen...");
 
             entityUpdate.setHp(username, p.getMaxHP() );
-            // TODO: drop all item
+            entityUpdate.dropAllItems(username);
+            MessageOutput.printToUser("You lost all your belonging...");
         }
 
     }

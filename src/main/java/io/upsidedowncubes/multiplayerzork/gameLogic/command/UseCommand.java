@@ -6,7 +6,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.PlayerRepositoryHelper;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +22,7 @@ public class UseCommand implements Command{
     @Override
     public void execute(List<String> args, String username) {
 
+        // use on syntax --> use <item> on <player>
         if (args.size() > 2){
             if (! args.get(2).equals("on")){
                 MessageOutput.printToUser("Invalid command");
@@ -31,7 +31,6 @@ public class UseCommand implements Command{
             useOn(args, username);
             return;
         }
-        // move on syntax --> use <item> on <player>
 
 
         Item item = ItemFactory.getItem(args.get(1));
@@ -58,9 +57,10 @@ public class UseCommand implements Command{
 
     public void useOn(List<String> args, String username) {
 
+        // use on syntax --> use <item> on <player>
         Player p = new Player(username);
 
-        Item item = ItemFactory.getItem(args.get(3));
+        Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = p.getBag();
         if (item == null || inventory.hasNo( item ) ){
             MessageOutput.printToUser("No such item");
@@ -72,12 +72,12 @@ public class UseCommand implements Command{
             return;
         }
 
-        if (! PlayerRepositoryHelper.userExists( args.get(1)) ){
+        if (! PlayerRepositoryHelper.userExists( args.get(3)) ){
             MessageOutput.printToUser("No such player");
             return;
         }
 
-        ((Targetable) item).useOn(username, args.get(1));
+        ((Targetable) item).useOn(username, args.get(3));
         // the Targetable.useOn will deal with database
     }
 
