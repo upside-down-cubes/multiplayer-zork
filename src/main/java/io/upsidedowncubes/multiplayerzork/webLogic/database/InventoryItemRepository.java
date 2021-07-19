@@ -10,4 +10,5 @@ public interface InventoryItemRepository extends CrudRepository<InventoryItemEnt
     InventoryItemEntity findByID(Integer ID);
     List<InventoryItemEntity> findAllByUsername(String username);
     InventoryItemEntity findByUsernameAndItem(String username, String item);
+    void deleteAllByUsername(String username);
 }

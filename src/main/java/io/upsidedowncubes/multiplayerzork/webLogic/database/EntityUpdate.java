@@ -69,6 +69,13 @@ public class EntityUpdate {
         inventoryRepository.save(inventory);
     }
 
+    public void dropAllItems(String username) {
+        inventoryItemRepository.deleteAllByUsername(username);
+        InventoryEntity inventoryEntity = inventoryRepository.findByUsername(username);
+        inventoryEntity.setCurrentLoad(0);
+        inventoryRepository.save(inventoryEntity);
+    }
+
     public void dropItem(String username, String item, int quantity) {
         InventoryItemEntity inventoryItem = inventoryItemRepository.findByUsernameAndItem(username, item);
         if (inventoryItem == null) {
