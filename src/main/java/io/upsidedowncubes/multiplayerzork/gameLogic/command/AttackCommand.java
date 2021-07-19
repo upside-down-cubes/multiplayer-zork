@@ -33,6 +33,7 @@ public class AttackCommand implements Command, Terminator{
             return;
         }
 
+        // 10
         MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
 
         int damage = p.attack(null);

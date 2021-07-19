@@ -16,8 +16,6 @@ import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler
 import java.util.Random;
 
 public class Player {
-    private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
-            .getApplicationContext().getBean("playerRepository");
 
     private String username;
     private int hp;
@@ -35,7 +33,7 @@ public class Player {
 
     public Player(String username){
 
-        PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
+        PlayerEntity player = PlayerRepositoryHelper.getPlayerEntity(username);
 
         this.username = username;
         this.hp = player.getHp();
@@ -83,7 +81,6 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.printToOthers( username + " gained " + amountHealed + " HP");
         MessageOutput.printToUser( "You gained " + amountHealed + " HP");
         hp += amountHealed;
         return amountHealed;

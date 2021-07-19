@@ -1,9 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyWeapon;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.DummyMonster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Goblin;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Slime;
 import org.springframework.stereotype.Component;
@@ -28,6 +25,12 @@ public class TestGameMap extends GameMap {
             map.add(temp);
         }
 
+        /*
+        __________________
+        [    ][______    ]
+        [    ][______    ]
+        [________________]
+        */
 
         map.get(0).get(0)
                 .setExit( false, false, false, true )

@@ -32,10 +32,7 @@ public class EntityUpdate {
 
     public void updateAtk(String username, int amount) {
         PlayerEntity player = playerRepository.findByUsername(username);
-        player.setHp(player.getHp() + amount);
-        if (player.getHp() > player.getMaxHp()) {
-            player.setHp(player.getMaxHp());
-        }
+        player.setAttack(player.getAttack() + amount);
         playerRepository.save(player);
     }
 

@@ -2,6 +2,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.*;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.PlayerRepositoryHelper;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
@@ -15,13 +16,9 @@ import java.util.List;
 @Component
 public class UseOnCommand implements Command{
 
-    private static PlayerRepository PLAYER_REPOSITORY ;
-
-    @PostConstruct
-    public void init(){
-        PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
+    private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
                 .getApplicationContext().getBean("playerRepository");
-    }
+
 
     @Override
     public String getCommandName() {
@@ -52,8 +49,7 @@ public class UseOnCommand implements Command{
             return;
         }
 
-        PlayerEntity p2 = PLAYER_REPOSITORY.findByUsername(args.get(1));
-        if (p2 == null){
+        if (! PlayerRepositoryHelper.userExists( args.get(1)) ){
             MessageOutput.printToUser("No such player");
             return;
         }
@@ -61,7 +57,6 @@ public class UseOnCommand implements Command{
         ((Targetable) item).useOn(username, args.get(1));
         // the Targetable.useOn will deal with database
     }
-
 
     @Override
     public boolean callableNow(String username) {
