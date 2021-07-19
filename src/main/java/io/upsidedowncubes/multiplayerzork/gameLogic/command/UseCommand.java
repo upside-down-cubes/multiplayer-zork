@@ -1,12 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Consumable;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.*;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.PlayerRepositoryHelper;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,41 +12,78 @@ import java.util.List;
 @Component
 public class UseCommand implements Command{
 
-    @Autowired
-    Game game;
-
     @Override
     public String getCommandName() {
         return "use";
     }
 
-    @Override
-    public String getDescription() {
-        return "This command is for consuming an item in your inventory, usually followed by an item name";
-    }
 
     @Override
-    public void execute(List<String> args) {
-        Item item = ItemFactory.getItem(args.get(1));
-        Inventory inventory = game.getInventory();
-        if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.print("No such item");
+    public void execute(List<String> args, String username) {
+
+        // use on syntax --> use <item> on <player>
+        if (args.size() > 2){
+            if (! args.get(2).equals("on")){
+                MessageOutput.printToUser("Invalid command");
+                return;
+            }
+            useOn(args, username);
             return;
         }
+
+
+        Item item = ItemFactory.getItem(args.get(1));
+        Inventory inventory = new Inventory(username);
+        if (item == null || inventory.hasNo( item ) ){
+            MessageOutput.printToUser("No such item");
+            return;
+        }
+
 
         if (! (item instanceof Consumable) ){
-            MessageOutput.print("This item is not a Consumable");
+            if ( (item instanceof Targetable) ){
+                MessageOutput.printToUser("This item Can't be used on self (HINT: check out \"use on\" command)");
+                return;
+            }
+            MessageOutput.printToUser("This item is not a Consumable");
             return;
         }
 
-        ((Consumable) item).use();
+        ((Consumable) item).use(username);
+        // the Consumable.use will deal with database
 
+    }
+
+    public void useOn(List<String> args, String username) {
+
+        // use on syntax --> use <item> on <player>
+        Player p = new Player(username);
+
+        Item item = ItemFactory.getItem(args.get(1));
+        Inventory inventory = p.getBag();
+        if (item == null || inventory.hasNo( item ) ){
+            MessageOutput.printToUser("No such item");
+            return;
+        }
+
+        if (! (item instanceof Targetable) ){
+            MessageOutput.printToUser("This item can't be used on other player");
+            return;
+        }
+
+        if (! PlayerRepositoryHelper.userExists( args.get(3)) ){
+            MessageOutput.printToUser("No such player");
+            return;
+        }
+
+        ((Targetable) item).useOn(username, args.get(3));
+        // the Targetable.useOn will deal with database
     }
 
 
     @Override
-    public boolean callableNow() {
-        return game.gameInProcess();
+    public boolean callableNow(String username) {
+        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

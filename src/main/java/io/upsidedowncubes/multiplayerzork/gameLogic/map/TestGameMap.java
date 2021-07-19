@@ -1,9 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyConsumable;
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyWeapon;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.DummyMonster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Goblin;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Slime;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -26,27 +25,36 @@ public class TestGameMap extends GameMap {
             map.add(temp);
         }
 
-        currentLoc = new Location(0,0);
+        /*
+        __________________
+        [    ][______    ]
+        [    ][______    ]
+        [________________]
+        */
 
-        map.get(0).get(0).setExit( false, false, false, true );
+        map.get(0).get(0)
+                .setExit( false, false, false, true )
+                .setDescription("Seems like an entrance to some kind of dungeon...");
 
-        map.get(0).get(1).setExit(  false, false, true, false );
-        map.get(0).get(1).addItem( new DummyWeapon() );
-        map.get(0).get(1).addMonster( new DummyMonster() );
+        map.get(0).get(1)
+                .setExit(  false, false, true, false )
+                .setDescription("Seems like an entrance to some kind of dungeon...")
+                .addItem( ItemFactory.getItem("sword") )
+                .addMonster( new Goblin() );
 
-        map.get(0).get(2).setExit(  false, true, false, true );
-        map.get(0).get(2).addMonster( new DummyMonster() );
+        map.get(0).get(2).setExit(  false, true, false, true )
+                .addMonster( new Goblin() );
 
-        map.get(1).get(0).setExit( true, false, false, true );
-        map.get(1).get(0).addItem( new DummyConsumable() );
+        map.get(1).get(0).setExit( true, false, false, true )
+                .addItem( ItemFactory.getItem("potion") );
 
-        map.get(1).get(1).setExit( false, false, true, false );
-        map.get(1).get(1).addItem( new DummyConsumable() );
+        map.get(1).get(1).setExit( false, false, true, false )
+                .addItem( ItemFactory.getItem("potion") );
 
         map.get(1).get(2).setExit( true, true, false, true );
 
-        map.get(2).get(0).setExit( true, false, true, false );
-        map.get(2).get(0).addMonster( new DummyMonster() );
+        map.get(2).get(0).setExit( true, false, true, false )
+                .addMonster( new Slime() );
 
         map.get(2).get(1).setExit( false, true, true, false );
 
@@ -54,27 +62,8 @@ public class TestGameMap extends GameMap {
 
     }
 
-
     @Override
-    public String getMapObjective() {
-        return "Collect All Items and Defeat All Monsters";
+    public Location getStartingLoc() {
+        return new Location(0,0);
     }
-
-    @Override
-    public boolean objectiveSuccess(){
-        for (int row = 0; row < MAP_HEIGHT; row++){
-            for (int col = 0; col < MAP_WIDTH; col++){
-                Room r = map.get( row ).get( col );
-                if (r.getItem() != null){
-                    return false;
-                }
-                if (r.getMonster() != null){
-                    return false;
-                }
-            }
-
-        }
-        return true;
-    }
-
 }

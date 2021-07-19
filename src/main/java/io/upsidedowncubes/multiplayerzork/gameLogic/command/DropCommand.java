@@ -1,10 +1,12 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,23 +16,22 @@ import java.util.List;
 public class DropCommand implements Command{
 
     @Autowired
-    Game game;
+    EntityUpdate entityUpdate;
+
     @Override
     public String getCommandName() {
         return "drop";
     }
 
+    // TODO: drop item and add into room
     @Override
-    public String getDescription() {
-        return "This command is for dropping unwanted item, usually followed by an item name, might be followed by amount";
-    }
-
-    @Override
-    public void execute(List<String> args) {
+    public void execute(List<String> args, String username) {
         Item item = ItemFactory.getItem(args.get(1));
-        Inventory inventory = game.getInventory();
+        Player p = new Player(username);
+        Inventory inventory = p.getBag();
+
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.print("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
@@ -39,33 +40,34 @@ public class DropCommand implements Command{
             try{
                 amount = Integer.parseInt(args.get(2));
                 if (amount <= 0){
-                    MessageOutput.print("Invalid Amount");
+                    MessageOutput.printToUser("Invalid Amount");
                     return;
                 }
 
             }
             catch( NumberFormatException e ){
-                MessageOutput.print("Invalid Number format");
+                MessageOutput.printToUser("Invalid Number format");
                 return;
             }
 
         }
 
         if (inventory.lose(item, amount)){
-            MessageOutput.print("Dropped " + amount + " " + item.getName() + " successfully");
+            MessageOutput.printToAll("[ " + username + " ] dropped " + amount + " " + item.getName() + " successfully");
+            entityUpdate.dropItem(username, item.getName(), amount);
+
+            p.getCurrentRoom().addItem(item);
         }
         else{
-            MessageOutput.print("Unable to drop " + amount + " " + item.getName() );
+            MessageOutput.printToUser("Unable to drop " + amount + " " + item.getName() );
         }
 
 
     }
 
-
-
     @Override
-    public boolean callableNow() {
-        return game.gameInProcess();
+    public boolean callableNow(String username) {
+        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

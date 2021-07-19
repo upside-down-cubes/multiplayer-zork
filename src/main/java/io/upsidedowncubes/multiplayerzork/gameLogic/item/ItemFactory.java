@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class ItemFactory {
@@ -15,17 +18,25 @@ public class ItemFactory {
 
     // Mapping of Item name to its item instance
     private static Map<String, Item> ITEM_MAP = new HashMap<>();
+    private static Map<Integer, Item> ITEM_ID_MAP = new HashMap<>();
     @PostConstruct
     void init(){
 
         for (Item item : REGISTERED_ITEMS){
             ITEM_MAP.put(item.getName().toLowerCase(Locale.ROOT), item);
+            ITEM_ID_MAP.put(item.getItemID(), item);
+            System.out.println("LOG: " + item.getName() + " is registered");
         }
     }
 
-    // get Item object that corresponds to the received string
+    // get Item object that has a name corresponds to the received string
     public static Item getItem(String str){
         return ITEM_MAP.get(str.toLowerCase(Locale.ROOT));
+    }
+
+    // get Item object that has an id corresponds to the received string
+    public static Item getItem(int id){
+        return ITEM_ID_MAP.get(id);
     }
 
 }

@@ -23,4 +23,12 @@ public class GameLogicDTO {
 
     // the session ID of the session that the user is in
     private int session;
+
+    // FOR CURRENT USER
+    private int attack;
+    private int hp;
+    private int maxHp;
+    private int currentLoad;
+    private int capacity;
+    private String roomDescription;
 }

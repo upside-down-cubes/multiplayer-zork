@@ -3,44 +3,75 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.player;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
 import java.util.Random;
 
 public class Player {
 
     private String username;
-    private int session_id;
-
     private int hp;
     private int maxHP;
 
     private int atk;
 
-    private double missRate;
-    private double critRate;
-    private double critMultiplier;
-    private Random rand = new Random();
-
-    @Autowired
-    Game game;
+    private final double missRate = 0.1;
+    private final double critRate = 0.1;
+    private final double critMultiplier = 1.5;
+    private final Random rand = new Random();
 
     private Inventory bag;
+    private Location currentLoc;
 
-    public Player(){
-        hp = 50;
-        maxHP = 50;
-        atk = 5;
+    public Player(String username){
 
-        missRate = 0.1;
-        critRate = 0.1;
-        critMultiplier = 1.5;
-        bag = new Inventory();
+        PlayerEntity player = PlayerRepositoryHelper.getPlayerEntity(username);
+
+        this.username = username;
+        this.hp = player.getHp();
+        this.maxHP = player.getMaxHp();
+        this.atk = player.getAttack();
+
+        bag = new Inventory(username);
+        currentLoc = new Location(username);
     }
 
+    public Room getCurrentRoom() {
+        Game game = OurWebSocketHandler.getGameByUser(username);
+        GameMap gm = game.getMap();
+        return gm.getRoom( currentLoc.getRow(), currentLoc.getCol() );
+    }
 
-    public void gainHP(int amount){
+    public Location getCurrentLoc(){
+        return currentLoc;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public int getHp(){
+        return hp;
+    }
+
+    public int getMaxHP(){
+        return maxHP;
+    }
+
+    public void gainMaxHP(int amount){
+
+        MessageOutput.printToUser( "You MaxHP is increased by " + amount );
+        maxHP += amount;
+
+    }
+
+    public int gainHP(int amount){
         int amountHealed;
         if (hp + amount > maxHP){
             amountHealed = maxHP - hp;
@@ -48,8 +79,9 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.print( username + " gained " + amountHealed + " HP");
+        MessageOutput.printToUser( "You gained " + amountHealed + " HP");
         hp += amountHealed;
+        return amountHealed;
     }
 
     public void loseHP(int amount){
@@ -61,10 +93,10 @@ public class Player {
     public Inventory getBag(){ return bag; }
 
     public void viewStatus(){
-        MessageOutput.print("==== Player Information ====");
-        MessageOutput.print("HP: " + hp + "/" +maxHP);
-        MessageOutput.print("ATK: " + atk);
-        MessageOutput.print("============================");
+        MessageOutput.printToUser("==== Player Information: " + username + " ====");
+        MessageOutput.printToUser("HP: " + hp + "/" + maxHP);
+        MessageOutput.printToUser("ATK: " + atk);
+        MessageOutput.printToUser("============================");
     }
 
     public int attack(Weapon wp){
@@ -72,7 +104,8 @@ public class Player {
 
         // determines if the attack lands
         if (attackMiss()){
-            MessageOutput.print( username + "'s attack misses...");
+            MessageOutput.printToUser( "Your attack miss...");
+            MessageOutput.printToOthers( "[ " + username + " ] 's attack misses...");
             damage = -1;
         }
         else{
@@ -80,7 +113,7 @@ public class Player {
             double damageMultiplier = 1.0;
             if (performCrit()){
                 damageMultiplier = getCritMultiplier();
-                MessageOutput.print("A Critical Hit!!!");
+                MessageOutput.printToAll("A Critical Hit!!!");
             }
             damage = (int) Math.round( getATK(wp) * damageMultiplier );
         }
@@ -92,11 +125,6 @@ public class Player {
             return atk;
         }
         return atk + wp.getAttackStat();
-    }
-
-    public void gainATK(int amount){
-        MessageOutput.print( username + " gained " + amount + " attack stat" );
-        atk += amount;
     }
 
     public boolean performCrit(){
@@ -115,12 +143,33 @@ public class Player {
         return hp <= 0;
     }
 
-    public void check(){
-        if (isDead()){
-            MessageOutput.print("***** Game Over *****");
-            game.setGameState(false);
-            MessageOutput.print("(Returned to Menu mode)");
+    public Direction move(Direction dir) {
+        Room r = getCurrentRoom();
+        // check if can move there
+        if (! r.getAvailableExit().contains(dir) ){
+            return null;
         }
+
+        // if can move, change currentLocation to be the location in that direction
+        switch (dir){
+            case N:
+                currentLoc.goNorth();
+                MessageOutput.printToUser("You proceeded to the North");
+                break;
+            case E:
+                currentLoc.goEast();
+                MessageOutput.printToUser("You proceeded to the East");
+                break;
+            case W:
+                currentLoc.goWest();
+                MessageOutput.printToUser("You proceeded to the West");
+                break;
+            case S:
+                currentLoc.goSouth();
+                MessageOutput.printToUser("You proceeded to the South");
+                break;
+        }
+        return dir;
     }
 
 }

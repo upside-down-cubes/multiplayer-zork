@@ -1,14 +1,14 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.Controller;
 
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
+import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.SimpleResponseDTO;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
-import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.SimpleResponseDTO;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 
 import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @RestController
 public class AddNewUserController {
     @Autowired
-    private PlayerRepository repository;
+    private PlayerRepository playerRepository;
 
     @Autowired
     private InventoryRepository inventoryRepository;
@@ -28,9 +28,9 @@ public class AddNewUserController {
         Matcher m = p.matcher(username);
         if (m.find()) {
             throw new IllegalArgumentException("No special characters allowed!!!");
-        } else if (repository.findByUsername(username) == null) {
+        } else if (playerRepository.findByUsername(username) == null) {
             inventoryRepository.save(new InventoryEntity(username));
-            repository.save(new PlayerEntity(username, password));
+            playerRepository.save(new PlayerEntity(username, password));
         } else {
             throw new AuthenticationException("Username already exists!!!");
         }

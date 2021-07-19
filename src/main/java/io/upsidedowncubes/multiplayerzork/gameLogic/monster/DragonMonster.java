@@ -3,16 +3,19 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
+/*
+* This more you attack this monster the more powerful it gets
+* */
+public class DragonMonster extends Monster{
 
-public class DummyMonster extends Monster{
-
-    public DummyMonster(){
+    public DragonMonster(){
         super();
-        maxHP = 20;
+        maxHP = 100;
         hp = maxHP;
         atk = 3;
-        name = "<Generic Monster>";
-        id = 0;
+        name = "Dragon from hell";
+
+        id = 6;
     }
 
     @Override
@@ -20,21 +23,22 @@ public class DummyMonster extends Monster{
         attack( player );
     }
 
+    private int attackIncrease(){
+        int healthDiff = maxHP - hp;
+        if (healthDiff > 0){
+            return atk + healthDiff;
+        }
+        return atk + rand.nextInt(5);
+    }
+
+    // its attack increase depending on how mush health it lost
     public void attack( Player p) {
-        MessageOutput.printToUser(name + " attacked!");
 
+        MessageOutput.printToAll(name + " attacked!");
+        atk = attackIncrease();
         int damage = atk;
-
-        int rng = rand.nextInt(3);
-        if (rng == 1){
-            damage--;
-        }
-        else if (rng == 2){
-            damage++;
-        }
-
         p.loseHP( damage );
-        MessageOutput.printToUser("You took " + damage + " damage");
+        MessageOutput.printToAll("You took " + damage + " damage");
 
     }
 

@@ -5,7 +5,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMapFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,50 +13,46 @@ import java.util.List;
 @Component
 public class PlayCommand implements Command {
 
-    @Autowired
-    Game game;
-
-
     @Override
     public String getCommandName() {
         return "play";
     }
 
-    @Override
-    public String getDescription() {
-        return "This command is used for choosing a certain map to play";
-    }
 
     @Override
-    public void execute(List<String> args) {
+    public void execute(List<String> args, String username) {
+        Game game = OurWebSocketHandler.getGameByUser(username);
 
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
         if (chosenMap == null){
-            MessageOutput.print("No such map");
+            MessageOutput.printToUser("No such map");
             return;
         }
+
         game.setMap( chosenMap );
 
-        MessageOutput.print("(Entered Game mode)\n");
         game.setGameState(true);
-        game.setPlayer( new Player() );
+        MessageOutput.printToUser("Map selection success");
+        MessageOutput.printToOthers("[ " + username + " ] has selected a map");
+        MessageOutput.printToAll("");
 
         String[] msg = new String[]{
-                "You entered the world of " + chosenMap.getMapName(),
-                "You arrived into a room you have never seen...",
-                "Your objective is: " + chosenMap.getMapObjective(),
+                "You entered the region called " + chosenMap.getMapName(),
+                "You arrived into a room you might not recognize...",
+                //"Your objective is: " + chosenMap.getMapObjective(),
                 ""
         };
-        MessageOutput.print(msg);
-        game.getMap().getCurrentRoom().lookAround();
+        MessageOutput.printToAll(msg);
+        Player p = new Player(username);
+        p.getCurrentRoom().lookAround();
 
     }
 
 
     @Override
-    public boolean callableNow() {
+    public boolean callableNow(String username) {
         // if game is in process, can't start the game again
-        return ! game.gameInProcess();
+        return ! OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

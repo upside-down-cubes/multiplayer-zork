@@ -1,33 +1,44 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class GameMapFactory {
 
-    @Autowired
-    public List<GameMap> REGISTERED_MAP;
+    public static final List<Class<? extends GameMap>> REGISTERED_MAP = Arrays.asList(
+            TestGameMap.class
+            //BetaMap.class
+    );
 
-    private static Map<String, GameMap> GAMEMAP_MAP = new HashMap<>();
-    private static List<String> GAMEMAP_LIST = new ArrayList<>();
-    @PostConstruct
-    void init(){
-        for (GameMap gm : REGISTERED_MAP ){
-            GAMEMAP_MAP.put(gm.getMapName(), gm);
-            GAMEMAP_LIST.add(gm.getMapName());
+
+    private static Map<String, Class<? extends GameMap>> GAMEMAP_MAP = new HashMap<>();
+    static {{
+        for ( Class<? extends GameMap> gmClass : REGISTERED_MAP ){
+            try {
+                GameMap gm = gmClass.getDeclaredConstructor().newInstance();
+                GAMEMAP_MAP.put(gm.getMapName(), gmClass);
+            }
+            catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
         }
-    }
-
+    }}
 
     public static GameMap getMap(String str){
-        return GAMEMAP_MAP.get(str);
-    }
 
-    public static List<String> getAllMapName(){
-        return GAMEMAP_LIST;
+        try {
+            GameMap gm = GAMEMAP_MAP.get(str).getDeclaredConstructor().newInstance();
+            return gm;
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -13,52 +13,14 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class Game implements CommandLineRunner {
+public class Game {
 
-    @Autowired
-    private CommandParser commandParser;
-
-    @Autowired
-    private CommandFactory commandFactory;
 
     GameMap map;
-    Player player;
+
 
     private boolean isPlaying = false;
 
-
-
-    @Override
-    public void run(String... args) throws Exception {
-        String[] msg = {
-                "============================",
-                "Welcome to the world of Zork",
-                "Type 'help' to see the available commands",
-                "============================"
-        };
-        MessageOutput.init();
-        MessageOutput.print(msg);
-        System.out.println( MessageOutput.getAllOutput() );
-
-        Scanner in = new Scanner(System.in);
-        while (true) {
-
-            // get input ===========================
-            System.out.print(">>> ");
-            String s = in.nextLine();
-
-            // parse the command ===========================
-            List<String> cmd = commandParser.parse(s);
-
-            // handle the command ===========================
-            MessageOutput.init();
-            commandParser.commandRunner(cmd);
-
-            MessageOutput.print("");
-            System.out.println(MessageOutput.getAllOutput());
-        }
-
-    }
 
     public void setGameState(boolean state){
         isPlaying = state;
@@ -74,10 +36,5 @@ public class Game implements CommandLineRunner {
     public GameMap getMap(){
         return map;
     }
-
-
-    public void setPlayer(Player player){ this.player = player; }
-    public Player getPlayer(){ return player; }
-    public Inventory getInventory(){ return player.getBag(); }
 
 }

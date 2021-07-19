@@ -1,13 +1,22 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.stereotype.Component;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class Inventory {
+
+    private static final InventoryItemRepository INVENTORY_ITEM_REPOSITORY = (InventoryItemRepository) ContextAwareClass
+            .getApplicationContext().getBean("inventoryItemRepository");
+
+    private static final InventoryRepository INVENTORY_REPOSITORY = (InventoryRepository) ContextAwareClass
+            .getApplicationContext().getBean("inventoryRepository");
 
     // capacity at the moment
     private int capacity;
@@ -25,6 +34,21 @@ public class Inventory {
         currentLoad = 0;
         inventory = new HashMap<>();
 
+    }
+
+    public Inventory(String username){
+        inventory = new HashMap<>();
+
+        InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
+        capacity = inventoryEntity.getCapacity();
+        currentLoad = inventoryEntity.getCurrentLoad();
+
+        for (InventoryItemEntity inventoryItem : INVENTORY_ITEM_REPOSITORY.findAllByUsername(username)) {
+            String itemName = inventoryItem.getItem();
+            Item item = ItemFactory.getItem( itemName );
+            int quan = inventoryItem.getQuantity();
+            obtain( item , quan );
+        }
     }
 
     // returns True is the inventory has no inputted Item
@@ -78,16 +102,16 @@ public class Inventory {
 
     // display the inventory as text
     public void viewInventory(){
-        MessageOutput.print("==== Inventory Detail ====");
+        MessageOutput.printToUser("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            MessageOutput.print("\n==     Nothing here    ==");
+            MessageOutput.printToUser("\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                MessageOutput.print( "[" + entry.getKey().getName() + "]: " + entry.getValue());
+                MessageOutput.printToUser( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        MessageOutput.print("\n==========================");
+        MessageOutput.printToUser("\n==========================");
     }
 
 }

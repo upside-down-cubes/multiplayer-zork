@@ -1,15 +1,14 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
-
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.*;
 
 public class Room {
     // subject to be List
-    Item item;
+    List<Item> items;
 
     // will have only one
     Monster monster;
@@ -19,16 +18,17 @@ public class Room {
     int col;
 
     // set of available exits
-    Set<Direction> exits;
-    String description;
+    private Set<Direction> exits;
+    private String description;
 
     public Room(int row, int col){
         this.row = row;
         this.col = col;
         exits = new HashSet<>();
+        items = new ArrayList<>();
     }
 
-    protected void setExit(boolean north, boolean east, boolean west, boolean south){
+    protected Room setExit(boolean north, boolean east, boolean west, boolean south){
         if (north)
             exits.add(Direction.N);
         if (east)
@@ -37,13 +37,55 @@ public class Room {
             exits.add(Direction.W);
         if (south)
             exits.add(Direction.S);
+        return this;
     }
 
-    protected void setDescription(String des){
+    protected Room setDescription(String des){
         description = des;
+        return this;
     }
 
-    public void lookAround(){
+    public Room addMonster(Monster mon){
+        monster = mon;
+        return this;
+    }
+
+    public Room addItem(Item it){
+        items.add(it);
+        return this;
+    }
+
+    public Monster getMonster(){
+        return monster;
+    }
+
+    public void removeMonster(){
+        monster = null;
+    }
+
+    public boolean canTake(Item item){
+
+        if (items.isEmpty()){ // if this room has no item
+            return false;
+        }
+        // if this room has the same item as the inputted item
+        for (Item roomItem : items){
+            if ( roomItem.getItemID() == item.getItemID() ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeItem(Item item){
+        items.remove(item);
+    }
+
+    public Set<Direction> getAvailableExit() {
+        return exits;
+    }
+
+    public String lookAround(){
         StringBuilder msg = new StringBuilder();
         if (description != null){
             msg.append(description);
@@ -51,16 +93,24 @@ public class Room {
         if (monster != null){
             msg.append( generateMessageMonster() );
         }
-        if (item != null){
-            msg.append( generateMessageItem() );
+        if ( ! items.isEmpty() ){
+            for (Item item : items){
+                msg.append(generateMessageItem(item));
+            }
         }
         if (msg.length() <= 0){
             msg.append("There does not seem to be anything interesting in this room...");
         }
-        MessageOutput.print(msg.toString());
+
+        msg.append("Available exit:");
+        for (Direction dir : exits){
+            msg.append("   " + dir.name);
+        }
+        MessageOutput.printToUser(msg.toString());
+        return msg.toString();
     }
 
-    private String generateMessageItem(){
+    private String generateMessageItem(Item item){
         Random rand = new Random();
         switch ( rand.nextInt(3) ){
             case 0:
@@ -93,36 +143,6 @@ public class Room {
     }
 
 
-    protected void addMonster(Monster mon){
-        monster = mon;
-    }
 
-    protected void addItem(Item it){
-        item = it;
-    }
-
-    public Monster getMonster(){
-        return monster;
-    }
-
-    public void removeMonster(){
-        monster = null;
-    }
-
-    public Item getItem(){
-        return item;
-    }
-
-    public boolean canTake(Item item){
-        if (this.item == null){ // if this room has no item
-            return false;
-        }
-        // if this room has the same item as the inputted item
-        return this.item.getItemID() == item.getItemID() ;
-    }
-
-    public void removeItem(){
-        item = null;
-    }
 
 }

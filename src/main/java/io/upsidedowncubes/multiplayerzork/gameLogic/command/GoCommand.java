@@ -1,8 +1,11 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +15,7 @@ import java.util.List;
 public class GoCommand implements Command{
 
     @Autowired
-    Game game;
+    EntityUpdate entityUpdate;
 
     @Override
     public String getCommandName() {
@@ -20,25 +23,33 @@ public class GoCommand implements Command{
     }
 
     @Override
-    public String getDescription() {
-        return "This command is used for traversing the map, usually followed by North, East, South, West";
-    }
+    public void execute(List<String> args, String username) {
+        Player p = new Player(username);
 
-    @Override
-    public void execute(List<String> args) {
         Direction d = stringToDirection(args.get(1));
         if (d == null){
-            MessageOutput.print("Invalid Direction");
+            MessageOutput.printToUser("Invalid Direction");
             return;
         }
-        Direction dir = game.getMap().move(d);
+
+        if (p.getCurrentRoom().getMonster() != null){
+            MessageOutput.printToUser("Can't escape from the Monster! Must deal with it somehow...");
+            return;
+        }
+
+        Direction dir = p.move(d);
         if (dir == null){
-            MessageOutput.print("It seems like you could not proceed in that direction");
+            MessageOutput.printToUser("It seems like you could not proceed in that direction");
         }
         else{
-            if ( ! game.getPlayer().isFullHP())
-                game.getPlayer().gainHP(1);
-            game.getMap().getCurrentRoom().lookAround();
+            if ( ! p.isFullHP()){
+                p.gainHP(1);
+                entityUpdate.updateHp(username, 1);
+            }
+            Location loc = p.getCurrentLoc();
+            entityUpdate.updateLoc(username, loc.getRow(), loc.getCol());
+
+            p.getCurrentRoom().lookAround();
         }
 
     }
@@ -62,9 +73,9 @@ public class GoCommand implements Command{
     }
 
     @Override
-    public boolean callableNow() {
+    public boolean callableNow(String username) {
         // can only call once the game is in process
-        return game.gameInProcess();
+        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

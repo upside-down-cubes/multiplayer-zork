@@ -1,11 +1,13 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
+import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public class TakeCommand implements Command{
 
     @Autowired
-    Game game;
+    EntityUpdate entityUpdate;
 
     @Override
     public String getCommandName() {
@@ -23,42 +25,43 @@ public class TakeCommand implements Command{
     }
 
     @Override
-    public String getDescription() {
-        return "This command is used for collecting Items found in rooms, usually followed by the item name";
-    }
+    public void execute(List<String> args, String username) {
+        Player p = new Player(username);
 
-    @Override
-    public void execute(List<String> args) {
         Item item = ItemFactory.getItem(args.get(1));
+
         if (item == null){
             // invalid item name
-            MessageOutput.print("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
-        Room r = game.getMap().getCurrentRoom();
+        Room r = p.getCurrentRoom();
         if ( ! r.canTake(item) ){
             // no such item in room / no item in room
-            MessageOutput.print("No such item");
+            MessageOutput.printToUser("No such item");
             return;
         }
 
-        Inventory inventory = game.getInventory();
+        Inventory inventory = p.getBag();
         if ( inventory.obtain(item) ){
             // if bag not full
-            r.removeItem(); // remove item from room
-            MessageOutput.print("Picked up " + item.getName());
+            r.removeItem(item); // remove item from room
+            MessageOutput.printToOthers("[ " + username + " ] picked up the " + item.getName());
+            MessageOutput.printToUser("You picked up the " + item.getName());
+
+            entityUpdate.takeItem(username, item.getName(), 1);
         }
         else{
-            MessageOutput.print("Can't pick up the item");
+            MessageOutput.printToUser("Can't pick up the item");
         }
 
     }
 
 
     @Override
-    public boolean callableNow() {
-        return game.gameInProcess();
+    public boolean callableNow(String username) {
+        return OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override
