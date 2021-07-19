@@ -90,23 +90,24 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
 
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
-        List<String> DMMessage = MessageOutput.getAllOutput_DM_br();
+        List<String> DMMessage = MessageOutput.getAllOutput_DM();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
             if (DMMessage != null && webSocketSessions.get(webSocketSession).getUsername().equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
                                 DMMessage.get(2))));
-            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user_br().isBlank()) {
+            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput_user_br())));
+                                MessageOutput.getAllOutput_user())));
             } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
-                        && !MessageOutput.getAllOutput_br().isBlank()) {
+                        && !MessageOutput.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput_br())));
+                                MessageOutput.getAllOutput())));
             }
         }
+        MessageOutput.clear();
     }
 
 
