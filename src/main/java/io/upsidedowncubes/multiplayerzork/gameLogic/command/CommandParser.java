@@ -54,17 +54,17 @@ public class CommandParser {
     // returns true if user wants to quit
     public boolean commandRunner(List<String> cmdAsList, String username){
 
-        if (cmdAsList == null){
-            System.out.println("LOG: cmdAsList is null");
-        }
-        else{
-            System.out.print("LOG: parsed command = [");
-            for (String s : cmdAsList){
-                System.out.print("\"" + s + "\" , ");
-            }
-            System.out.print("]");
-            System.out.println();
-        }
+//        if (cmdAsList == null){
+//            System.out.println("LOG: cmdAsList is null");
+//        }
+//        else{
+//            System.out.print("LOG: parsed command = [");
+//            for (String s : cmdAsList){
+//                System.out.print("\"" + s + "\" , ");
+//            }
+//            System.out.print("]");
+//            System.out.println();
+//        }
 
         if (cmdAsList == null){
             MessageOutput.printToUser("Invalid command");

@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;

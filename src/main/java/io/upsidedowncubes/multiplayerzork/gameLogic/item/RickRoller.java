@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;

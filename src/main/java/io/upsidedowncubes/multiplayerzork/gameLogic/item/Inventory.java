@@ -1,7 +1,10 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.*;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 
 import java.util.HashMap;

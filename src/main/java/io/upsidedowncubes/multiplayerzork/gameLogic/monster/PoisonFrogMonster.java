@@ -21,7 +21,6 @@ public class PoisonFrogMonster extends Monster{
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
         int luck = rand.nextInt(3);
         if(luck == 1){
             poison( player );
@@ -33,7 +32,6 @@ public class PoisonFrogMonster extends Monster{
     }
 
     public void poison(Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
         MessageOutput.printToAll(name + " poisoned!");
 
         int damage = atk;

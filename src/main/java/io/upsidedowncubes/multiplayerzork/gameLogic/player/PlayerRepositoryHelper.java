@@ -10,9 +10,6 @@ public class PlayerRepositoryHelper {
     private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
             .getApplicationContext().getBean("playerRepository");
 
-    private final static InventoryRepository INVENTORY_REPOSITORY = (InventoryRepository) ContextAwareClass
-            .getApplicationContext().getBean("inventoryRepository");
-
     public static PlayerEntity getPlayerEntity(String username){
         return PLAYER_REPOSITORY.findByUsername(username);
     }

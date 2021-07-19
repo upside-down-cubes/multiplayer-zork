@@ -8,6 +8,4 @@ import java.util.List;
 @Repository
 public interface PlayerRepository extends CrudRepository<PlayerEntity, String> {
     PlayerEntity findByUsername(String username);
-    // gives list of users with session ID (hope it will work)
-    List<PlayerEntity> findBySessionID(Integer sessionID);
 }

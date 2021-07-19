@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;

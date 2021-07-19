@@ -9,8 +9,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
-import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
 import java.util.Random;

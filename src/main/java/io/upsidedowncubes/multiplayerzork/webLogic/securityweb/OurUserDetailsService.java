@@ -1,13 +1,13 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.securityweb;
 
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
 
 @Service
 public class OurUserDetailsService implements UserDetailsService {
@@ -16,7 +16,6 @@ public class OurUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println(username);
         PlayerEntity player = playerRepository.findByUsername(username);
         if (player != null){
 //            throw new UsernameNotFoundException("blah");
