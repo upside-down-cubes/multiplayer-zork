@@ -32,7 +32,7 @@ public class UserStateGenerator {
                     .roomDescription(OurWebSocketHandler.getGameByUser(username).getMap()
                             .getRoom(player.getRow(),player.getCol()).lookAround())
                     .build());
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | IndexOutOfBoundsException e) {
             return JsonConvertor.convert(GameLogicDTO.builder()
                     .content(message)
                     .attack(player.getAttack())

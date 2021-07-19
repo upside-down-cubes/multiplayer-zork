@@ -51,8 +51,8 @@ public class MessageOutput {
     }
 
     public static void printToDM(String message){
-        sb_user.append(message);
-        sb_user.append("\n");
+        sb_dm.append(message);
+        sb_dm.append("\n");
         //System.out.println(message);
     }
 
@@ -118,6 +118,7 @@ public class MessageOutput {
     }
 
     public static List<String> getAllOutput_DM(){
+        System.out.println("LOG: check dm message=" + sb_dm.toString());
         if ( sb_dm.toString().isBlank() || dm.isEmpty() ){
             return null;
         }
