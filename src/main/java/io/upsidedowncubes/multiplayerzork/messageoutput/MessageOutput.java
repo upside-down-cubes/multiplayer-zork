@@ -141,7 +141,7 @@ public class MessageOutput {
             return null;
         }
 
-        dm.add( sb_dm.toString().replaceAll("\n", "<br/>"); );
+        dm.add( sb_dm.toString().replaceAll("\n", "<br/>") );
         return dm;
     }
 
