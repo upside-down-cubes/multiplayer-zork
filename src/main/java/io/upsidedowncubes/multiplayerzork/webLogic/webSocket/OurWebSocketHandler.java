@@ -2,6 +2,7 @@ package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.messageoutput.UserStateGenerator;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
@@ -48,13 +49,18 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(thisUser.getUsername());
         player.setSessionID(thisUser.getChatroom());
-        PLAYER_REPOSITORY.save(player);
 
         if (! CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
             CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
         }
         USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
         CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment();
+        if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getGame().gameInProcess()) {
+            Location loc = CHATROOM_TO_GAME.get(thisUser.getChatroom()).getGame().getMap().getStartingLoc();
+            player.setRow(loc.getRow());
+            player.setCol(loc.getCol());
+        }
+        PLAYER_REPOSITORY.save(player);
     }
 
     @Override
