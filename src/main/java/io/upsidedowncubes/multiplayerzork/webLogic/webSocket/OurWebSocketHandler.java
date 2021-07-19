@@ -90,8 +90,15 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
 
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
+        List<String> DMMessage = MessageOutput.getAllOutput_DM();
+        System.out.println("LOG: checking if DM is null:" + DMMessage);
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
-            if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
+            if (DMMessage != null && webSocketSessions.get(webSocketSession).getUsername().equals(DMMessage.get(1))) {
+                System.out.println("LOG: DM information" + DMMessage);
+                webSocketSession.sendMessage( new TextMessage(
+                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
+                                DMMessage.get(2))));
+            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
                                 MessageOutput.getAllOutput_user())));
