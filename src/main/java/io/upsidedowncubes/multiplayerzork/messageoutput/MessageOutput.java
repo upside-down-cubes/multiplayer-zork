@@ -127,6 +127,24 @@ public class MessageOutput {
         return dm;
     }
 
+    public static String getAllOutput_br(){
+        return sb.toString().replaceAll("\n", "<br/>");
+    }
+
+    public static String getAllOutput_user_br(){
+        return sb_user.toString().replaceAll("\n", "<br/>");
+    }
+
+    public static List<String> getAllOutput_DM_br(){
+        System.out.println("LOG: check dm message=" + sb_dm.toString());
+        if ( sb_dm.toString().isBlank() || dm.isEmpty() ){
+            return null;
+        }
+
+        dm.add( sb_dm.toString().replaceAll("\n", "<br/>"); );
+        return dm;
+    }
+
      //*/
 
     /*
