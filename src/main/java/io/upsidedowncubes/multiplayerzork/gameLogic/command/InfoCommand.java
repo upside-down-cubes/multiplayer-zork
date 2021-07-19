@@ -17,7 +17,7 @@ public class InfoCommand implements Command{
     @Override
     public void execute(List<String> args, String username) {
         Player p = new Player(username);
-        p.viewStatus();
+        //p.viewStatus();
         p.getBag().viewInventory();
         p.getCurrentRoom().lookAround();
     }

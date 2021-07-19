@@ -49,7 +49,7 @@ public class GoCommand implements Command{
             Location loc = p.getCurrentLoc();
             entityUpdate.updateLoc(username, loc.getRow(), loc.getCol());
 
-            p.getCurrentRoom().lookAround();
+            //p.getCurrentRoom().lookAround();
         }
 
     }
