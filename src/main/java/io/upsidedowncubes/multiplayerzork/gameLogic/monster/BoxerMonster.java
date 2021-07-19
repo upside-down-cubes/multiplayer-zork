@@ -4,18 +4,20 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 /*
-* The more he attacks the more tiered he become, but gains hes power a attack harder again
+* The more he attacks the more tiered he become, but gains his power a attack harder again
 * */
 public class BoxerMonster extends Monster{
 
     int amountOfAttacks;
     public BoxerMonster(){
         super();
-        maxHP = 200;
+        maxHP = 50;
         hp = maxHP;
-        atk = 30;
+        atk = 13;
         name = "Mike Tyson";
         amountOfAttacks = 0;
+
+        id = 4;
     }
 
     @Override
@@ -28,15 +30,17 @@ public class BoxerMonster extends Monster{
         else{
             attack( player );
         }
+        amountOfAttacks++;
         attackDecrease();
     }
 
     private void attackDecrease(){
         atk -= amountOfAttacks;
         if (atk < 1){
-            atk = 40;
+            atk = 13;
             amountOfAttacks = 1;
         }
+
     }
 
     public void attack( Player p) {

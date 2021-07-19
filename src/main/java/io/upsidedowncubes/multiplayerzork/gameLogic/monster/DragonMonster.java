@@ -10,24 +10,30 @@ public class DragonMonster extends Monster{
 
     public DragonMonster(){
         super();
-        maxHP = 300;
+        maxHP = 100;
         hp = maxHP;
         atk = 3;
         name = "Dragon from hell";
+
+        id = 6;
     }
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
         attack( player );
     }
 
     private int attackIncrease(){
-       return (maxHP-hp)-170;
+        int healthDiff = maxHP - hp;
+        if (healthDiff > 0){
+            return atk + healthDiff;
+        }
+        return atk + rand.nextInt(5);
     }
-    // it attacks it increase with depending on how mush health it lost
+
+    // its attack increase depending on how mush health it lost
     public void attack( Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
+
         MessageOutput.printToAll(name + " attacked!");
         atk = attackIncrease();
         int damage = atk;

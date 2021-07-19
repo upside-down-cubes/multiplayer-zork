@@ -16,6 +16,7 @@ public class PoisonFrogMonster extends Monster{
         hp = maxHP;
         atk = 30;
         name = "Poison Frog";
+        id = 7;
     }
 
     @Override

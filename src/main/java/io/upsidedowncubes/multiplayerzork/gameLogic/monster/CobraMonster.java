@@ -15,6 +15,7 @@ public class CobraMonster extends Monster{
         hp = maxHP;
         atk = 20;
         name = "Cobra";
+        id = 5;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CobraMonster extends Monster{
 
         MessageOutput.printToAll(name + " attack!");
 
-        int damage = atk + rand.nextInt(15);
+        int damage = atk + rand.nextInt(10);
 
         p.loseHP( damage );
         MessageOutput.printToAll("You took " + damage + " damage");

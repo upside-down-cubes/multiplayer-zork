@@ -12,6 +12,7 @@ public class DummyMonster extends Monster{
         hp = maxHP;
         atk = 3;
         name = "<Generic Monster>";
+        id = 0;
     }
 
     @Override

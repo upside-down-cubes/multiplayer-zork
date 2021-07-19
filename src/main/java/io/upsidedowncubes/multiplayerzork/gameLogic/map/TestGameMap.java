@@ -4,6 +4,8 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.DummyWeapon;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.DummyMonster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Goblin;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Slime;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -35,10 +37,10 @@ public class TestGameMap extends GameMap {
                 .setExit(  false, false, true, false )
                 .setDescription("Seems like an entrance to some kind of dungeon...")
                 .addItem( ItemFactory.getItem("sword") )
-                .addMonster( new DummyMonster() );
+                .addMonster( new Goblin() );
 
         map.get(0).get(2).setExit(  false, true, false, true )
-                .addMonster( new DummyMonster() );
+                .addMonster( new Goblin() );
 
         map.get(1).get(0).setExit( true, false, false, true )
                 .addItem( ItemFactory.getItem("potion") );
@@ -49,7 +51,7 @@ public class TestGameMap extends GameMap {
         map.get(1).get(2).setExit( true, true, false, true );
 
         map.get(2).get(0).setExit( true, false, true, false )
-                .addMonster( new DummyMonster() );
+                .addMonster( new Slime() );
 
         map.get(2).get(1).setExit( false, true, true, false );
 

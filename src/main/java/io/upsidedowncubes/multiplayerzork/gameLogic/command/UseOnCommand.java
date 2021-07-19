@@ -9,13 +9,19 @@ import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Component
 public class UseOnCommand implements Command{
 
-    private static final PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
-            .getApplicationContext().getBean("playerRepository");
+    private static PlayerRepository PLAYER_REPOSITORY ;
+
+    @PostConstruct
+    public void init(){
+        PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
+                .getApplicationContext().getBean("playerRepository");
+    }
 
     @Override
     public String getCommandName() {
