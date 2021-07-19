@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Potion implements Item, Consumable, Targetable{
 
+    private final int HEAL_AMOUNT = 20;
+
     @Autowired
     EntityUpdate entityUpdate;
 
@@ -22,7 +24,7 @@ public class Potion implements Item, Consumable, Targetable{
             return;
         }
         MessageOutput.printToUser("You used a potion");
-        entityUpdate.updateHp(username, p.gainHP(20));
+        entityUpdate.updateHp(username, p.gainHP(HEAL_AMOUNT));
         entityUpdate.dropItem( username, getName(), 1 );
 
     }
@@ -35,7 +37,14 @@ public class Potion implements Item, Consumable, Targetable{
             MessageOutput.printToUser("[ " + target_username + " ] 's health is full, you can't use the potion");
             return;
         }
-        int gainedHp = p.gainHP(20);
+
+        int gainedHp;
+        if (p.getHp() + HEAL_AMOUNT > p.getMaxHP()){
+            gainedHp = p.getMaxHP() - p.getHp();
+        }
+        else{
+            gainedHp = HEAL_AMOUNT;
+        }
 
         MessageOutput.printToUser("You used a potion on [" + target_username + " ]");
         MessageOutput.printToUser("They gained " + gainedHp + " HP");
