@@ -136,7 +136,6 @@ public class MessageOutput {
     }
 
     public static List<String> getAllOutput_DM_br(){
-        System.out.println("LOG: check dm message=" + sb_dm.toString());
         if ( sb_dm.toString().isBlank() || dm.isEmpty() ){
             return null;
         }
