@@ -7,24 +7,23 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
 
-public class Deer implements Monster {
+public class Mandrake implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 30;
+    private int MAX_HP = 15;
     private int hp = MAX_HP;
-    private int atk = 4;
-    private String name = "Deer";
-    private int ID = 74;
+    private int atk = 3;
+    private String name = "Mandrake";
+    private int ID = 78;
     private boolean isDead = true;
-    private int giveExp = 3;
+    private int giveExp = 1;
 
     /*
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
     private Random rand;
-    private boolean hasAntlers = true;
 
     @Override
     public int getID() {
@@ -68,32 +67,19 @@ public class Deer implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if(hasAntlers && rand.nextInt(5)<=1){
-            messageOut.printToAll(p.getUsername()+ " has broken the Deer's antlers.");
-            hasAntlers = false;
-            atk = 2;
-        }
         attack(p);
     }
 
     public void attack( Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(5)<= 1){
-            // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
-        }
-        else{
-            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " attacked!");
-
-            int damage = atk;
-            p.loseHP( damage );
-            messageOut.printToUser("You took " + damage + " damage");
-        }
-
+        messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        messageOut.printToAll(name+ "Screech: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!");
+        int damage = atk;
+        p.loseHP( damage );
+        messageOut.printToUser("You took " + damage + " damage");
 
     }
 }
