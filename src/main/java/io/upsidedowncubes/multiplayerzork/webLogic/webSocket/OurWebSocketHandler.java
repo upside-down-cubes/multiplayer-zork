@@ -159,7 +159,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         player.setCol(-1);
         player.setSessionID(null);
         PLAYER_REPOSITORY.save(player);
-        toggleIsAlive(webSocketSessions.get(session).getUsername(), null);
+        toggleIsAlive(thisUser.getUsername(), null);
         MessageCenter.removeUser(thisUser.getUsername() );
         webSocketSessions.remove(session);
 
