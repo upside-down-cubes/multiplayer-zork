@@ -21,7 +21,7 @@ public class SandTortoise implements Monster {
     private int hp = MAX_HP;
     private final int atk = 3;
     private final String name = "Sand tortoise";
-    private int ID = -1;
+    private int ID = 48;
     private boolean isDead = false;
 
     /*

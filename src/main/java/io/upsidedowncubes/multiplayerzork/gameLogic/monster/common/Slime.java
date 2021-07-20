@@ -14,7 +14,7 @@ public class Slime implements Monster {
      * */
     private final int MAX_HP = 20;
     private int hp = MAX_HP;
-    private final int atk = 2;
+    private final int atk = 32;
     private final String name = "Slime";
     private int ID = 31;
     private boolean isDead = false;
