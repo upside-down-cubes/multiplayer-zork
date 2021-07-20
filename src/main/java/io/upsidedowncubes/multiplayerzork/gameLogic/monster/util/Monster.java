@@ -17,9 +17,7 @@ public interface Monster {
     int getAtk();
     int giveExp();
     String getName();
-
     void receiveDamage(int amount);
-
     boolean isDead();
 
     // actions
