@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 /*
@@ -33,12 +34,13 @@ public class DragonMonster extends Monster{
 
     // its attack increase depending on how mush health it lost
     public void attack( Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        MessageOutput.printToAll(name + " attacked!");
+        messageOut.printToAll(name + " attacked!");
         atk = attackIncrease();
         int damage = atk;
         p.loseHP( damage );
-        MessageOutput.printToAll("You took " + damage + " damage");
+        messageOut.printToAll("You took " + damage + " damage");
 
     }
 

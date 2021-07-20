@@ -4,6 +4,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMapFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
@@ -21,20 +22,22 @@ public class PlayCommand implements Command {
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Game game = OurWebSocketHandler.getGameByUser(username);
 
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
         if (chosenMap == null){
-            MessageOutput.printToUser("No such map");
+            messageOut.printToUser("No such map");
             return;
         }
 
         game.setMap( chosenMap );
 
         game.setGameState(true);
-        MessageOutput.printToUser("Map selection success");
-        MessageOutput.printToOthers("[ " + username + " ] has selected a map");
-        MessageOutput.printToAll("");
+        messageOut.printToUser("Map selection success");
+        messageOut.printToOthers("[ " + username + " ] has selected a map");
+        messageOut.printToAll("");
 
         String[] msg = new String[]{
                 "You entered the region called " + chosenMap.getMapName(),
@@ -42,7 +45,7 @@ public class PlayCommand implements Command {
                 //"Your objective is: " + chosenMap.getMapObjective(),
                 ""
         };
-        MessageOutput.printToAll(msg);
+        messageOut.printToAll(msg);
         Player p = new Player(username);
         p.getCurrentRoom().lookAround();
 

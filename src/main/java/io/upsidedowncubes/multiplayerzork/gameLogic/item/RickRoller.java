@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,9 @@ public class RickRoller implements Item, Targetable{
 
     @Override
     public void useOn(String user_username, String target_username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
 
-        MessageOutput.printToUser("You used a " + getName() + " on [ " + target_username + " ]");
+        messageOut.printToUser("You used a " + getName() + " on [ " + target_username + " ]");
         entityUpdate.dropItem( user_username, getName(), 1 );
 
     }

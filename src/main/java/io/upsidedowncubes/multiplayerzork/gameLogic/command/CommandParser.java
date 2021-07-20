@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import org.springframework.stereotype.Service;
 
@@ -47,13 +48,14 @@ public class CommandParser {
     }
 
     private void text(String msg, String username) {
-        MessageOutput.clear();
-        MessageOutput.printToAll("[ " + username + " ] says: " + msg);
+        MessageCenter.getUserMessageOut(username).printToAll("[ " + username + " ] says: " + msg);
     }
 
 
     // returns true if user wants to quit
     public boolean commandRunner(List<String> cmdAsList, String username){
+
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
 //        if (cmdAsList == null){
 //            System.out.println("LOG: cmdAsList is null");
@@ -68,7 +70,7 @@ public class CommandParser {
 //        }
 
         if (cmdAsList == null){
-            MessageOutput.printToUser("Invalid command");
+            messageOut.printToUser("Invalid command");
             return false;
         }
         else if ( ! cmdAsList.get(0).startsWith( COMMAND_PREFIX )){
@@ -85,13 +87,13 @@ public class CommandParser {
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
         if ( !cmd.callableNow(username) ){
-            MessageOutput.printToUser("Unable to use that right now!");
+            messageOut.printToUser("Unable to use that right now!");
         }
         // check if the command has enough argument
         // [go].size        <=  (required 1)     --> fails
         // [go, north].size <=  (required 1)     --> doesnt fail
         else if ( cmdAsList.size() <= cmd.requiredArgs() && cmd.requiredArgs() != -1){
-            MessageOutput.printToUser("That's not how you use the command!");
+            messageOut.printToUser("That's not how you use the command!");
         }
         else{
             cmd.execute(cmdAsList, username);

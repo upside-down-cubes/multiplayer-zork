@@ -3,6 +3,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.*;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.PlayerRepositoryHelper;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
@@ -20,11 +21,12 @@ public class UseCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         // use on syntax --> use <item> on <player>
         if (args.size() > 2){
             if (! args.get(2).equals("on")){
-                MessageOutput.printToUser("Invalid command");
+                messageOut.printToUser("Invalid command");
                 return;
             }
             useOn(args, username);
@@ -35,17 +37,17 @@ public class UseCommand implements Command{
         Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = new Inventory(username);
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.printToUser("No such item");
+            messageOut.printToUser("No such item");
             return;
         }
 
 
         if (! (item instanceof Consumable) ){
             if ( (item instanceof Targetable) ){
-                MessageOutput.printToUser("This item Can't be used on self (HINT: check out \"use on\" command)");
+                messageOut.printToUser("This item Can't be used on self (HINT: check out \"use on\" command)");
                 return;
             }
-            MessageOutput.printToUser("This item is not a Consumable");
+            messageOut.printToUser("This item is not a Consumable");
             return;
         }
 
@@ -55,6 +57,7 @@ public class UseCommand implements Command{
     }
 
     public void useOn(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         // use on syntax --> use <item> on <player>
         Player p = new Player(username);
@@ -62,17 +65,17 @@ public class UseCommand implements Command{
         Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = p.getBag();
         if (item == null || inventory.hasNo( item ) ){
-            MessageOutput.printToUser("No such item");
+            messageOut.printToUser("No such item");
             return;
         }
 
         if (! (item instanceof Targetable) ){
-            MessageOutput.printToUser("This item can't be used on other player");
+            messageOut.printToUser("This item can't be used on other player");
             return;
         }
 
         if (! PlayerRepositoryHelper.userExists( args.get(3)) ){
-            MessageOutput.printToUser("No such player");
+            messageOut.printToUser("No such player");
             return;
         }
 

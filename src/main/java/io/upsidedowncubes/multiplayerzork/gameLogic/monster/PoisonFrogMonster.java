@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 
@@ -21,23 +22,26 @@ public class PoisonFrogMonster extends Monster{
 
     @Override
     public void act(Player player) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
+
         int luck = rand.nextInt(3);
         if(luck == 1){
             poison( player );
         }
         else{
-            MessageOutput.printToUser("You got lucky");
+            messageOut.printToUser("You got lucky");
             player.gainHP(30);
         }
     }
 
     public void poison(Player p) {
-        MessageOutput.printToAll(name + " poisoned!");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        messageOut.printToAll(name + " poisoned!");
 
         int damage = atk;
 
         p.loseHP( damage );
-        MessageOutput.printToAll("You took " + damage + " damage");
+        messageOut.printToAll("You took " + damage + " damage");
 
     }
 

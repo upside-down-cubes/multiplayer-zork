@@ -41,16 +41,4 @@ public abstract class Monster {
         return hp <= 0;
     }
 
-    public void gainHP(int amount){
-        int amountHealed;
-        if (hp + amount > maxHP){
-            amountHealed = maxHP - hp;
-        }
-        else{
-            amountHealed = amount;
-        }
-        MessageOutput.printToAll(getName() + " gained " + amountHealed + " HP");
-        hp += amountHealed;
-    }
-
 }

@@ -8,6 +8,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -26,6 +27,8 @@ public class AttackCommand implements Command, Terminator{
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         quit = false;
         boolean useItem = false;
 
@@ -34,7 +37,7 @@ public class AttackCommand implements Command, Terminator{
         Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
         if ( m == null ){
-            MessageOutput.printToUser("There's no monster in the room");
+            messageOut.printToUser("There's no monster in the room");
             return;
         }
 
@@ -44,7 +47,7 @@ public class AttackCommand implements Command, Terminator{
         Item item = null;
         if (args.size() > 1){
             if (! args.get(1).equals("with")){
-                MessageOutput.printToUser("Invalid command");
+                messageOut.printToUser("Invalid command");
                 return;
             }
 
@@ -52,11 +55,11 @@ public class AttackCommand implements Command, Terminator{
             item = ItemFactory.getItem(args.get(2));
 
             if (item == null || inventory.hasNo( item ) ){
-                MessageOutput.printToUser("No such item");
+                messageOut.printToUser("No such item");
                 return;
             }
             if (! (item instanceof Weapon) ){
-                MessageOutput.printToUser("This item is not a Weapon");
+                messageOut.printToUser("This item is not a Weapon");
                 return;
             }
             wp = (Weapon) item;
@@ -66,20 +69,20 @@ public class AttackCommand implements Command, Terminator{
         //=====================
 
         if (useItem){
-            MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + " with a " + item.getName() + "!");
+            messageOut.printToAll("[ " + username + " ] attacked the " + m.getName() + " with a " + item.getName() + "!");
         }
         else{
-            MessageOutput.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
+            messageOut.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
         }
 
         int damage = p.attack(wp);
         if (damage != -1){
             m.receiveDamage( damage );
-            MessageOutput.printToAll(m.getName() + " took " + damage + " damage");
+            messageOut.printToAll(m.getName() + " took " + damage + " damage");
         }
 
         if (m.isDead()){
-            MessageOutput.printToAll("[ " + username + " ] defeated " + m.getName());
+            messageOut.printToAll("[ " + username + " ] defeated " + m.getName());
             entityUpdate.updateAtk(username, 1);
             r.removeMonster();
         }
@@ -94,12 +97,12 @@ public class AttackCommand implements Command, Terminator{
 
         quit = p.isDead();
         if (quit){
-            MessageOutput.printToUser("You have fallen...");
-            MessageOutput.printToOthers("[ " + username + " ] has fallen...");
+            messageOut.printToUser("You have fallen...");
+            messageOut.printToOthers("[ " + username + " ] has fallen...");
 
             entityUpdate.setHp(username, p.getMaxHP() );
             entityUpdate.dropAllItems(username);
-            MessageOutput.printToUser("You lost all your belonging...");
+            messageOut.printToUser("You lost all your belonging...");
         }
 
     }

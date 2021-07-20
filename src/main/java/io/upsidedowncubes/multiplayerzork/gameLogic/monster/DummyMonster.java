@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 
@@ -21,7 +22,9 @@ public class DummyMonster extends Monster{
     }
 
     public void attack( Player p) {
-        MessageOutput.printToUser(name + " attacked!");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
+        messageOut.printToUser(name + " attacked!");
 
         int damage = atk;
 
@@ -34,7 +37,7 @@ public class DummyMonster extends Monster{
         }
 
         p.loseHP( damage );
-        MessageOutput.printToUser("You took " + damage + " damage");
+        messageOut.printToUser("You took " + damage + " damage");
 
     }
 

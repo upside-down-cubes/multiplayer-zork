@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ public class SlimeJelly implements Item, Consumable{
 
     @Override
     public void use(String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Player p = new Player(username);
         if (p.isFullHP()){
-            MessageOutput.printToUser("Your health is full, you can't use the " + getName());
+            messageOut.printToUser("Your health is full, you can't use the " + getName());
             return;
         }
-        MessageOutput.printToUser("You used " + getName());
+        messageOut.printToUser("You used " + getName());
         entityUpdate.updateHp(username, p.gainHP(5));
         entityUpdate.dropItem( username, getName(), 1 );
 

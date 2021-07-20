@@ -7,6 +7,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.GameMap;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -65,13 +66,15 @@ public class Player {
     }
 
     public void gainMaxHP(int amount){
-
-        MessageOutput.printToUser( "You MaxHP is increased by " + amount );
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+        messageOut.printToUser( "You MaxHP is increased by " + amount );
         maxHP += amount;
 
     }
 
     public int gainHP(int amount){
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         int amountHealed;
         if (hp + amount > maxHP){
             amountHealed = maxHP - hp;
@@ -79,7 +82,8 @@ public class Player {
         else{
             amountHealed = amount;
         }
-        MessageOutput.printToUser( "You gained " + amountHealed + " HP");
+
+        messageOut.printToUser( "You gained " + amountHealed + " HP");
         hp += amountHealed;
         return amountHealed;
     }
@@ -93,19 +97,21 @@ public class Player {
     public Inventory getBag(){ return bag; }
 
     public void viewStatus(){
-        MessageOutput.printToUser("==== Player Information: " + username + " ====");
-        MessageOutput.printToUser("HP: " + hp + "/" + maxHP);
-        MessageOutput.printToUser("ATK: " + atk);
-        MessageOutput.printToUser("============================");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+        messageOut.printToUser("==== Player Information: " + username + " ====");
+        messageOut.printToUser("HP: " + hp + "/" + maxHP);
+        messageOut.printToUser("ATK: " + atk);
+        messageOut.printToUser("============================");
     }
 
     public int attack(Weapon wp){
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
         int damage;
 
         // determines if the attack lands
         if (attackMiss()){
-            MessageOutput.printToUser( "Your attack miss...");
-            MessageOutput.printToOthers( "[ " + username + " ] 's attack misses...");
+            messageOut.printToUser( "Your attack miss...");
+            messageOut.printToOthers( "[ " + username + " ] 's attack misses...");
             damage = -1;
         }
         else{
@@ -113,7 +119,7 @@ public class Player {
             double damageMultiplier = 1.0;
             if (performCrit()){
                 damageMultiplier = getCritMultiplier();
-                MessageOutput.printToAll("A Critical Hit!!!");
+                messageOut.printToAll("A Critical Hit!!!");
             }
             damage = (int) Math.round( getATK(wp) * damageMultiplier );
         }
@@ -144,6 +150,8 @@ public class Player {
     }
 
     public Direction move(Direction dir) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Room r = getCurrentRoom();
         // check if can move there
         if (! r.getAvailableExit().contains(dir) ){
@@ -154,19 +162,19 @@ public class Player {
         switch (dir){
             case N:
                 currentLoc.goNorth();
-                MessageOutput.printToUser("You proceeded to the North");
+                messageOut.printToUser("You proceeded to the North");
                 break;
             case E:
                 currentLoc.goEast();
-                MessageOutput.printToUser("You proceeded to the East");
+                messageOut.printToUser("You proceeded to the East");
                 break;
             case W:
                 currentLoc.goWest();
-                MessageOutput.printToUser("You proceeded to the West");
+                messageOut.printToUser("You proceeded to the West");
                 break;
             case S:
                 currentLoc.goSouth();
-                MessageOutput.printToUser("You proceeded to the South");
+                messageOut.printToUser("You proceeded to the South");
                 break;
         }
         return dir;

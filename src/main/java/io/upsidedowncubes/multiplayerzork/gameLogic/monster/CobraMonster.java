@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 
@@ -20,24 +21,26 @@ public class CobraMonster extends Monster{
 
     @Override
     public void act(Player player) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
 
         int luck = rand.nextInt(5);
         if(luck == 1){
             attack( player );
         }
         else{
-            MessageOutput.printToUser(name + "'s attack misses'");
+            messageOut.printToUser(name + "'s attack misses'");
         }
     }
 
     public void attack(Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        MessageOutput.printToAll(name + " attack!");
+        messageOut.printToAll(name + " attack!");
 
         int damage = atk + rand.nextInt(10);
 
         p.loseHP( damage );
-        MessageOutput.printToAll("You took " + damage + " damage");
+        messageOut.printToAll("You took " + damage + " damage");
 
     }
 

@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemEntity;
@@ -25,18 +26,10 @@ public class Inventory {
 
     // actual structure that stores Item objects
     private Map<Item, Integer> inventory;
-
-
-    public Inventory(){
-        // initial capacity is 20
-        capacity = 20;
-
-        currentLoad = 0;
-        inventory = new HashMap<>();
-
-    }
+    private String username;
 
     public Inventory(String username){
+        this.username = username;
         inventory = new HashMap<>();
 
         InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
@@ -102,16 +95,18 @@ public class Inventory {
 
     // display the inventory as text
     public void viewInventory(){
-        MessageOutput.printToUser("==== Inventory Detail ====");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
+        messageOut.printToUser("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            MessageOutput.printToUser("\n==     Nothing here    ==");
+            messageOut.printToUser("\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                MessageOutput.printToUser( "[" + entry.getKey().getName() + "]: " + entry.getValue());
+                messageOut.printToUser( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        MessageOutput.printToUser("\n==========================");
+        messageOut.printToUser("\n==========================");
     }
 
 }

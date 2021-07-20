@@ -3,6 +3,7 @@ package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.messageoutput.UserStateGenerator;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
@@ -31,10 +32,11 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     }
 
-    private void newUserJoined(WebSocketSession session, String[] splitMessage) {
+    private void newUserJoined(WebSocketSession session, String[] splitMessage, String username) {
         UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
-        MessageOutput.clear();
+        // TODO: Edit welcome message
         String[] msg = {
                 "============================",
                 "Welcome to the world of Zork",
@@ -43,9 +45,9 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 "============================"
         };
 
-        MessageOutput.printToUser(msg); // print welcome to the user
+        messageOut.printToUser(msg); // print welcome to the user
         webSocketSessions.put(session, thisUser);
-        MessageOutput.printToOthers(thisUser.getUsername() + " has joined the chatroom, " + thisUser.getChatroom()); // notify other user
+        messageOut.printToOthers(thisUser.getUsername() + " has joined the chatroom, " + thisUser.getChatroom()); // notify other user
 
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(thisUser.getUsername());
         player.setSessionID(thisUser.getChatroom());
@@ -65,14 +67,16 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        MessageOutput.clear();
+
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
             return;
         }
         boolean quit = false;
         if (!webSocketSessions.containsKey(session)) {
-            newUserJoined(session, splitMessage);
+            String user_username = webSocketSessions.get(session).getUsername();
+            MessageCenter.addUser( user_username );
+            newUserJoined(session, splitMessage, user_username);
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
@@ -80,6 +84,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         }
         broadcastGameOutput(session);
         if (quit) {
+            String user_username = webSocketSessions.get(session).getUsername();
+            MessageCenter.removeUser( user_username );
             session.close(new CloseStatus(1000, "User quit the game."));
         }
     }
@@ -89,25 +95,35 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     }
 
 
+    // TODO: add + remove user to message center
+    // TODO: use message center to get the actual message output
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
-        List<String> DMMessage = MessageOutput.getAllOutput_DM();
+        String user_username = webSocketSessions.get(session).getUsername();
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
+
+        List<String> DMMessage = messageOut.getAllOutput_DM();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
-            if (DMMessage != null && webSocketSessions.get(webSocketSession).getUsername().equals(DMMessage.get(1))) {
+            String username = webSocketSessions.get(webSocketSession).getUsername();
+
+            if (DMMessage != null && username.equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
-                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                DMMessage.get(2))));
-            } else if (session.equals(webSocketSession) && !MessageOutput.getAllOutput_user().isBlank()) {
+                        UserStateGenerator.getJson(
+                                username, DMMessage.get(2))
+                ));
+            } else if (session.equals(webSocketSession) && !messageOut.getAllOutput_user().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
-                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput_user())));
+                        UserStateGenerator.getJson(
+                                username, messageOut.getAllOutput_user()
+                        )));
             } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
-                        && !MessageOutput.getAllOutput().isBlank()) {
+                        && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
-                        UserStateGenerator.getJson(webSocketSessions.get(webSocketSession).getUsername(),
-                                MessageOutput.getAllOutput())));
+                        UserStateGenerator.getJson(
+                                username, messageOut.getAllOutput()
+                        )));
             }
         }
-        MessageOutput.clear();
+        messageOut.clear();
     }
 
 

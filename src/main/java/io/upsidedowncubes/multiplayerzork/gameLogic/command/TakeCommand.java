@@ -5,6 +5,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -26,20 +27,22 @@ public class TakeCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Player p = new Player(username);
 
         Item item = ItemFactory.getItem(args.get(1));
 
         if (item == null){
             // invalid item name
-            MessageOutput.printToUser("No such item");
+            messageOut.printToUser("No such item");
             return;
         }
 
         Room r = p.getCurrentRoom();
         if ( ! r.canTake(item) ){
             // no such item in room / no item in room
-            MessageOutput.printToUser("No such item");
+            messageOut.printToUser("No such item");
             return;
         }
 
@@ -47,13 +50,13 @@ public class TakeCommand implements Command{
         if ( inventory.obtain(item) ){
             // if bag not full
             r.removeItem(item); // remove item from room
-            MessageOutput.printToOthers("[ " + username + " ] picked up the " + item.getName());
-            MessageOutput.printToUser("You picked up the " + item.getName());
+            messageOut.printToOthers("[ " + username + " ] picked up the " + item.getName());
+            messageOut.printToUser("You picked up the " + item.getName());
 
             entityUpdate.takeItem(username, item.getName(), 1);
         }
         else{
-            MessageOutput.printToUser("Can't pick up the item");
+            messageOut.printToUser("Can't pick up the item");
         }
 
     }

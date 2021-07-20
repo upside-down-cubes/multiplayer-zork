@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 public class Goblin extends Monster{
@@ -22,17 +23,18 @@ public class Goblin extends Monster{
     }
 
     public void attack( Player p ){
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
         if (rand.nextInt(10) <= 2){
-            MessageOutput.printToAll(name + "'s attack misses");
+            messageOut.printToAll(name + "'s attack misses");
         }
 
-        MessageOutput.printToAll(name + " attacked!");
+        messageOut.printToAll(name + " attacked!");
         int damage = atk + rand.nextInt(4);
 
         p.loseHP( damage );
-        MessageOutput.printToUser("You took " + damage + " damage");
-        MessageOutput.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToUser("You took " + damage + " damage");
+        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
     }
 
 

@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,10 @@ public class GiantBerry implements Item, Consumable{
 
     @Override
     public void use(String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
         Player p = new Player(username);
 
-        MessageOutput.printToUser("You used a " + getName());
+        messageOut.printToUser("You used a " + getName());
         p.gainMaxHP(MAXHP_INCR);
         entityUpdate.updateMaxHp(username, MAXHP_INCR);
         entityUpdate.dropItem( username, getName(), 1 );

@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 
@@ -19,10 +20,11 @@ public class TurtleMonster extends Monster{
 
     @Override
     public void act(Player player) {
-        System.out.println("DEBUG LOG: monster acts");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
+
         int luck = rand.nextInt(20);
         if(luck == 1){
-            MessageOutput.printToAll(name+ " ate plastic and die");
+            messageOut.printToAll(name+ " ate plastic and die");
             hp = 0;
         }
         else{
@@ -31,13 +33,13 @@ public class TurtleMonster extends Monster{
     }
 
     public void attack(Player p) {
-        System.out.println("DEBUG LOG: monster attacks");
-        MessageOutput.printToAll(name + " poisoned!");
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        messageOut.printToAll(name + " poisoned!");
 
         int damage = atk;
 
         p.loseHP( damage );
-        MessageOutput.printToAll("You took " + damage + " damage");
+        messageOut.printToAll("You took " + damage + " damage");
 
     }
 

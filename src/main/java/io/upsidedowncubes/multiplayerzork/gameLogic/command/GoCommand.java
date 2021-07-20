@@ -3,6 +3,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Direction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
@@ -24,22 +25,24 @@ public class GoCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Player p = new Player(username);
 
         Direction d = stringToDirection(args.get(1));
         if (d == null){
-            MessageOutput.printToUser("Invalid Direction");
+            messageOut.printToUser("Invalid Direction");
             return;
         }
 
         if (p.getCurrentRoom().getMonster() != null){
-            MessageOutput.printToUser("Can't escape from the Monster! Must deal with it somehow...");
+            messageOut.printToUser("Can't escape from the Monster! Must deal with it somehow...");
             return;
         }
 
         Direction dir = p.move(d);
         if (dir == null){
-            MessageOutput.printToUser("It seems like you could not proceed in that direction");
+            messageOut.printToUser("It seems like you could not proceed in that direction");
         }
         else{
             if ( ! p.isFullHP()){

@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 /*
@@ -22,10 +23,11 @@ public class BoxerMonster extends Monster{
 
     @Override
     public void act(Player player) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
 
         int luck = rand.nextInt(4);
         if (luck <= 1){
-            MessageOutput.printToUser(name + "'s attack misses");
+            messageOut.printToUser(name + "'s attack misses");
         }
         else{
             attack( player );
@@ -44,12 +46,13 @@ public class BoxerMonster extends Monster{
     }
 
     public void attack( Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        MessageOutput.printToAll(name + " attacked!");
+        messageOut.printToAll(name + " attacked!");
 
         int damage = atk;
         p.loseHP( damage );
-        MessageOutput.printToUser("You took " + damage + " damage");
+        messageOut.printToUser("You took " + damage + " damage");
 
     }
 

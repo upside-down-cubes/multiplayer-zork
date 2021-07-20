@@ -1,6 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ public class Potion implements Item, Consumable, Targetable{
 
     @Override
     public void use(String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Player p = new Player(username);
         if (p.isFullHP()){
-            MessageOutput.printToUser("Your health is full, you can't use the potion");
+            messageOut.printToUser("Your health is full, you can't use the potion");
             return;
         }
-        MessageOutput.printToUser("You used a potion");
+        messageOut.printToUser("You used a potion");
         entityUpdate.updateHp(username, p.gainHP(HEAL_AMOUNT));
         entityUpdate.dropItem( username, getName(), 1 );
 
@@ -29,10 +32,12 @@ public class Potion implements Item, Consumable, Targetable{
 
     @Override
     public void useOn(String user_username, String target_username) {
-        MessageOutput.setSenderReceiver(user_username, target_username);
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
+
+        messageOut.setSenderReceiver(user_username, target_username);
         Player p = new Player(target_username);
         if (p.isFullHP()){
-            MessageOutput.printToUser("[ " + target_username + " ] 's health is full, you can't use the potion");
+            messageOut.printToUser("[ " + target_username + " ] 's health is full, you can't use the potion");
             return;
         }
 
@@ -44,11 +49,11 @@ public class Potion implements Item, Consumable, Targetable{
             gainedHp = HEAL_AMOUNT;
         }
 
-        MessageOutput.printToUser("You used a potion on [" + target_username + " ]");
-        MessageOutput.printToUser("They gained " + gainedHp + " HP");
-        MessageOutput.printToDM( "[ " + user_username + " ] used a potion on you" );
-        MessageOutput.printToDM( "You gained " + gainedHp + " HP" );
-        MessageOutput.printToOthers("[ " + user_username + " ] used a potion on [" + target_username + " ]");
+        messageOut.printToUser("You used a potion on [" + target_username + " ]");
+        messageOut.printToUser("They gained " + gainedHp + " HP");
+        messageOut.printToDM( "[ " + user_username + " ] used a potion on you" );
+        messageOut.printToDM( "You gained " + gainedHp + " HP" );
+        messageOut.printToOthers("[ " + user_username + " ] used a potion on [" + target_username + " ]");
 
         entityUpdate.updateHp(target_username, gainedHp);
         entityUpdate.dropItem( user_username, getName(), 1 );
