@@ -47,7 +47,6 @@ public class CommandParser {
     }
 
     private void text(String msg, String username) {
-        MessageOutput.clear();
         MessageOutput.printToAll("[ " + username + " ] says: " + msg);
     }
 

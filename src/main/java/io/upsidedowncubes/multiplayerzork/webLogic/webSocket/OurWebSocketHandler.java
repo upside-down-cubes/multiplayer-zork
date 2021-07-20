@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class OurWebSocketHandler extends TextWebSocketHandler {
     private final static PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
@@ -54,7 +55,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
         }
         USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
-        CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment();
+        CHATROOM_TO_GAME.get(thisUser.getChatroom()).increment(thisUser.getUsername());
         if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getGame().gameInProcess()) {
             Location loc = CHATROOM_TO_GAME.get(thisUser.getChatroom()).getGame().getMap().getStartingLoc();
             player.setRow(loc.getRow());
@@ -65,12 +66,12 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        MessageOutput.clear();
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
             return;
         }
         boolean quit = false;
+        MessageOutput.clear();
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
         } else {
@@ -86,6 +87,10 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     public static Game getGameByUser(String username) {
         return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getGame();
+    }
+
+    public static Set<String> getAllUsersInSameSession(String username) {
+        return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getAllMembers();
     }
 
 
@@ -114,7 +119,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         UserSessionHandler thisUser = webSocketSessions.get(session);
-        CHATROOM_TO_GAME.get(thisUser.getChatroom()).decrement();
+        CHATROOM_TO_GAME.get(thisUser.getChatroom()).decrement(thisUser.getUsername());
         if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getCount() == 0) {
             CHATROOM_TO_GAME.remove(thisUser.getChatroom());
         }
