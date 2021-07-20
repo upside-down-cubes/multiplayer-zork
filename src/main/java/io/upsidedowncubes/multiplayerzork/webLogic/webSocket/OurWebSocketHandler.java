@@ -38,12 +38,12 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         MessageCenter.addUser(thisUser.getUsername());
         MessageOutput messageOut = MessageCenter.getUserMessageOut(thisUser.getUsername());
 
-        // TODO: Edit welcome message
         String[] msg = {
                 "============================",
-                "Welcome to the world of Zork",
-                "You are in chat room " + thisUser.getChatroom(),
-                "Type 'help' to see the available commands",
+                "Welcome to the world of Zork. ",
+                "You are in chat room " + thisUser.getChatroom() + ". ",
+                "Press the [i] button near the chat box to see list of commands. ",
+                "Press the [game controller] button to switch back and forth between \"command mode\" and \"chat mode\"",
                 "============================"
         };
 
@@ -97,9 +97,10 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getAllMembers();
     }
 
+    public static boolean inSameSession(String user_username, String target_username) {
+        return USERNAME_TO_CHATROOM.get(user_username).equals( USERNAME_TO_CHATROOM.get(target_username) );
+    }
 
-    // TODO: add + remove user to message center
-    // TODO: use message center to get the actual message output
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 

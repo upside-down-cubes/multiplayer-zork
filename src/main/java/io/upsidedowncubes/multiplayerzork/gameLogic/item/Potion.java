@@ -4,6 +4,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
+import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,8 +34,13 @@ public class Potion implements Item, Consumable, Targetable{
     @Override
     public void useOn(String user_username, String target_username) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
-
         messageOut.setSenderReceiver(user_username, target_username);
+
+        if (! OurWebSocketHandler.inSameSession(user_username, target_username) ){
+            messageOut.printToUser("No such user in this session");
+            return;
+        }
+
         Player p = new Player(target_username);
         if (p.isFullHP()){
             messageOut.printToUser("[ " + target_username + " ] 's health is full, you can't use the potion");
