@@ -52,8 +52,10 @@ public class CommandParser {
     }
 
 
-    // returns true if user wants to quit
-    public boolean commandRunner(List<String> cmdAsList, String username){
+    // returns -1 if terminate
+    // returns 0 if game
+    // returns 1 if chat
+    public int commandRunner(List<String> cmdAsList, String username){
 
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
@@ -71,18 +73,15 @@ public class CommandParser {
 
         if (cmdAsList == null){
             messageOut.printToUser("Invalid command");
-            return false;
+            return 0;
         }
         else if ( ! cmdAsList.get(0).startsWith( COMMAND_PREFIX )){
             text(cmdAsList.get(0), username);
-            return false;
+            return 1;
         }
 
         // get command
         Command cmd = CommandFactory.getCommand(cmdAsList.get(0).split("[/]")[1]);
-
-
-        boolean quit = false;
 
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
@@ -97,12 +96,12 @@ public class CommandParser {
         }
         else{
             cmd.execute(cmdAsList, username);
-            if (cmd instanceof Terminator){
-                quit = ((Terminator) cmd).willTerminate();
+            if (cmd instanceof Terminator && ((Terminator) cmd).willTerminate()){
+                return -1;
             }
         }
 
-        return quit;
+        return 0;
 
     }
 

@@ -74,17 +74,17 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
             return;
         }
-        boolean quit = false;
+        int exitCode = 0;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
         }
         else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
-            quit = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
+            exitCode = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
         }
         broadcastGameOutput(session);
-        if (quit) {
+        if (exitCode == -1) {
             session.close(new CloseStatus(1000, "User quit the game."));
         }
     }
