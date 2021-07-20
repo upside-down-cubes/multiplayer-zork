@@ -33,9 +33,10 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     }
 
-    private void newUserJoined(WebSocketSession session, String[] splitMessage, String username) {
+    private void newUserJoined(WebSocketSession session, String[] splitMessage) {
         UserSessionHandler thisUser = new UserSessionHandler(splitMessage[0], splitMessage[1]);
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+        MessageCenter.addUser(thisUser.getUsername());
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(thisUser.getUsername());
 
         // TODO: Edit welcome message
         String[] msg = {
@@ -75,9 +76,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         }
         boolean quit = false;
         if (!webSocketSessions.containsKey(session)) {
-            String user_username = webSocketSessions.get(session).getUsername();
-            MessageCenter.addUser( user_username );
-            newUserJoined(session, splitMessage, user_username);
+            newUserJoined(session, splitMessage);
         }
         else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
@@ -86,8 +85,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         }
         broadcastGameOutput(session);
         if (quit) {
-            String user_username = webSocketSessions.get(session).getUsername();
-            MessageCenter.removeUser( user_username );
             session.close(new CloseStatus(1000, "User quit the game."));
         }
     }
@@ -104,8 +101,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     // TODO: add + remove user to message center
     // TODO: use message center to get the actual message output
     private void broadcastGameOutput(WebSocketSession session) throws IOException {
-        String user_username = webSocketSessions.get(session).getUsername();
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 
         List<String> DMMessage = messageOut.getAllOutput_DM();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
@@ -146,6 +142,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         player.setCol(-1);
         player.setSessionID(null);
         PLAYER_REPOSITORY.save(player);
+        MessageCenter.removeUser(thisUser.getUsername() );
         webSocketSessions.remove(session);
 
 

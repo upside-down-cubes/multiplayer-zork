@@ -17,7 +17,7 @@ public class MessageCenter {
     }
 
     public static void addUser(String username){
-        msgCenter.put(username, new MessageOutput(username));
+        msgCenter.put(username, new MessageOutput());
     }
 
     public static void removeUser(String username){

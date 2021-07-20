@@ -1,10 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.messageoutput;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MessageOutput {
 
@@ -12,10 +9,8 @@ public class MessageOutput {
     private StringBuilder sb_user;
     private StringBuilder sb_dm;
     private List<String> dm;
-    private String user;
 
-    public MessageOutput(String username){
-        user = username;
+    public MessageOutput(){
         sb = new StringBuilder();
         sb_user = new StringBuilder();
         sb_dm = new StringBuilder();
@@ -134,7 +129,6 @@ public class MessageOutput {
     }
 
     public List<String> getAllOutput_DM(){
-        System.out.println("LOG: check dm message=" + sb_dm.toString());
         if ( sb_dm.toString().isBlank() || dm.isEmpty() ){
             return null;
         }
