@@ -23,7 +23,7 @@ public class Slime implements Monster {
      * Extra var to keep track of
      * */
     @Autowired
-    private Random rand;
+    private Random rand = new Random();
 
     @Override
     public int getID() {
