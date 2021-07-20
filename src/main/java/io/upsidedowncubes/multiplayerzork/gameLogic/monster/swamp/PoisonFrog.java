@@ -15,7 +15,7 @@ public class PoisonFrog implements Monster {
 
     private int MAX_HP = 2;
     private int hp = MAX_HP;
-    private int atk = 15;
+    private int atk = 98;
     private String name = "Bandits";
     private int ID = 4;
 
@@ -77,7 +77,7 @@ public class PoisonFrog implements Monster {
 
     public void poison(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(name + " poisoned!");
+        messageOut.printToAll(name + " poisoned" + p.getUsername());
 
         int damage = atk;
 

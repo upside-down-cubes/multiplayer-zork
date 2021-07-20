@@ -4,6 +4,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class Deer implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
+    @Autowired
     private Random rand;
     private boolean hasAntlers = true;
 
@@ -87,7 +89,7 @@ public class Deer implements Monster {
         }
         else{
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " attacked!");
+            messageOut.printToAll(name + " attacked!"+ p.getUsername());
 
             int damage = atk;
             p.loseHP( damage );

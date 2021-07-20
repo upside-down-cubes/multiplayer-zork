@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.grassland;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
@@ -8,17 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-public class Mandrake implements Monster {
-    /*
-     * Monster stats
-     * */
-    private int MAX_HP = 15;
+public class Cobra implements Monster {
+
+    private int MAX_HP = 40;
     private int hp = MAX_HP;
-    private int atk = 3;
-    private String name = "Mandrake";
-    private int ID = 78;
+    private int atk = 15;
+    private String name = "Cobra";
+    private int ID = 93;
     private boolean isDead = true;
-    private int giveExp = 1;
+    private int giveExp = 3;
 
     /*
      * Extra var to keep track of
@@ -69,7 +67,6 @@ public class Mandrake implements Monster {
     public boolean isDead() {
         return isDead;
     }
-
     @Override
     public void act(Player p) {
         attack(p);
@@ -77,10 +74,19 @@ public class Mandrake implements Monster {
 
     public void attack( Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(name+ "Screech: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!");
-        int damage = atk;
-        p.loseHP( damage );
-        messageOut.printToUser("You took " + damage + " damage");
+        if (rand.nextInt(8)<= 6){
+            // miss attack
+            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+        }
+        else{
+            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+            messageOut.printToAll(name + " attacked!" + p.getUsername());
+
+            int damage = atk;
+            p.loseHP( damage );
+            messageOut.printToUser("You took " + damage + " damage");
+        }
+
     }
+
 }

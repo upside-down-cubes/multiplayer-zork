@@ -4,6 +4,7 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class Wolves implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
+    @Autowired
     private Random rand;
     private int numberOfWolves = 1+rand.nextInt(3);
     private int MAX_WOLVES = numberOfWolves;
