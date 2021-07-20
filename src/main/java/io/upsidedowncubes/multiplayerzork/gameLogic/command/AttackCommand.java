@@ -4,9 +4,10 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
+import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.MonsterAction;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.MonsterAction;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class AttackCommand implements Command, Terminator{
@@ -25,7 +27,6 @@ public class AttackCommand implements Command, Terminator{
     @Autowired
     EntityUpdate entityUpdate;
 
-    // TODO: handle game with EXP from player
     @Override
     public void execute(List<String> args, String username) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
@@ -84,7 +85,23 @@ public class AttackCommand implements Command, Terminator{
 
         if (m.isDead()){
             messageOut.printToAll("[ " + username + " ] defeated " + m.getName());
-            entityUpdate.updateAtk(username, 1);
+
+            int monsterExp = 2;
+
+            Set<String> userInSession = OurWebSocketHandler.getAllUsersInSameSession(username);
+            for (String name : userInSession){
+
+                Location p2 = new Location(name);
+                if( p2.equals( p.getCurrentLoc() ) ){
+                    messageOut.printToAll("[ " + name + " ] gained " + monsterExp + " EXP!");
+                    if ( entityUpdate.updateExp(name, monsterExp) ){
+                        messageOut.printToAll("[ " + name + " ] leveled up!");
+                        entityUpdate.updateAtk(name, 1);
+                    }
+                }
+
+            }
+
             r.removeMonster();
         }
         else{
@@ -100,6 +117,7 @@ public class AttackCommand implements Command, Terminator{
         if (quit){
             messageOut.printToUser("You have fallen...");
             messageOut.printToOthers("[ " + username + " ] has fallen...");
+            entityUpdate.setExp(username, 0);
 
             entityUpdate.setHp(username, p.getMaxHP() );
             entityUpdate.dropAllItems(username);

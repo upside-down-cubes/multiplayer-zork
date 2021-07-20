@@ -1,5 +1,8 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.item;
+package io.upsidedowncubes.multiplayerzork.gameLogic.item.consumables;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Consumable;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Targetable;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
@@ -9,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Potion implements Item, Consumable, Targetable{
+public class Potion implements Item, Consumable, Targetable {
 
     private final int HEAL_AMOUNT = 20;
 
