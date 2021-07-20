@@ -1,6 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.command;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +18,13 @@ public class InfoCommand implements Command{
 
     @Override
     public void execute(List<String> args, String username) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
         Player p = new Player(username);
         //p.viewStatus();
-        p.getBag().viewInventory();
-        p.getCurrentRoom().lookAround();
+        messageOut.printToUser(p.getBag().viewInventory());
+        messageOut.printToUser(p.getCurrentRoom().lookAround());
+
     }
 
 

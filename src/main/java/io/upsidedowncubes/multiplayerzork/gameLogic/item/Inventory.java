@@ -26,10 +26,8 @@ public class Inventory {
 
     // actual structure that stores Item objects
     private Map<Item, Integer> inventory;
-    private String username;
 
     public Inventory(String username){
-        this.username = username;
         inventory = new HashMap<>();
 
         InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
@@ -94,19 +92,19 @@ public class Inventory {
     }
 
     // display the inventory as text
-    public void viewInventory(){
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
-
-        messageOut.printToUser("==== Inventory Detail ====");
+    public String viewInventory(){
+        StringBuilder msg = new StringBuilder();
+        msg.append("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            messageOut.printToUser("\n==     Nothing here    ==");
+            msg.append("\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                messageOut.printToUser( "[" + entry.getKey().getName() + "]: " + entry.getValue());
+                msg.append( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        messageOut.printToUser("\n==========================");
+        msg.append("\n==========================");
+        return msg.toString();
     }
 
 }

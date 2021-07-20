@@ -2,6 +2,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
+import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.*;
@@ -86,6 +87,7 @@ public class Room {
     }
 
     public String lookAround(){
+
         StringBuilder msg = new StringBuilder();
         if (description != null){
             msg.append(description);
@@ -106,7 +108,6 @@ public class Room {
         for (Direction dir : exits){
             msg.append("   " + dir.name);
         }
-        MessageOutput.printToUser(msg.toString());
         return msg.toString();
     }
 
