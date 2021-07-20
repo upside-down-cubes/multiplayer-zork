@@ -1,18 +1,27 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster.common;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
-public class Slime implements Monster {
-    private int MAX_HP = 50;
-    private int hp = MAX_HP;
-    private int atk = 13;
-    private String name = "Bandits";
-    private int ID = 4;
+import java.util.Random;
 
-    private int amountOfAttacks;
+public class Slime implements Monster {
+    /*
+     * Monster stats
+     * */
+    private int MAX_HP = 20;
+    private int hp = MAX_HP;
+    private int atk = 2;
+    private String name = "Slime";
+    private int ID = 11;
+    private boolean isDead = true;
+
+    /*
+     * Extra var to keep track of
+     * */
+    private Random rand;
 
     @Override
     public int getID() {
@@ -35,70 +44,63 @@ public class Slime implements Monster {
     }
 
     @Override
+    public int giveExp() {
+        return 1+rand.nextInt(1);
+    }
+
+    @Override
     public String getName() {
         return name;
     }
 
     @Override
     public void receiveDamage(int amount) {
-
+        hp -= amount;
+        if(hp<0){
+            isDead = true;
+        }
     }
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 
     @Override
     public void act(Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
+        int rng = rand.nextInt(10);
+        if (rng == 0){
+            messageOut.printToAll(name + " failed to attack...");
+        }
+        else if (rng <= 4){
+            attack(p);
+        }
+        else{
+            messageOut.printToAll(name + " performed a continuous attack!");
+            attack(p);
+            attack(p);
+            attack(p);
+
+        }
 
     }
-//
-//    public Slime(){
-//        super();
-//        maxHP = 20;
-//        hp = maxHP;
-//        atk = 2;
-//        name = "Slime";
-//        id = 1;
-//
-//    }
-//
-//    @Override
-//    public void act(Player p) {
-//        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-//
-//        int rng = rand.nextInt(10);
-//        if (rng == 0){
-//            messageOut.printToAll(name + " failed to attack...");
-//        }
-//        else if (rng <= 4){
-//            attack(p);
-//        }
-//        else{
-//            messageOut.printToAll(name + " performed a continuous attack!");
-//            attack(p);
-//            attack(p);
-//            attack(p);
-//
-//        }
-//
-//    }
-//
-//    public void attack( Player p ){
-//        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-//
-//        if (rand.nextInt(10) <= 2){
-//            messageOut.printToAll(name + "'s attack misses");
-//        }
-//
-//        messageOut.printToAll(name + " attacked!");
-//        int damage = atk + rand.nextInt(2);
-//
-//        p.loseHP( damage );
-//        messageOut.printToUser("You took " + damage + " damage");
-//        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
-//    }
+
+    public void attack( Player p ){
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
+        if (rand.nextInt(10) <= 2){
+            messageOut.printToAll(name + "'s attack misses");
+        }
+
+        messageOut.printToAll(name + " attacked!");
+        int damage = atk + rand.nextInt(2);
+
+        p.loseHP( damage );
+        messageOut.printToUser("You took " + damage + " damage");
+        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+    }
 
 
 }

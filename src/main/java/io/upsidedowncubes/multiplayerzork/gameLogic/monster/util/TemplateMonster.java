@@ -1,21 +1,26 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.common;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.util;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
 
-public class Goblin implements Monster {
-
-    private int MAX_HP = 30;
+public class TemplateMonster implements Monster {
+    /*
+     * Monster stats
+     * */
+    private int MAX_HP = 50;
     private int hp = MAX_HP;
-    private int atk = 4;
-    private String name = "Goblin";
-    private int ID = 10;
-    private boolean isDead = false;
+    private int atk = 13;
+    private String name = "Simple";
+    private int ID = -1;
+    private boolean isDead = true;
+    private int giveExp = 0;
 
+    /*
+     * Extra var to keep track of
+     * */
     private int amountOfAttacks;
     private Random rand;
 
@@ -41,7 +46,7 @@ public class Goblin implements Monster {
 
     @Override
     public int giveExp() {
-        return 3+rand.nextInt(3);
+        return giveExp;
     }
 
     @Override
@@ -61,25 +66,26 @@ public class Goblin implements Monster {
     public boolean isDead() {
         return isDead;
     }
-
     @Override
     public void act(Player p) {
         attack(p);
     }
 
-    public void attack( Player p ){
+    public void attack( Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        if (rand.nextInt(4)<= 1){
+            // miss attack
+            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+        }
+        else{
+            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+            messageOut.printToAll(name + " attacked!");
 
-        if (rand.nextInt(10) <= 2){
-            messageOut.printToAll(name + "'s attack misses");
+            int damage = atk;
+            p.loseHP( damage );
+            messageOut.printToUser("You took " + damage + " damage");
         }
 
-        messageOut.printToAll(name + " attacked!");
-        int damage = atk + rand.nextInt(4);
-
-        p.loseHP( damage );
-        messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
     }
 
 }

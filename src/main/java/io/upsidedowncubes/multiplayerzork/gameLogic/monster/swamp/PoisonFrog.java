@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.common;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
@@ -7,16 +7,18 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
 
-public class Goblin implements Monster {
 
-    private int MAX_HP = 30;
+/*
+* This monster has low health but you can Weather gain or lose health or ...
+* */
+public class PoisonFrog implements Monster {
+
+    private int MAX_HP = 2;
     private int hp = MAX_HP;
-    private int atk = 4;
-    private String name = "Goblin";
-    private int ID = 10;
-    private boolean isDead = false;
+    private int atk = 15;
+    private String name = "Bandits";
+    private int ID = 4;
 
-    private int amountOfAttacks;
     private Random rand;
 
     @Override
@@ -41,7 +43,7 @@ public class Goblin implements Monster {
 
     @Override
     public int giveExp() {
-        return 3+rand.nextInt(3);
+        return 1;
     }
 
     @Override
@@ -51,35 +53,36 @@ public class Goblin implements Monster {
 
     @Override
     public void receiveDamage(int amount) {
-        hp -= amount;
-        if(hp<0){
-            isDead = true;
-        }
+
     }
 
     @Override
     public boolean isDead() {
-        return isDead;
+        return false;
     }
 
-    @Override
-    public void act(Player p) {
-        attack(p);
-    }
+        @Override
+    public void act(Player player) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
 
-    public void attack( Player p ){
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-
-        if (rand.nextInt(10) <= 2){
-            messageOut.printToAll(name + "'s attack misses");
+            int luck = rand.nextInt(3);
+        if(luck == 1){
+            poison( player );
         }
+        else{
+            messageOut.printToUser("You got lucky");
+            player.gainHP(30);
+        }
+    }
 
-        messageOut.printToAll(name + " attacked!");
-        int damage = atk + rand.nextInt(4);
+    public void poison(Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        messageOut.printToAll(name + " poisoned!");
+
+        int damage = atk;
 
         p.loseHP( damage );
-        messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
-    }
+        messageOut.printToAll("You took " + damage + " damage");
 
+    }
 }
