@@ -19,6 +19,6 @@ public class WoodenClub implements Item, Weapon{
 
     @Override
     public int getAttackStat() {
-        return 4;
+        return 2;
     }
 }
