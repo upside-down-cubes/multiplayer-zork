@@ -1,6 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster.desert;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
@@ -47,6 +47,11 @@ public class SandTortoise implements Monster {
     @Override
     public int getAtk() {
         return atk;
+    }
+
+    @Override
+    public int giveExp() {
+        return 1+rand.nextInt(3);
     }
 
     @Override

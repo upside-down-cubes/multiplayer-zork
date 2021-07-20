@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.monster.util;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
@@ -17,6 +16,7 @@ public class TemplateMonster implements Monster {
     private String name = "Simple";
     private int ID = -1;
     private boolean isDead = true;
+    private int giveExp = 0;
 
     /*
      * Extra var to keep track of
@@ -42,6 +42,11 @@ public class TemplateMonster implements Monster {
     @Override
     public int getAtk() {
         return atk;
+    }
+
+    @Override
+    public int giveExp() {
+        return giveExp;
     }
 
     @Override

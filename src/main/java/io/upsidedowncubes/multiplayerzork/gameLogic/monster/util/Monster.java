@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.util;
 
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
@@ -15,6 +15,7 @@ public interface Monster {
     int getHP();
     int getMaxHP();
     int getAtk();
+    int giveExp();
     String getName();
 
     void receiveDamage(int amount);
