@@ -47,7 +47,7 @@ public class Slime implements Monster {
 
     @Override
     public int giveExp() {
-        return 1+rand.nextInt(1);
+        return 1;//+rand.nextInt(1);
     }
 
     @Override
