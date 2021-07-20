@@ -1,8 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Goblin;
-import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Slime;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Goblin;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Slime;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

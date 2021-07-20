@@ -8,37 +8,20 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Monster {
+public interface Monster {
 
-    String name;
-    int hp;
-    int maxHP;
-    int atk;
-    List<Item> dropList;
-    int id;
+    // getter setter
+    int getID();
+    int getHP();
+    int getMaxHP();
+    int getAtk();
+    String getName();
 
-    Random rand = new Random();
+    void receiveDamage(int amount);
 
-    public int getID(){
-        return id;
-    }
+    boolean isDead();
 
-    public int getHP() {
-        return hp;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public abstract void act(Player p);
-
-    public void receiveDamage(int amount){
-        hp -= amount;
-    }
-
-    public boolean isDead(){
-        return hp <= 0;
-    }
+    // actions
+    void act(Player p);
 
 }
