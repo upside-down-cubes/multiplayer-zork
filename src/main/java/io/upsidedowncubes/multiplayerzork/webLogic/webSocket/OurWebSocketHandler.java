@@ -117,6 +117,14 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         return USERNAME_TO_CHATROOM.get(user_username).equals( USERNAME_TO_CHATROOM.get(target_username) );
     }
 
+    private boolean inSameRoom(String firstUsername, String secondUsername) {
+        PlayerEntity firstPlayer = PLAYER_REPOSITORY.findByUsername(firstUsername);
+        PlayerEntity secondPlayer = PLAYER_REPOSITORY.findByUsername(secondUsername);
+        return (firstPlayer.getSessionID().equals(secondPlayer.getSessionID())) &&
+                (firstPlayer.getRow() == secondPlayer.getRow()) &&
+                (firstPlayer.getCol() == secondPlayer.getCol());
+    }
+
     private void broadcastGameOutput(WebSocketSession session, int gameStatus) throws IOException {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 
@@ -134,7 +142,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
+            } else if (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())
                         && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
