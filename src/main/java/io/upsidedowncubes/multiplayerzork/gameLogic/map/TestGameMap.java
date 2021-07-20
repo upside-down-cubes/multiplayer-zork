@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Goblin;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Slime;
@@ -35,6 +36,10 @@ public class TestGameMap extends GameMap {
         map.get(0).get(0)
                 .setExit( false, false, false, true )
                 .setDescription("Seems like an entrance to some kind of dungeon...");
+        Room start = map.get(0).get(0);
+        for (Item item : ItemFactory.getAllItem()){
+            start.addItem( item );
+        }
 
         map.get(0).get(1)
                 .setExit(  false, false, true, false )

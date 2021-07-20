@@ -12,7 +12,11 @@ public class Bees implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 1; // This doesn't matter
+    private final Random rand = new Random();
+    private int numberOfBees= 10 + rand.nextInt(13);
+    private final int MAX_BEES= numberOfBees;
+
+    private final int MAX_HP = 1; // This doesn't matter
     private int hp = MAX_HP;
     private int atk = 1;
     private int ID = 72;
@@ -20,14 +24,6 @@ public class Bees implements Monster {
     private int giveExp = 1;
     private String name = "Bees";
 
-    /*
-     * Extra var to keep track of
-     * */
-    private int amountOfAttacks;
-    @Autowired
-    private Random rand;
-    private int numberOfBees= 1+rand.nextInt(13);
-    private int MAX_BEES= numberOfBees;
 
     @Override
     public int getID() {
@@ -60,11 +56,12 @@ public class Bees implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         numberOfBees -= amount;
         if(numberOfBees<=0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override

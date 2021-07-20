@@ -27,7 +27,7 @@ public class Bandits implements Monster {
     * */
     private int amountOfAttacks;
     private int luck;
-    private Random rand;
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -60,11 +60,12 @@ public class Bandits implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         hp -= amount;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override

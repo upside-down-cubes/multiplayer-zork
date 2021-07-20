@@ -12,18 +12,17 @@ public class Slime implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 20;
+    private final int MAX_HP = 20;
     private int hp = MAX_HP;
-    private int atk = 2;
-    private String name = "Slime";
+    private final int atk = 2;
+    private final String name = "Slime";
     private int ID = 31;
     private boolean isDead = true;
 
     /*
      * Extra var to keep track of
      * */
-    @Autowired
-    private Random rand;
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -56,11 +55,12 @@ public class Slime implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         hp -= amount;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override
@@ -76,6 +76,16 @@ public class Slime implements Monster {
         if (rng == 0){
             messageOut.printToAll(name + " failed to attack...");
         }
+        else if (rng <= 2){
+            messageOut.printToAll(name + " tries to heal itself!");
+            int amount = selfRegen();
+            if (amount == 0){
+                messageOut.printToAll(name + "'s HP is already full...");
+            }
+            else{
+                messageOut.printToAll(name + " regained " + amount + " HP!");
+            }
+        }
         else if (rng <= 4){
             attack(p);
         }
@@ -89,7 +99,7 @@ public class Slime implements Monster {
 
     }
 
-    public void attack( Player p ){
+    private void attack( Player p ){
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
         if (rand.nextInt(10) <= 2){
@@ -104,5 +114,15 @@ public class Slime implements Monster {
         messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
     }
 
+    private int selfRegen(){
+        if (hp == MAX_HP){
+            return 0;
+        }
+        int amount = 2 + rand.nextInt(5);
+        if (amount + hp > MAX_HP){
+            return MAX_HP - hp;
+        }
+        return amount;
+    }
 
 }

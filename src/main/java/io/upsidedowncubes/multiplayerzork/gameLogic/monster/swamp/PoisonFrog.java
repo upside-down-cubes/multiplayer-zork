@@ -19,7 +19,7 @@ public class PoisonFrog implements Monster {
     private String name = "Bandits";
     private int ID = 4;
 
-    private Random rand;
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -52,8 +52,9 @@ public class PoisonFrog implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
 
+        return amount;
     }
 
     @Override

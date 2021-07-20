@@ -12,22 +12,17 @@ public class Wolves implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 5; // This doesn't matter
+
+    private final Random rand = new Random();
+    private int numberOfWolves = 2 + rand.nextInt(2);
+    private final int MAX_WOLVES = numberOfWolves;
+
+    private final int MAX_HP = MAX_WOLVES * 6; // 6 hp per wolf
     private int hp = MAX_HP;
-    private int atk = 3;
+    private final int atk = 3;
     private int ID = 32;
     private boolean isDead = true;
-    private int giveExp = 0;
-    private String name = "Wolves";
-
-    /*
-     * Extra var to keep track of
-     * */
-    private int amountOfAttacks;
-    @Autowired
-    private Random rand;
-    private int numberOfWolves = 1+rand.nextInt(3);
-    private int MAX_WOLVES = numberOfWolves;
+    private final int giveExp = 2 * MAX_WOLVES;
 
     @Override
     public int getID() {
@@ -36,7 +31,7 @@ public class Wolves implements Monster {
 
     @Override
     public int getHP() {
-        return 5*numberOfWolves;
+        return 5 * numberOfWolves;
     }
 
     @Override
@@ -51,22 +46,28 @@ public class Wolves implements Monster {
 
     @Override
     public int giveExp() {
-        return 2*MAX_WOLVES;
+        return giveExp;
     }
 
     @Override
     public String getName() {
-        return numberOfWolves+" "+name;
+        if (numberOfWolves == 1){
+            return "Wolf";
+        }
+        return numberOfWolves + " wolves";
     }
 
     @Override
-    public void receiveDamage(int amount) {
-        if(rand.nextInt(10)<amount){
-            numberOfWolves--;
-        }
-        if(numberOfWolves<=0){
+    public int receiveDamage(int amount) {
+        hp -= amount;
+
+        // wolf --> 6 hp per wolf
+        numberOfWolves = hp / 6;
+
+        if(numberOfWolves<=0 || hp <= 0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override
@@ -76,25 +77,27 @@ public class Wolves implements Monster {
 
     @Override
     public void act(Player p) {
-        int damage = 0;
-        int numberOfAttacks = 0;
-        for (int i=0 ; i<numberOfWolves; i++){
-            int attacked = attack(p);
-            if(attacked > 1){
-                numberOfAttacks++;
-            }
-            damage+= attacked;
-        }
-
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(numberOfAttacks+" "+name+ " attacked "+ p.getUsername());
-        messageOut.printToUser("You took " + damage + " damage");
+
+        int damage = 0;
+
+        messageOut.printToAll( "The wolf pack attacked!");
+        for (int i=0 ; i<numberOfWolves; i++){
+            int attacked = attack();
+            if (attacked > 1){
+                messageOut.printToUser("You took " + attacked + " damage");
+                messageOut.printToOthers( p.getUsername() + " took " + attacked + " damage");
+            }
+            else{
+                messageOut.printToAll( "Wolf" + i + "'s attack misses..." );
+            }
+            damage += attacked;
+        }
 
         p.loseHP( damage );
     }
 
-    public int attack( Player p) {
+    public int attack() {
         if (rand.nextInt(4)<= 1){
             return 0;
         }

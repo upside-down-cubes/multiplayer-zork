@@ -22,8 +22,7 @@ public class Cobra implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -56,11 +55,12 @@ public class Cobra implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         hp -= amount;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override

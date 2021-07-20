@@ -17,19 +17,18 @@ public class SandTortoise implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 90;
+    private final int MAX_HP = 40;
     private int hp = MAX_HP;
-    private int atk = 1;
-    private String name = "Sand tortoise";
+    private final int atk = 3;
+    private final String name = "Sand tortoise";
     private int ID = -1;
-    private boolean isDead = true;
+    private boolean isDead = false;
 
     /*
      * Extra var to keep track of
      * */
-    private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+    private final Random rand = new Random();
+    private int damageReduction = 0;
 
     @Override
     public int getID() {
@@ -62,11 +61,16 @@ public class SandTortoise implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
-        hp -= amount;
+    public int receiveDamage(int amount) {
+        if (amount - damageReduction <= 0){
+            return 0;
+        }
+
+        hp -= amount - damageReduction;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override
@@ -75,24 +79,36 @@ public class SandTortoise implements Monster {
     }
     @Override
     public void act(Player p) {
-        attack(p);
-    }
-
-    public void attack( Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(6)<= 1){
-            messageOut.printToAll(name + " ate plastic and die!");
-            hp = 0;
-            isDead = true;
-        }
-        else{
-            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " attacked "+ p.getUsername());
 
-            int damage = atk;
+        int rng = rand.nextInt(90);
+        if (rng <= 50){
+            int damage = atk + rand.nextInt(3);
             p.loseHP( damage );
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        }
+        else if (rng <= 75){
+            messageOut.printToAll(name + " embraces for the incoming hit!");
+            damageReduction = 5;
+        }
+        else{
+            messageOut.printToAll(name + " absorbs sand around itself");
+            if (rng == 80){
+                messageOut.printToAll(name + " ate plastic from beneath the sand and die!");
+                hp = 0;
+                isDead = true;
+            }
+            else{
+                hp += 15;
+                if (hp > MAX_HP){
+                    hp = MAX_HP;
+                }
+                messageOut.printToAll(name + " gained 15 HP!");
+            }
+
         }
 
     }
+
 }

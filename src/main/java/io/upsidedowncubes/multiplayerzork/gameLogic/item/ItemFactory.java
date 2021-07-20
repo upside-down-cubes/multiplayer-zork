@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ItemFactory {
@@ -37,6 +34,10 @@ public class ItemFactory {
     // get Item object that has an id corresponds to the received string
     public static Item getItem(int id){
         return ITEM_ID_MAP.get(id);
+    }
+
+    public static Set<Item> getAllItem(){
+        return (Set<Item>) ITEM_MAP.values();
     }
 
 }

@@ -10,16 +10,14 @@ import java.util.Random;
 
 public class Goblin implements Monster {
 
-    private int MAX_HP = 30;
+    private final int MAX_HP = 30;
     private int hp = MAX_HP;
-    private int atk = 4;
-    private String name = "Goblin";
+    private final int atk = 4;
+    private final String name = "Goblin";
     private int ID = 30;
     private boolean isDead = false;
 
-    private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -43,7 +41,7 @@ public class Goblin implements Monster {
 
     @Override
     public int giveExp() {
-        return 3+rand.nextInt(3);
+        return 2+rand.nextInt(3);
     }
 
     @Override
@@ -52,11 +50,12 @@ public class Goblin implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         hp -= amount;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override

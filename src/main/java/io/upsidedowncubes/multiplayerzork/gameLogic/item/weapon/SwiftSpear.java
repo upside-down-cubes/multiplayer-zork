@@ -20,7 +20,7 @@ public class SwiftSpear implements Item, Weapon {
 
     @Override
     public int getAttackStat(Player p) {
-        return (p.getMaxHP() - 20) / 10;
+        return (p.getMaxHP() - 30) / 10;
     }
 
     @Override

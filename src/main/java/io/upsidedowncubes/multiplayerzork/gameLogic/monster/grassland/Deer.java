@@ -23,9 +23,7 @@ public class Deer implements Monster {
     /*
      * Extra var to keep track of
      * */
-    private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+    private final Random rand = new Random();
     private boolean hasAntlers = true;
 
     @Override
@@ -59,11 +57,12 @@ public class Deer implements Monster {
     }
 
     @Override
-    public void receiveDamage(int amount) {
+    public int receiveDamage(int amount) {
         hp -= amount;
         if(hp<0){
             isDead = true;
         }
+        return amount;
     }
 
     @Override
