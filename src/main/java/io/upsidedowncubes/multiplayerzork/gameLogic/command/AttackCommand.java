@@ -86,13 +86,13 @@ public class AttackCommand implements Command, Terminator{
         if (m.isDead()){
             messageOut.printToAll("[ " + username + " ] defeated " + m.getName());
 
-            int monsterExp = 2;
+            int monsterExp;
 
             Set<String> userInSession = OurWebSocketHandler.getAllUsersInSameSession(username);
             for (String name : userInSession){
-
                 Location p2 = new Location(name);
                 if( p2.equals( p.getCurrentLoc() ) ){
+                    monsterExp = m.giveExp();
                     messageOut.printToAll("[ " + name + " ] gained " + monsterExp + " EXP!");
                     if ( entityUpdate.updateExp(name, monsterExp) ){
                         messageOut.printToAll("[ " + name + " ] leveled up!");
