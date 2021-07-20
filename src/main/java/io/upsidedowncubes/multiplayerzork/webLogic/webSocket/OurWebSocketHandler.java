@@ -68,9 +68,15 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         PLAYER_REPOSITORY.save(player);
     }
 
+    private void toggleIsAlive(String username, Boolean isAlive) {
+        PlayerEntity playerEntity = PLAYER_REPOSITORY.findByUsername(username);
+        playerEntity.setIsAlive(isAlive);
+        PLAYER_REPOSITORY.save(playerEntity);
+    }
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
+        int newUser = 0;
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
             return;
@@ -78,21 +84,24 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         int gameStatus = 0;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
-        } else if (PLAYER_REPOSITORY.findByUsername(webSocketSessions.get(session).getUsername()).getHp() <= 0) {
+            toggleIsAlive(webSocketSessions.get(session).getUsername(), true);
+            newUser = 1;
+        } else if (!PLAYER_REPOSITORY.findByUsername(webSocketSessions.get(session).getUsername()).getIsAlive()) {
             session.close(new CloseStatus(1000, "Player is dead."));
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
         }
-        broadcastGameOutput(session, gameStatus);
+        broadcastGameOutput(session, gameStatus, newUser);
         if (gameStatus == -1) {
             session.sendMessage( new TextMessage(
                     UserStateGenerator.getJson(
                             webSocketSessions.get(session).getUsername(),
                             "You have now exited the game session.\n" +
-                            "Refresh the page to select new chatroom or press exit button to go back to home.", gameStatus)
+                            "Refresh the page to select new chatroom or press exit button to go back to home.", -1)
             ));
+            toggleIsAlive(webSocketSessions.get(session).getUsername(), false);
         }
     }
 
@@ -108,7 +117,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         return USERNAME_TO_CHATROOM.get(user_username).equals( USERNAME_TO_CHATROOM.get(target_username) );
     }
 
-    private void broadcastGameOutput(WebSocketSession session, int gameStatus) throws IOException {
+    private void broadcastGameOutput(WebSocketSession session, int gameStatus, int newUser) throws IOException {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 
         List<String> DMMessage = messageOut.getAllOutput_DM();
@@ -118,18 +127,18 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             if (DMMessage != null && username.equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
-                                username, DMMessage.get(2), gameStatus)
+                                username, DMMessage.get(2), gameStatus - newUser)
                 ));
             } else if (session.equals(webSocketSession) && !messageOut.getAllOutput_user().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
-                                username, messageOut.getAllOutput_user(), gameStatus)
+                                username, messageOut.getAllOutput_user(), gameStatus - newUser)
                 ));
             } else if (webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())
                         && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
-                                username, messageOut.getAllOutput(), gameStatus)
+                                username, messageOut.getAllOutput(), gameStatus - newUser)
                 ));
             }
         }
@@ -150,6 +159,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         player.setCol(-1);
         player.setSessionID(null);
         PLAYER_REPOSITORY.save(player);
+        toggleIsAlive(webSocketSessions.get(session).getUsername(), null);
         MessageCenter.removeUser(thisUser.getUsername() );
         webSocketSessions.remove(session);
 

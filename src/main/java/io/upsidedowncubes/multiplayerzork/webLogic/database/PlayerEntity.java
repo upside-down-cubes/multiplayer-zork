@@ -42,6 +42,15 @@ public class PlayerEntity {
     @Column(name = "attack")
     private Integer attack;
 
+    @Column(name = "exp")
+    private Integer exp;
+
+    @Column(name = "maxExp")
+    private Integer maxExp;
+
+    @Column(name = "is_alive")
+    private Boolean isAlive;
+
     protected PlayerEntity() {
 
     }
@@ -55,6 +64,8 @@ public class PlayerEntity {
         this.attack = 5;
         this.row = -1;
         this.col = -1;
+        this.exp = 0;
+        this.maxExp = 2;
     }
 
     public void setEncodedPassword(String password) {

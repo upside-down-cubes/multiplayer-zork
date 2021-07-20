@@ -25,6 +25,7 @@ public class AttackCommand implements Command, Terminator{
     @Autowired
     EntityUpdate entityUpdate;
 
+    // TODO: handle game with EXP from player
     @Override
     public void execute(List<String> args, String username) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
@@ -103,8 +104,6 @@ public class AttackCommand implements Command, Terminator{
             entityUpdate.setHp(username, p.getMaxHP() );
             entityUpdate.dropAllItems(username);
             messageOut.printToUser("You lost all your belonging...");
-            messageOut.printToUser("...");
-            messageOut.printToUser("Please refresh the page to select a new map");
         }
 
     }
