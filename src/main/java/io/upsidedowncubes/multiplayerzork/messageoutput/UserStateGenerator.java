@@ -18,11 +18,12 @@ public class UserStateGenerator {
 
 
 
-    public static String getJson(String username, String message) {
+    public static String getJson(String username, String message, int gameStatus) {
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
         InventoryEntity inventory = INVENTORY_REPOSITORY.findByUsername(username);
         try {
             return JsonConvertor.convert(GameLogicDTO.builder()
+                    .type(gameStatus)
                     .content(message)
                     .attack(player.getAttack())
                     .hp(player.getHp())
@@ -34,6 +35,7 @@ public class UserStateGenerator {
                     .build());
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             return JsonConvertor.convert(GameLogicDTO.builder()
+                    .type(gameStatus)
                     .content(message)
                     .attack(player.getAttack())
                     .hp(player.getHp())
