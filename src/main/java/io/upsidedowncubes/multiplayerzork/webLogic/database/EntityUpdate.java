@@ -52,7 +52,6 @@ public class EntityUpdate {
         playerRepository.save(player);
     }
 
-
     public void takeItem(String username, String item, int quantity) {
         InventoryEntity inventory = inventoryRepository.findByUsername(username);
         if (inventory.getCurrentLoad() >= inventory.getCapacity()) {
