@@ -43,6 +43,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 "Welcome to the world of Zork. ",
                 "You are in chat room " + thisUser.getChatroom() + ". ",
                 "Press the [i] button near the chat box to see list of commands. ",
+                "Press the [EXIT] button near the chat box to leave the chat session. ",
                 "Press the [game controller] button to switch back and forth between \"command mode\" and \"chat mode\"",
                 "============================"
         };

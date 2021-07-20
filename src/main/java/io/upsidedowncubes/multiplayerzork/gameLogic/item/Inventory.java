@@ -96,14 +96,14 @@ public class Inventory {
         StringBuilder msg = new StringBuilder();
         msg.append("==== Inventory Detail ====");
         if (inventory.isEmpty()){
-            msg.append("\n==     Nothing here    ==");
+            msg.append("\\n==     Nothing here    ==");
         }
         else{
             for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
                 msg.append( "[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
-        msg.append("\n==========================");
+        msg.append("\\n==========================");
         return msg.toString();
     }
 

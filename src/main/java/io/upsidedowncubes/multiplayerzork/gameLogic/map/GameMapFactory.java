@@ -41,4 +41,15 @@ public class GameMapFactory {
         }
         return null;
     }
+
+
+    public static String getAllMapName(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Available map: [ ");
+        for (String name : GAMEMAP_MAP.keySet()){
+            sb.append(" " + name + " ");
+        }
+        sb.append(" ]");
+        return sb.toString();
+    }
 }

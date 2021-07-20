@@ -103,6 +103,8 @@ public class AttackCommand implements Command, Terminator{
             entityUpdate.setHp(username, p.getMaxHP() );
             entityUpdate.dropAllItems(username);
             messageOut.printToUser("You lost all your belonging...");
+            messageOut.printToUser("...");
+            messageOut.printToUser("Please refresh the page to select a new map");
         }
 
     }
