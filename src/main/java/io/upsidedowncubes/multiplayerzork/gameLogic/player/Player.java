@@ -152,7 +152,9 @@ public class Player {
             }
             damage = (int) Math.round( (wpAtk + atk) * damageMultiplier );
 
-            wp.activeEffect(this);
+            if (wp != null){
+                wp.activeEffect(this);
+            }
         }
         return damage;
     }

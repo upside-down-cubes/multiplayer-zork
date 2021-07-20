@@ -73,6 +73,7 @@ public class Goblin implements Monster {
 
         if (rand.nextInt(10) <= 2){
             messageOut.printToAll(name + "'s attack misses");
+            return;
         }
 
         messageOut.printToAll(name + " attacked!");
