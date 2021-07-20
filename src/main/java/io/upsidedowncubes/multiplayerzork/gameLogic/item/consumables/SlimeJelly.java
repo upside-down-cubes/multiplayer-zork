@@ -39,7 +39,7 @@ public class SlimeJelly implements Item, Consumable {
 
     @Override
     public int getItemID() {
-        return 3;
+        return 4;
     }
 
 

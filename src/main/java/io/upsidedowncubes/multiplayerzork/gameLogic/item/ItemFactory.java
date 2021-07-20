@@ -36,8 +36,8 @@ public class ItemFactory {
         return ITEM_ID_MAP.get(id);
     }
 
-    public static Set<Item> getAllItem(){
-        return (Set<Item>) ITEM_MAP.values();
+    public static Set<String> getAllItem(){
+        return ITEM_MAP.keySet();
     }
 
 }

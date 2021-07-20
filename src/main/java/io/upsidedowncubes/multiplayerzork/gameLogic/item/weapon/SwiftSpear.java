@@ -15,7 +15,7 @@ public class SwiftSpear implements Item, Weapon {
 
     @Override
     public int getItemID() {
-        return 0;
+        return 7;
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Teleporter implements Item, Consumable {
 
     @Override
     public int getItemID() {
-        return 0;
+        return 10;
     }
 
 
