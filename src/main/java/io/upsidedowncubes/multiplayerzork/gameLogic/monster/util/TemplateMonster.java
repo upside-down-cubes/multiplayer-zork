@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.ruins;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.util;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
@@ -7,23 +7,19 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
 
-/*
-* The more he attacks the more tiered he become, but gains his power a attack harder again
-* */
-public class Bandits implements Monster {
-
+public class TemplateMonster implements Monster {
     /*
-    * Monster stats
-    * */
+     * Monster stats
+     * */
     private int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
-    private String name = "Bandits";
-    private int ID = 4;
+    private String name = "Temp";
+    private int ID = -1;
 
     /*
-    * Extra var to keep track of
-    * */
+     * Extra var to keep track of
+     * */
     private int amountOfAttacks;
     private int luck;
     private Random rand;
@@ -66,7 +62,6 @@ public class Bandits implements Monster {
     @Override
     public void act(Player p) {
         attack(p);
-        attackDecrease();
     }
 
     public void attack( Player p) {
@@ -86,16 +81,5 @@ public class Bandits implements Monster {
         }
 
     }
-
-    private void attackDecrease(){
-        amountOfAttacks++;
-        atk -= amountOfAttacks;
-        if (atk < 1){
-            atk = 13;
-            amountOfAttacks = 0;
-        }
-
-    }
-
 
 }
