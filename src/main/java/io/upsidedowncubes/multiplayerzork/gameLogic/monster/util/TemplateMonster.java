@@ -14,14 +14,14 @@ public class TemplateMonster implements Monster {
     private int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
-    private String name = "Temp";
+    private String name = "Simple";
     private int ID = -1;
+    private boolean isDead = true;
 
     /*
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
-    private int luck;
     private Random rand;
 
     @Override
@@ -51,23 +51,24 @@ public class TemplateMonster implements Monster {
 
     @Override
     public void receiveDamage(int amount) {
-
+        hp -= amount;
+        if(hp<0){
+            isDead = true;
+        }
     }
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
-
     @Override
     public void act(Player p) {
         attack(p);
     }
 
     public void attack( Player p) {
-        luck = rand.nextInt(4);
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (luck <= 1){
+        if (rand.nextInt(4)<= 1){
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
         }

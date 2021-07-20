@@ -20,6 +20,7 @@ public class Bandits implements Monster {
     private int atk = 13;
     private String name = "Bandits";
     private int ID = 4;
+    private boolean isDead = false;
 
     /*
     * Extra var to keep track of
@@ -55,12 +56,15 @@ public class Bandits implements Monster {
 
     @Override
     public void receiveDamage(int amount) {
-
+        hp -= amount;
+        if(hp<0){
+            isDead = true;
+        }
     }
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 
     @Override
