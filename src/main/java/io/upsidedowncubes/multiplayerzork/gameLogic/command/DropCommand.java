@@ -24,7 +24,6 @@ public class DropCommand implements Command{
         return "drop";
     }
 
-    // TODO: drop item and add into room
     @Override
     public void execute(List<String> args, String username) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);

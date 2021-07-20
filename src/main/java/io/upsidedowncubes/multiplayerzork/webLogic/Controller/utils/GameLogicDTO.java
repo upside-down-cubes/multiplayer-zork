@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -15,14 +17,10 @@ public class GameLogicDTO {
     // 3 -> Error message
     private int type;
 
-    // username of the sender
-    private String sender;
-
     // what the sender sends
     private String content;
 
-    // the session ID of the session that the user is in
-    private int session;
+    private Set<String> otherUsers;
 
     // FOR CURRENT USER
     private int attack;
@@ -30,5 +28,6 @@ public class GameLogicDTO {
     private int maxHp;
     private int currentLoad;
     private int capacity;
+    private String mapName;
     private String roomDescription;
 }

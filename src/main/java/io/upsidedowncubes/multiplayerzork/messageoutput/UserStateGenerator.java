@@ -30,6 +30,8 @@ public class UserStateGenerator {
                     .maxHp(player.getMaxHp())
                     .currentLoad(inventory.getCurrentLoad())
                     .capacity(inventory.getCapacity())
+                    .otherUsers(OurWebSocketHandler.getAllUsersInSameSession(username))
+                    .mapName(OurWebSocketHandler.getGameByUser(username).getMap().getMapName())
                     .roomDescription(OurWebSocketHandler.getGameByUser(username).getMap()
                             .getRoom(player.getRow(),player.getCol()).lookAround())
                     .build());
@@ -42,7 +44,9 @@ public class UserStateGenerator {
                     .maxHp(player.getMaxHp())
                     .currentLoad(inventory.getCurrentLoad())
                     .capacity(inventory.getCapacity())
-                    .roomDescription("not in game")
+                    .otherUsers(OurWebSocketHandler.getAllUsersInSameSession(username))
+                    .mapName("N/A")
+                    .roomDescription("N/A")
                     .build());
         }
     }
