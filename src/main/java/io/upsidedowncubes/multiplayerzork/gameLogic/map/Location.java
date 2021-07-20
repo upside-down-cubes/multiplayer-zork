@@ -33,6 +33,17 @@ public class Location {
 
     }
 
+    @Override
+    public boolean equals(Object o){
+        if (o == null){
+            return false;
+        }
+        else if (! (o instanceof Location) ){
+            return false;
+        }
+        return ((Location) o).getCol() == col && ((Location) o).getRow() == row;
+    }
+
     public void goNorth(){
         row--;
     }

@@ -45,6 +45,37 @@ public class EntityUpdate {
         playerRepository.save(player);
     }
 
+    public void updateMaxExp(String username) {
+        PlayerEntity player = playerRepository.findByUsername(username);
+        player.setMaxExp( player.getMaxExp() * 2 );
+        playerRepository.save(player);
+    }
+
+    public boolean updateExp(String username, int amount) {
+        boolean ret = false;
+        PlayerEntity player = playerRepository.findByUsername(username);
+
+        int currentExp = player.getExp();
+        int currentMaxExp = player.getMaxExp();
+        if (currentExp + amount >= currentMaxExp){
+            int diff = (currentExp + amount) - currentMaxExp;
+            player.setMaxExp( player.getMaxExp() * 2 );
+            player.setExp( diff );
+            ret = true;
+        }
+        else{
+            player.setExp( currentExp + amount );
+        }
+        playerRepository.save(player);
+        return ret;
+    }
+
+    public void setExp(String username, int amount) {
+        PlayerEntity player = playerRepository.findByUsername(username);
+        player.setExp( amount );
+        playerRepository.save(player);
+    }
+
     public void updateLoc(String username, int row, int col) {
         PlayerEntity player = playerRepository.findByUsername(username);
         player.setRow(row);
@@ -91,4 +122,5 @@ public class EntityUpdate {
         inventory.setCurrentLoad(inventory.getCurrentLoad()-quantity);
         inventoryRepository.save(inventory);
     }
+
 }
