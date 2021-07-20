@@ -142,7 +142,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())
+            } else if ((gameStatus != 1) ||
+                    (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername()))
                         && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
