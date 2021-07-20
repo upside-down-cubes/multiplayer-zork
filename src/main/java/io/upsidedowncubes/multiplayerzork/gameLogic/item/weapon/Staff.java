@@ -28,7 +28,7 @@ public class Staff implements Item, Weapon {
 
     @Override
     public int getItemID() {
-        return 0;
+        return 8;
     }
 
     @Override
