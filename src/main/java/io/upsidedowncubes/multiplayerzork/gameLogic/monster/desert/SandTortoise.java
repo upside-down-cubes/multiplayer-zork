@@ -28,8 +28,8 @@ public class SandTortoise implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+
+    private Random rand = new Random();
 
     @Override
     public int getID() {

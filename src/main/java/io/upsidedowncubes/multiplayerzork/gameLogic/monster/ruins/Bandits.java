@@ -27,7 +27,7 @@ public class Bandits implements Monster {
     * */
     private int amountOfAttacks;
     private int luck;
-    private Random rand;
+    private Random rand = new Random();
 
     @Override
     public int getID() {

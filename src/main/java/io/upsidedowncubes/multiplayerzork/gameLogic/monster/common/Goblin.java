@@ -18,8 +18,8 @@ public class Goblin implements Monster {
     private boolean isDead = false;
 
     private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+
+    private Random rand = new Random();
 
     @Override
     public int getID() {

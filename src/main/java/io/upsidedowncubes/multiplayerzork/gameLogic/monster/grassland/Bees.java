@@ -24,8 +24,9 @@ public class Bees implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+
+    private Random rand = new Random();
+
     private int numberOfBees= 1+rand.nextInt(13);
     private int MAX_BEES= numberOfBees;
 

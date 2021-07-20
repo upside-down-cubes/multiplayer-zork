@@ -24,8 +24,9 @@ public class Wolves implements Monster {
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
-    @Autowired
-    private Random rand;
+
+    private Random rand = new Random();
+
     private int numberOfWolves = 1+rand.nextInt(3);
     private int MAX_WOLVES = numberOfWolves;
 
