@@ -78,6 +78,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         int gameStatus = 0;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
+        } else if (PLAYER_REPOSITORY.findByUsername(webSocketSessions.get(session).getUsername()).getHp() <= 0) {
+            session.close(new CloseStatus(1000, "Player is dead."));
         } else {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
@@ -91,7 +93,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                             "You have now exited the game session.\n" +
                             "Refresh the page to select new chatroom or press exit button to go back to home.", gameStatus)
             ));
-            session.close(new CloseStatus(1000, "User quit the game or died."));
         }
     }
 
