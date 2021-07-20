@@ -13,7 +13,7 @@ public class Goblin implements Monster {
     private int hp = MAX_HP;
     private int atk = 4;
     private String name = "Goblin";
-    private int ID = 10;
+    private int ID = 30;
     private boolean isDead = false;
 
     private int amountOfAttacks;
