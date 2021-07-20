@@ -30,8 +30,8 @@ public class Location {
             this.row = p.getRow();
             this.col = p.getCol();
         }
-
     }
+
 
     @Override
     public boolean equals(Object o){
@@ -42,6 +42,11 @@ public class Location {
             return false;
         }
         return ((Location) o).getCol() == col && ((Location) o).getRow() == row;
+    }
+
+    public void setLoc(int row, int col){
+        this.row = row;
+        this.col = col;
     }
 
     public void goNorth(){

@@ -6,28 +6,26 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WoodenClub implements Item, Weapon {
-
-    // drop from some monsters that are likely to wield a weapon (goblins and such)
+public class SwiftSpear implements Item, Weapon {
 
     @Override
     public String getName() {
-        return "wooden_club";
+        return "swift_spear";
     }
 
     @Override
     public int getItemID() {
-        return 2;
+        return 0;
     }
 
     @Override
     public int getAttackStat(Player p) {
-        return 2;
+        return (p.getMaxHP() - 20) / 10;
     }
 
     @Override
     public void passiveEffect(Player p) {
-        p.increaseCritMultiplier(0.2);
+        p.increaseCritRate(0.2);
     }
 
     @Override

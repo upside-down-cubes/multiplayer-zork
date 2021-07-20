@@ -15,16 +15,22 @@ public class Room {
     // position of the room within the map
     int row;
     int col;
+    GameMap gameMap;
 
     // set of available exits
     private Set<Direction> exits;
     private String description;
 
-    public Room(int row, int col){
+    public Room(int row, int col, GameMap gameMap){
+        this.gameMap = gameMap;
         this.row = row;
         this.col = col;
         exits = new HashSet<>();
         items = new ArrayList<>();
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 
     protected Room setExit(boolean north, boolean east, boolean west, boolean south){

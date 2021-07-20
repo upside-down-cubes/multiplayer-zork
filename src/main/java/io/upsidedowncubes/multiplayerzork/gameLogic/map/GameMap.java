@@ -21,4 +21,6 @@ public abstract class GameMap {
 
     public abstract Location getStartingLoc();
 
+    public abstract int[] getRowColLimit();
+
 }
