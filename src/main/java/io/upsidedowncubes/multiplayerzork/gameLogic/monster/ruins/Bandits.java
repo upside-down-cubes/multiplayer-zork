@@ -5,18 +5,28 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
+import java.util.Random;
+
 /*
 * The more he attacks the more tiered he become, but gains his power a attack harder again
 * */
 public class Bandits implements Monster {
 
+    /*
+    * Monster stats
+    * */
     private int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
     private String name = "Bandits";
     private int ID = 4;
 
+    /*
+    * Extra var to keep track of
+    * */
     private int amountOfAttacks;
+    private int luck;
+    private Random rand;
 
     @Override
     public int getID() {
@@ -55,42 +65,36 @@ public class Bandits implements Monster {
 
     @Override
     public void act(Player p) {
+        attack(p);
+        attackDecrease();
+    }
+
+    public void attack( Player p) {
+        luck = rand.nextInt(4);
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        if (luck <= 1){
+            // miss attack
+            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+        }
+        else{
+            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+            messageOut.printToAll(name + " attacked!");
+
+            int damage = atk;
+            p.loseHP( damage );
+            messageOut.printToUser("You took " + damage + " damage");
+        }
 
     }
-//
-//    @Override
-//    public void act(Player player) {
-//        MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
-//
-//        int luck = rand.nextInt(4);
-//        if (luck <= 1){
-//            messageOut.printToUser(name + "'s attack misses");
-//        }
-//        else{
-//            attack( player );
-//        }
-//        amountOfAttacks++;
-//        attackDecrease();
-//    }
-//
-//    private void attackDecrease(){
-//        atk -= amountOfAttacks;
-//        if (atk < 1){
-//            atk = 13;
-//            amountOfAttacks = 1;
-//        }
-//
-//    }
-//
-//    public void attack( Player p) {
-//        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-//
-//        messageOut.printToAll(name + " attacked!");
-//
-//        int damage = atk;
-//        p.loseHP( damage );
-//        messageOut.printToUser("You took " + damage + " damage");
-//
-//    }
+
+    private void attackDecrease(){
+        amountOfAttacks++;
+        atk -= amountOfAttacks;
+        if (atk < 1){
+            atk = 13;
+            amountOfAttacks = 0;
+        }
+
+    }
 
 }
