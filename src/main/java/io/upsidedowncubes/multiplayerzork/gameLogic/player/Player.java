@@ -19,12 +19,10 @@ public class Player {
     private String username;
     private int hp;
     private int maxHP;
-
     private int atk;
+    private int exp;
+    private int maxExp;
 
-    private final double missRate = 0.1;
-    private final double critRate = 0.1;
-    private final double critMultiplier = 1.5;
     private final Random rand = new Random();
 
     private Inventory bag;
@@ -38,6 +36,9 @@ public class Player {
         this.hp = player.getHp();
         this.maxHP = player.getMaxHp();
         this.atk = player.getAttack();
+
+        this.exp = player.getExp();
+        this.maxExp = player.getMaxExp();
 
         bag = new Inventory(username);
         currentLoc = new Location(username);
@@ -69,7 +70,6 @@ public class Player {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
         messageOut.printToUser( "You MaxHP is increased by " + amount );
         maxHP += amount;
-
     }
 
     public int gainHP(int amount){
@@ -88,6 +88,20 @@ public class Player {
         return amountHealed;
     }
 
+    // return true if level up (atk ++)
+    // return false if no level up
+    public boolean gainExp(int amount){
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+
+        messageOut.printToUser( "You gained " + amount + " EXP");
+        exp += amount;
+        if (exp >= maxExp){
+            messageOut.printToUser( "You leveled up! " + amount + " EXP");
+            return true;
+        }
+        return false;
+    }
+
     public void loseHP(int amount){
         hp -= amount;
     }
@@ -96,13 +110,13 @@ public class Player {
 
     public Inventory getBag(){ return bag; }
 
-    public void viewStatus(){
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
-        messageOut.printToUser("==== Player Information: " + username + " ====");
-        messageOut.printToUser("HP: " + hp + "/" + maxHP);
-        messageOut.printToUser("ATK: " + atk);
-        messageOut.printToUser("============================");
-    }
+//    public void viewStatus(){
+//        MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
+//        messageOut.printToUser("==== Player Information: " + username + " ====");
+//        messageOut.printToUser("HP: " + hp + "/" + maxHP);
+//        messageOut.printToUser("ATK: " + atk);
+//        messageOut.printToUser("============================");
+//    }
 
     public int attack(Weapon wp){
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
@@ -134,15 +148,17 @@ public class Player {
     }
 
     public boolean performCrit(){
+        double critRate = 0.1;
         return rand.nextDouble() < critRate;
     }
 
     public boolean attackMiss(){
+        double missRate = 0.1;
         return rand.nextDouble() < missRate;
     }
 
     public double getCritMultiplier() {
-        return critMultiplier;
+        return 1.5;
     }
 
     public boolean isDead(){
