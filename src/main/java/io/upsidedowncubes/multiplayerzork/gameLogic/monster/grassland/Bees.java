@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.common;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.grassland;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
@@ -7,25 +7,25 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 
 import java.util.Random;
 
-public class Wolves implements Monster {
+public class Bees implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 5; // This doesn't matter
+    private int MAX_HP = 1; // This doesn't matter
     private int hp = MAX_HP;
-    private int atk = 3;
-    private int ID = 32;
+    private int atk = 1;
+    private int ID = 72;
     private boolean isDead = true;
-    private int giveExp = 0;
-    private String name = "Wolves";
+    private int giveExp = 1;
+    private String name = "Bees";
 
     /*
      * Extra var to keep track of
      * */
     private int amountOfAttacks;
     private Random rand;
-    private int numberOfWolves = 1+rand.nextInt(3);
-    private int MAX_WOLVES = numberOfWolves;
+    private int numberOfBees= 1+rand.nextInt(13);
+    private int MAX_BEES= numberOfBees;
 
     @Override
     public int getID() {
@@ -34,12 +34,12 @@ public class Wolves implements Monster {
 
     @Override
     public int getHP() {
-        return 5*numberOfWolves;
+        return numberOfBees;
     }
 
     @Override
     public int getMaxHP() {
-        return MAX_HP*MAX_WOLVES;
+        return MAX_BEES;
     }
 
     @Override
@@ -49,20 +49,18 @@ public class Wolves implements Monster {
 
     @Override
     public int giveExp() {
-        return 2*MAX_WOLVES;
+        return rand.nextInt(MAX_BEES);
     }
 
     @Override
     public String getName() {
-        return numberOfWolves+" "+name;
+        return numberOfBees+" "+name;
     }
 
     @Override
     public void receiveDamage(int amount) {
-        if(rand.nextInt(10)<amount){
-            numberOfWolves--;
-        }
-        if(numberOfWolves<=0){
+        numberOfBees -= amount;
+        if(numberOfBees<=0){
             isDead = true;
         }
     }
@@ -76,7 +74,7 @@ public class Wolves implements Monster {
     public void act(Player p) {
         int damage = 0;
         int numberOfAttacks = 0;
-        for (int i=0 ; i<numberOfWolves; i++){
+        for (int i=0 ; i<numberOfBees; i++){
             int attacked = attack(p);
             if(attacked > 1){
                 numberOfAttacks++;
@@ -93,7 +91,7 @@ public class Wolves implements Monster {
     }
 
     public int attack( Player p) {
-        if (rand.nextInt(4)<= 1){
+        if (rand.nextInt(6)<= 1){
             return 0;
         }
         else{
