@@ -15,15 +15,16 @@ public class MudMonster {
          * */
         private int MAX_HP = 15;
         private int hp = MAX_HP;
-        private int atk = 13;
-        private String name = "Simple";
-        private int ID = -1;
-        private boolean isDead = true;
+        private int atk = 3;
+        private String name = "Mud monster";
+        private int ID = 96;
+        private boolean isDead = false;
         private int giveExp = 1;
 
         /*
          * Extra var to keep track of
          * */
+
         private final Random rand = new Random();
 
         @Override
@@ -82,7 +83,7 @@ public class MudMonster {
                 messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
             } else {
                 messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-                messageOut.printToAll(name + " attacked!");
+                messageOut.printToAll(name + " spied mud on"+ p.getUsername());
 
                 int damage = atk;
                 p.loseHP(damage);

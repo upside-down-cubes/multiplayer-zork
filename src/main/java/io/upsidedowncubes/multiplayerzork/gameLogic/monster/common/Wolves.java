@@ -21,7 +21,8 @@ public class Wolves implements Monster {
     private int hp = MAX_HP;
     private final int atk = 3;
     private int ID = 32;
-    private boolean isDead = true;
+    private boolean isDead = false;
+
     private final int giveExp = 2 * MAX_WOLVES;
 
     @Override

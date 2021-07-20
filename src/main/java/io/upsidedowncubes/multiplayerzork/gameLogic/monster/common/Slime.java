@@ -17,12 +17,14 @@ public class Slime implements Monster {
     private final int atk = 2;
     private final String name = "Slime";
     private int ID = 31;
-    private boolean isDead = true;
+    private boolean isDead = false;
 
     /*
      * Extra var to keep track of
      * */
+
     private final Random rand = new Random();
+
 
     @Override
     public int getID() {
@@ -46,7 +48,7 @@ public class Slime implements Monster {
 
     @Override
     public int giveExp() {
-        return 1+rand.nextInt(1);
+        return 1;//+rand.nextInt(1);
     }
 
     @Override

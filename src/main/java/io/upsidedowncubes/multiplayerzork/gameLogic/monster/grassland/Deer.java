@@ -17,13 +17,14 @@ public class Deer implements Monster {
     private int atk = 4;
     private String name = "Deer";
     private int ID = 74;
-    private boolean isDead = true;
+    private boolean isDead = false;
     private int giveExp = 3;
 
     /*
      * Extra var to keep track of
      * */
     private final Random rand = new Random();
+
     private boolean hasAntlers = true;
 
     @Override

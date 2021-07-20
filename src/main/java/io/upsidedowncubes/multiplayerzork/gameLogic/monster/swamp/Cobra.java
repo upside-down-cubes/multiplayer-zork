@@ -15,14 +15,15 @@ public class Cobra implements Monster {
     private int atk = 15;
     private String name = "Cobra";
     private int ID = 93;
-    private boolean isDead = true;
+    private boolean isDead = false;
     private int giveExp = 3;
 
     /*
      * Extra var to keep track of
      * */
-    private int amountOfAttacks;
+
     private final Random rand = new Random();
+
 
     @Override
     public int getID() {

@@ -20,7 +20,7 @@ public class Bees implements Monster {
     private int hp = MAX_HP;
     private int atk = 1;
     private int ID = 72;
-    private boolean isDead = true;
+    private boolean isDead = false;
     private int giveExp = 1;
     private String name = "Bees";
 

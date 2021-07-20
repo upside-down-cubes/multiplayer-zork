@@ -17,13 +17,14 @@ public class Mandrake implements Monster {
     private int atk = 3;
     private String name = "Mandrake";
     private int ID = 78;
-    private boolean isDead = true;
+    private boolean isDead = false;
     private int giveExp = 1;
 
     /*
      * Extra var to keep track of
      * */
     private final Random rand = new Random();
+
 
     @Override
     public int getID() {

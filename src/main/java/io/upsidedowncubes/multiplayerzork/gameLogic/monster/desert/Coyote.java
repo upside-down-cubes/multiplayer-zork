@@ -1,13 +1,13 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.util;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.desert;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
-public class TemplateMonster implements Monster {
+public class Coyote implements Monster {
     /*
      * Monster stats
      * */
@@ -22,7 +22,6 @@ public class TemplateMonster implements Monster {
     /*
      * Extra var to keep track of
      * */
-    private int amountOfAttacks;
 
     private Random rand = new Random();
 
@@ -80,7 +79,19 @@ public class TemplateMonster implements Monster {
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
         }
+        else if( rand.nextInt(3) == 1){
+            // quick attack
+            for (int i= 0; i<2;i++){
+                messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+                messageOut.printToAll(name + " attacked!");
+
+                int damage = atk;
+                p.loseHP( damage );
+                messageOut.printToUser("You took " + damage + " damage");
+            }
+        }
         else{
+            // normal attack
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!");
 

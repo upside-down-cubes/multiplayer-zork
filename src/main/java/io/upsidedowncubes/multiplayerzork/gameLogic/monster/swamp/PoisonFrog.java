@@ -18,8 +18,10 @@ public class PoisonFrog implements Monster {
     private int atk = 98;
     private String name = "Bandits";
     private int ID = 4;
+    private boolean isDead = false;
 
     private final Random rand = new Random();
+
 
     @Override
     public int getID() {
@@ -59,7 +61,7 @@ public class PoisonFrog implements Monster {
 
     @Override
     public boolean isDead() {
-        return false;
+        return isDead;
     }
 
         @Override

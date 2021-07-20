@@ -79,7 +79,7 @@ public class AttackCommand implements Command, Terminator{
 
         int damage = p.attack(wp);
         if (damage != -1){
-            m.receiveDamage( damage );
+            messageOut.printToAll( m.getName() + " took " + m.receiveDamage( damage ) + " damage!");
         }
 
         if (m.isDead()){
