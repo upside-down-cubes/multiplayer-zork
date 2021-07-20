@@ -9,34 +9,41 @@ import io.upsidedowncubes.multiplayerzork.webLogic.database.EntityUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
-public class GiantBerry implements Item, Consumable {
+import java.util.Random;
 
-    private static final int MAXHP_INCR = 3;
+@Component
+public class Teleporter implements Item, Consumable {
 
     @Autowired
     EntityUpdate entityUpdate;
+
+
+    @Override
+    public String getName() {
+        return "teleporter";
+    }
+
+    @Override
+    public int getItemID() {
+        return 0;
+    }
+
 
     @Override
     public void use(String username) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
-        messageOut.printToUser("You used a " + getName());
-        messageOut.printToUser( "You MaxHP is increased by " + MAXHP_INCR );
-        entityUpdate.updateMaxHp(username, MAXHP_INCR);
+        Player p = new Player(username);
+        int[] mapLimit = p.getCurrentRoom().getGameMap().getRowColLimit();
+        messageOut.printToUser("You have been teleported somewhere...");
+
+        int newRow = new Random().nextInt(mapLimit[0]);
+        int newCol = new Random().nextInt(mapLimit[1]);
+        p.getCurrentLoc().setLoc( newRow, newCol );
+
+        entityUpdate.updateLoc(username, newRow, newCol);
         entityUpdate.dropItem( username, getName(), 1 );
 
-    }
-
-
-    @Override
-    public String getName() {
-        return "giant_berry";
-    }
-
-    @Override
-    public int getItemID() {
-        return 5;
     }
 
 

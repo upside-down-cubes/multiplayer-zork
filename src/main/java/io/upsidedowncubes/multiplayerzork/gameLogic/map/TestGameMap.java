@@ -20,7 +20,7 @@ public class TestGameMap extends GameMap {
         for (int row = 0; row < MAP_HEIGHT; row++){
             List<Room> temp = new ArrayList<>();
             for (int col = 0; col < MAP_WIDTH; col++){
-                temp.add( new Room(row, col) );
+                temp.add( new Room(row, col, this) );
             }
             map.add(temp);
         }
@@ -66,4 +66,11 @@ public class TestGameMap extends GameMap {
     public Location getStartingLoc() {
         return new Location(0,0);
     }
+
+    @Override
+    public int[] getRowColLimit() {
+        return new int[]{ MAP_HEIGHT, MAP_WIDTH };
+    }
+
+
 }
