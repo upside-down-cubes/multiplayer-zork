@@ -94,13 +94,14 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
             System.out.println("LOG: " + webSocketSessions.get(session).getUsername() + " send message/command " + message.getPayload() + " with gameStatus " + gameStatus);
         }
-        broadcastGameOutput(session, gameStatus - newUser);
+        broadcastGameOutput(session, gameStatus, newUser);
         if (gameStatus == -1) {
             session.sendMessage( new TextMessage(
                     UserStateGenerator.getJson(
                             webSocketSessions.get(session).getUsername(),
                             "You have now exited the game session.\n" +
-                            "Refresh the page to select new chatroom or press exit button to go back to home.", -1)
+                            "Refresh the page to select new chatroom or press exit button to go back to home. \n" +
+                            "You will not recieve any other messages.", -1)
             ));
             toggleIsAlive(webSocketSessions.get(session).getUsername(), 0);
         }
@@ -126,29 +127,30 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 (firstPlayer.getCol() == secondPlayer.getCol());
     }
 
-    private void broadcastGameOutput(WebSocketSession session, int gameStatus) throws IOException {
+    private void broadcastGameOutput(WebSocketSession session, int gameStatus, int newUser) throws IOException {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 
         List<String> DMMessage = messageOut.getAllOutput_DM();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
             String username = webSocketSessions.get(webSocketSession).getUsername();
+            if
 
             if (DMMessage != null && username.equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
-                                username, DMMessage.get(2), gameStatus)
+                                username, DMMessage.get(2), gameStatus - newUser)
                 ));
             } else if (session.equals(webSocketSession) && !messageOut.getAllOutput_user().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if ((gameStatus != 1) ||
-                    (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername()))
+            } else if (((gameStatus != 1) ||
+                    (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
                         && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
-                                username, messageOut.getAllOutput(), gameStatus)
+                                username, messageOut.getAllOutput(), gameStatus - newUser)
                 ));
             }
         }
