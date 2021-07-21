@@ -26,6 +26,8 @@ public class GameLogicDTO {
     private int attack;
     private int hp;
     private int maxHp;
+    private int exp;
+    private int maxExp;
     private int currentLoad;
     private int capacity;
     private String mapName;
