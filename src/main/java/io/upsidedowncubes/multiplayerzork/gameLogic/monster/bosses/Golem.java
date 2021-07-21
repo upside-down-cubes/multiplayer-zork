@@ -13,13 +13,13 @@ public class Golem implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 100;
+    private final int MAX_HP = 80;
     private int hp = MAX_HP;
-    private int atk = 4;
-    private String name = "Golem";
-    private int ID = 22;
+    private final int atk = 4;
+    private final String name = "Golem";
+    private final int ID = 22;
     private boolean isDead = false;
-    private int giveExp = 0;
+    private final int giveExp = 0;
 
     /*
      * Extra var to keep track of
@@ -27,9 +27,9 @@ public class Golem implements Monster {
     private int amountOfAttacks;
     private int stage = 1;
     private int cycle = 0;
-    private boolean isFirst = true;
+    private final boolean isFirst = true;
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
