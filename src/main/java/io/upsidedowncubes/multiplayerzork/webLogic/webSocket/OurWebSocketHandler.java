@@ -133,8 +133,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         List<String> DMMessage = messageOut.getAllOutput_DM();
         for (WebSocketSession webSocketSession : webSocketSessions.keySet()) {
             String username = webSocketSessions.get(webSocketSession).getUsername();
-            if
-
+            
             if (DMMessage != null && username.equals(DMMessage.get(1))) {
                 webSocketSession.sendMessage( new TextMessage(
                         UserStateGenerator.getJson(
