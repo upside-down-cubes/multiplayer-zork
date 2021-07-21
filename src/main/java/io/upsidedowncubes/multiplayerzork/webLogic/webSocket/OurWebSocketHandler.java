@@ -76,6 +76,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("LOG: connection established");
         int newUser = 0;
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
@@ -104,6 +105,10 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                             "You will not recieve any other messages.", -1)
             ));
             toggleIsAlive(webSocketSessions.get(session).getUsername(), 0);
+            MessageOutput messageOutput = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
+            messageOutput.clear();
+            messageOutput.printToOthers("[ " + webSocketSessions.get(session).getUsername() + " ] has left the chatroom.");
+            broadcastGameOutput(session, -1);
         }
     }
 
@@ -144,7 +149,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if (((gameStatus != 1) ||
+            } else if (((gameStatus != 0) ||
                     (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
                         && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage( new TextMessage(
@@ -160,10 +165,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws IOException {
         UserSessionHandler thisUser = webSocketSessions.get(session);
-        MessageOutput messageOutput = MessageCenter.getUserMessageOut(thisUser.getUsername());
-        messageOutput.clear();
-        messageOutput.printToOthers("[ " + thisUser.getUsername() + " ] has left the chatroom.");
-        broadcastGameOutput(session, -1);
         CHATROOM_TO_GAME.get(thisUser.getChatroom()).decrement(thisUser.getUsername());
         if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getCount() == 0) {
             CHATROOM_TO_GAME.remove(thisUser.getChatroom());
