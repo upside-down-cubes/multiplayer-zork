@@ -92,6 +92,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
+            System.out.println("LOG: " + webSocketSessions.get(session) + " send message/command " + message.getPayload() + " with gameStatus " + gameStatus);
         }
         broadcastGameOutput(session, gameStatus - newUser);
         if (gameStatus == -1) {
