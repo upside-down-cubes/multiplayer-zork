@@ -94,7 +94,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
             System.out.println("LOG: " + webSocketSessions.get(session).getUsername() + " send message/command " + message.getPayload() + " with gameStatus " + gameStatus);
         }
-        broadcastGameOutput(session, gameStatus - newUser);
+        broadcastGameOutput(session, gameStatus - newUser + ((gameStatus == -1) ? 1 : 0));
         if (gameStatus == -1) {
             session.sendMessage( new TextMessage(
                     UserStateGenerator.getJson(
@@ -103,7 +103,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                             "Refresh the page to select new chatroom or press exit button to go back to home. \n" +
                             "You will not recieve any other messages.", -1)
             ));
-            broadcastGameOutput(session, -1);
             toggleIsAlive(webSocketSessions.get(session).getUsername(), 0);
         }
     }
@@ -159,8 +158,12 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws IOException {
         UserSessionHandler thisUser = webSocketSessions.get(session);
+        MessageOutput messageOutput = MessageCenter.getUserMessageOut(thisUser.getUsername());
+        messageOutput.clear();
+        messageOutput.printToOthers("[ " + thisUser.getUsername() + " ] has left the chatroom.");
+        broadcastGameOutput(session, -1);
         CHATROOM_TO_GAME.get(thisUser.getChatroom()).decrement(thisUser.getUsername());
         if (CHATROOM_TO_GAME.get(thisUser.getChatroom()).getCount() == 0) {
             CHATROOM_TO_GAME.remove(thisUser.getChatroom());
