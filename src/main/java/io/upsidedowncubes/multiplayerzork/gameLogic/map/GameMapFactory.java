@@ -12,8 +12,8 @@ import java.util.Map;
 public class GameMapFactory {
 
     public static final List<Class<? extends GameMap>> REGISTERED_MAP = Arrays.asList(
-            TestGameMap.class
-            //BetaMap.class
+            TestGameMap.class,
+            KingdomOfRuinsMap.class
     );
 
 

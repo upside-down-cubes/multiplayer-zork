@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Goblin;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Slime;
