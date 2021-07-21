@@ -49,7 +49,7 @@ public class PlayerEntity {
     private Integer maxExp;
 
     @Column(name = "is_alive")
-    private Boolean isAlive;
+    private int isAlive;
 
     protected PlayerEntity() {
 
@@ -66,6 +66,7 @@ public class PlayerEntity {
         this.col = -1;
         this.exp = 0;
         this.maxExp = 2;
+        this.isAlive = -1;
     }
 
     public void setEncodedPassword(String password) {
