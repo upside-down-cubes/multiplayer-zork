@@ -17,7 +17,7 @@ public class GiantScorpion implements Monster {
     private final String name = "Giant Scorpion";
     private final int ID = 20;
     private boolean isDead = false;
-    private final int giveExp = 0;
+    private final int giveExp = 25;
 
     /*
      * Extra var to keep track of

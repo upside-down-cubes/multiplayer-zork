@@ -19,7 +19,7 @@ public class Golem implements Monster {
     private final String name = "Golem";
     private final int ID = 22;
     private boolean isDead = false;
-    private final int giveExp = 0;
+    private final int giveExp = 30;
 
     /*
      * Extra var to keep track of
