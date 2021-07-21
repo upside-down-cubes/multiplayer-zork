@@ -14,8 +14,8 @@ public class Coyote implements Monster {
     private int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
-    private String name = "Simple";
-    private int ID = -1;
+    private String name = "Coyote";
+    private int ID = 43;
     private boolean isDead = false;
     private int giveExp = 0;
 
