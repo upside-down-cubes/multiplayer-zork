@@ -1,24 +1,23 @@
-package io.upsidedowncubes.multiplayerzork.gameLogic.monster.bosses;
+package io.upsidedowncubes.multiplayerzork.gameLogic.monster.snowland;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 
 import java.util.Random;
 
-public class Ogre implements Monster {
+public class Yeti implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 80;
+    private final int MAX_HP = 30;
     private int hp = MAX_HP;
-    private final int atk = 4;
-    private final String name = "Ogre";
-    private final int ID = 24;
+    private final int atk = 3;
+    private final String name = "Yeti";
+    private final int ID = 54;
     private boolean isDead = false;
-    private final int giveExp = 20;
+    private final int giveExp = 4;
 
     /*
      * Extra var to keep track of
@@ -72,15 +71,12 @@ public class Ogre implements Monster {
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         if (hp > getMaxHP()*0.6){
-            messageOut.printToAll("Get outta my swamp!");
             normalAttack(p);
         }
         else if(hp > getMaxHP()*0.3){
-            messageOut.printToAll("Stop hitting me you donkey!");
             hardAttack(p);
         }
         else{
-            messageOut.printToAll("You are hurting me");
             hardAttack(p);
         }
     }
@@ -111,7 +107,7 @@ public class Ogre implements Monster {
         }
 
         messageOut.printToAll(name + " slammed on "+ p.getUsername());
-        int damage = atk + 2 + rand.nextInt(6);
+        int damage = atk + 2 + rand.nextInt(4);
 
         p.loseHP( damage );
         messageOut.printToUser("You took " + damage + " damage");
