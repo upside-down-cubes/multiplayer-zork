@@ -44,7 +44,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 "You are in chat room " + thisUser.getChatroom() + ". ",
                 "Press the [i] button near the chat box to see list of commands. ",
                 "Press the [EXIT] button near the chat box to leave the chat session. ",
-                "Press the [game controller] button to switch back and forth between \"command mode\" and \"chat mode\"",
+                "Press the [game controller] button to switch back and forth between \"command mode\" and \"chat mode\". ",
+                "The maps you can currently play are 'basic' and 'Kingdom_of_Ruins'. ",
                 "============================"
         };
 
@@ -76,7 +77,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("LOG: connection established");
         int newUser = 0;
         String[] splitMessage = message.getPayload().split(":");
         if ((!webSocketSessions.containsKey(session)) && splitMessage.length != 2) {
@@ -93,7 +93,6 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
-            System.out.println("LOG: " + webSocketSessions.get(session).getUsername() + " send message/command " + message.getPayload() + " with gameStatus " + gameStatus);
         }
         broadcastGameOutput(session, gameStatus - newUser + ((gameStatus == -1) ? 1 : 0));
         if (gameStatus == -1) {

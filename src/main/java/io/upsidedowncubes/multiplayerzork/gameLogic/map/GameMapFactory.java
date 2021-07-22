@@ -24,9 +24,9 @@ public class GameMapFactory {
             for (Class<? extends GameMap> gmClass : REGISTERED_MAP) {
                 try {
                     GameMap gm = gmClass.getDeclaredConstructor().newInstance();
-                    GAMEMAP_MAP.put(gm.getMapName(), gmClass);
+                    GAMEMAP_MAP.put(gm.getMapName().toLowerCase(), gmClass);
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
+                    System.out.print("");
                 }
             }
         }
@@ -37,10 +37,9 @@ public class GameMapFactory {
         try {
             GameMap gm = GAMEMAP_MAP.get(str).getDeclaredConstructor().newInstance();
             return gm;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            return null;
         }
-        return null;
     }
 
 

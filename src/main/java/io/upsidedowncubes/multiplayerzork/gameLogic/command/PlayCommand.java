@@ -26,9 +26,9 @@ public class PlayCommand implements Command {
 
         Game game = OurWebSocketHandler.getGameByUser(username);
 
-        GameMap chosenMap = GameMapFactory.getMap(args.get(1));
+        GameMap chosenMap = GameMapFactory.getMap(args.get(1).toLowerCase());
         if (chosenMap == null) {
-            messageOut.printToUser("No such map");
+            messageOut.printToUser("No such map. The available maps are 'basic' and 'Kingdom_of_Ruins'. Please enter without the single quotes.");
             return;
         }
 
