@@ -66,6 +66,7 @@ public class Wolves implements Monster {
 
         if (numberOfWolves <= 0 || hp <= 0) {
             isDead = true;
+            numberOfWolves = MAX_WOLVES;
         }
         return amount;
     }

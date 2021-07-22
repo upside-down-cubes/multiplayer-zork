@@ -201,7 +201,7 @@ public class KingdomOfRuinsMap extends GameMap {
                 .setExit(true, true, true, false)
                 .addItem(ItemFactory.getItem(1))
                 .addItem(ItemFactory.getItem(2))
-                .setDescription("This is the starting place. " + GRASSLAND);
+                .setDescription("This is seems like the starting place. " + GRASSLAND);
 
         // column 3
         getRoom(0, 3)
@@ -601,13 +601,16 @@ public class KingdomOfRuinsMap extends GameMap {
             }
         } else if (region.equals("snow")) {
             for (int i = 0; i < number; i++) {
-                int rng = rand.nextInt(2);
+                int rng = rand.nextInt(3);
                 switch (rng) {
                     case 0:
                         mon.add(new SnowLeopard());
                         break;
                     case 1:
                         mon.add(new Yeti());
+                        break;
+                    case 2:
+                        mon.add(new Wolves());
                         break;
                 }
             }

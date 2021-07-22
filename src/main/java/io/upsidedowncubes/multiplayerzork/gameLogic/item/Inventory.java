@@ -48,7 +48,7 @@ public class Inventory {
     // adds item to the inventory by the specified amount
     public boolean obtain(Item item, int amount) {
         // if the inventory is going to be over capacity then cant add; does nothing
-        if (amount + currentLoad > capacity) {
+        if ( (amount + currentLoad) > capacity) {
             return false;
         }
 
@@ -91,6 +91,8 @@ public class Inventory {
     public String viewInventory() {
         StringBuilder msg = new StringBuilder();
         msg.append("==== Inventory Detail ====");
+        msg.append("\nBag Load " + currentLoad + " / " + capacity);
+
         if (inventory.isEmpty()) {
             msg.append("\n[     Nothing here    ]");
         } else {
