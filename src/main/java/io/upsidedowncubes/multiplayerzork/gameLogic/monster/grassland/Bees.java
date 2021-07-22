@@ -15,12 +15,10 @@ public class Bees implements Monster {
     private int numberOfBees = 10 + rand.nextInt(13);
     private final int MAX_BEES = numberOfBees;
 
-    private final int MAX_HP = 1; // This doesn't matter
-    private final int hp = MAX_HP;
     private final int atk = 1;
     private final int ID = 72;
     private boolean isDead = false;
-    private final int giveExp = 1;
+    private final int giveExp = numberOfBees / 2;
     private final String name = "Bees";
 
 
@@ -46,21 +44,26 @@ public class Bees implements Monster {
 
     @Override
     public int giveExp() {
-        return rand.nextInt(MAX_BEES);
+        return giveExp;
     }
 
     @Override
     public String getName() {
+        if (numberOfBees == 1){
+            return "Bee";
+        }
         return numberOfBees + " " + name;
     }
 
     @Override
     public int receiveDamage(int amount) {
-        numberOfBees -= amount;
+        int damage = amount / 2;
+        numberOfBees -= damage;
         if (numberOfBees <= 0) {
+            numberOfBees = MAX_BEES;
             isDead = true;
         }
-        return amount;
+        return damage;
     }
 
     @Override
@@ -73,7 +76,7 @@ public class Bees implements Monster {
         int damage = 0;
         int numberOfAttacks = 0;
         for (int i = 0; i < numberOfBees; i++) {
-            int attacked = attack(p);
+            int attacked = attack();
             if (attacked > 1) {
                 numberOfAttacks++;
             }
@@ -81,14 +84,13 @@ public class Bees implements Monster {
         }
 
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         messageOut.printToAll(numberOfAttacks + " " + name + " attacked " + p.getUsername());
         messageOut.printToUser("You took " + damage + " damage");
 
         p.loseHP(damage);
     }
 
-    public int attack(Player p) {
+    public int attack() {
         if (rand.nextInt(6) <= 1) {
             return 0;
         } else {

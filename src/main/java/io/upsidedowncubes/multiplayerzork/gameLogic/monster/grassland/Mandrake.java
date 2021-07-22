@@ -17,7 +17,7 @@ public class Mandrake implements Monster {
     private final String name = "Mandrake";
     private final int ID = 78;
     private boolean isDead = false;
-    private final int giveExp = 1;
+    private final int giveExp = 3;
 
     /*
      * Extra var to keep track of

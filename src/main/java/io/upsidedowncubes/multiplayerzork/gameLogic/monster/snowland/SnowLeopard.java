@@ -17,7 +17,7 @@ public class SnowLeopard implements Monster {
     private final String name = "Snow leopard";
     private final int ID = 59;
     private boolean isDead = false;
-    private final int giveExp = 0;
+    private final int giveExp = 4;
 
     /*
      * Extra var to keep track of

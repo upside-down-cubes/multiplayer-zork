@@ -23,10 +23,9 @@ public class Golem implements Monster {
     /*
      * Extra var to keep track of
      * */
-    private int amountOfAttacks;
     private int stage = 1;
     private int cycle = 0;
-    private final boolean isFirst = true;
+    private boolean isFirst = true;
 
     private final Random rand = new Random();
 
@@ -63,13 +62,13 @@ public class Golem implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if (stage == 1 && hp < 0) {
+        if (stage == 1 && hp <= 0) {
             // dai at stage one
             cycle = 0;
             hp = MAX_HP;
             stage = 2;
-        } else if (stage != 1 && hp < 0) {
-            // dia at stage two
+        } else if (stage != 1 && hp <= 0) {
+            // die at stage two
             isDead = true;
         }
         return amount;
@@ -82,11 +81,13 @@ public class Golem implements Monster {
 
     @Override
     public void act(Player p) {
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
         if (stage == 1) {
             stageOne(p);
         } else {
             if (isFirst) { // First time attacking in stage 2
-                MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+                isFirst = false;
                 messageOut.printToAll(name + "have regenerate back to full health and is randy to fight some more.");
             }
             stageTwo(p);
@@ -124,12 +125,11 @@ public class Golem implements Monster {
     public void normalAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
+        messageOut.printToAll(name + " attacked!");
         if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
-
-        messageOut.printToAll(name + " attacked!");
         int damage = atk;
 
         p.loseHP(damage);
@@ -141,12 +141,13 @@ public class Golem implements Monster {
     public void slam(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
+        messageOut.printToAll(name + " slammed on " + p.getUsername());
+
         if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " slammed on " + p.getUsername());
         int damage = atk + 2 + rand.nextInt(6);
 
         p.loseHP(damage);

@@ -14,9 +14,9 @@ public class CommandParser {
 
     private final String COMMAND_PREFIX = "/";
 
-    public List<String> parse(String input) {
+    public List<String> parse(String in) {
         // clean string
-        input = input.trim();
+        String input = in.trim();
         if (!input.startsWith(COMMAND_PREFIX)) {
             List<String> txt = new ArrayList<>();
             txt.add(input);

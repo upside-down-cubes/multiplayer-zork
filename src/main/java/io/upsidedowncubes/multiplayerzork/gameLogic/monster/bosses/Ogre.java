@@ -13,7 +13,7 @@ public class Ogre implements Monster {
      * */
     private final int MAX_HP = 80;
     private int hp = MAX_HP;
-    private final int atk = 4;
+    private final int atk = 5;
     private final String name = "Ogre";
     private final int ID = 24;
     private boolean isDead = false;
@@ -78,7 +78,7 @@ public class Ogre implements Monster {
             messageOut.printToAll("Stop hitting me you donkey!");
             hardAttack(p);
         } else {
-            messageOut.printToAll("You are hurting me");
+            messageOut.printToAll("You are hurting me!!!!");
             hardAttack(p);
         }
     }
@@ -86,12 +86,13 @@ public class Ogre implements Monster {
     public void normalAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
+        messageOut.printToAll(name + " attacked!");
+
         if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " attacked!");
         int damage = atk;
 
         p.loseHP(damage);
@@ -103,12 +104,13 @@ public class Ogre implements Monster {
     public void hardAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
+        messageOut.printToAll(name + " slammed on " + p.getUsername());
+
         if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " slammed on " + p.getUsername());
         int damage = atk + 2 + rand.nextInt(6);
 
         p.loseHP(damage);

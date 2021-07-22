@@ -17,7 +17,7 @@ public class Yeti implements Monster {
     private final String name = "Yeti";
     private final int ID = 54;
     private boolean isDead = false;
-    private final int giveExp = 4;
+    private final int giveExp = 7;
 
     /*
      * Extra var to keep track of
