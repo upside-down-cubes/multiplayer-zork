@@ -30,12 +30,12 @@ public class KingdomOfRuinsMap extends GameMap {
     private final int MAP_HEIGHT = 10;
 
 
-    private final String GRASSLAND = "You are in a grassy field";
-    private final String SWAMPLAND = "It looks and smells like a swamp";
-    private final String DESERT = "All there is sand, sand and more sand, must be a desert";
-    private final String FOREST = "You are in a forest";
-    private final String SNOW = "Snow covers everything and it is freezing here";
-    private final String RUINS = "It seems like the ruins of the big kingdom";
+    private final String GRASSLAND = "You are in a grassy field. ";
+    private final String SWAMPLAND = "It looks and smells like a swamp. ";
+    private final String DESERT = "All there is sand, sand and more sand, must be a desert. ";
+    private final String FOREST = "You are in a forest. ";
+    private final String SNOW = "Snow covers everything and it is freezing here. ";
+    private final String RUINS = "It seems like the ruins of the big kingdom. ";
 
     public KingdomOfRuinsMap() {
         mapName = "Kingdom_of_Ruins";
