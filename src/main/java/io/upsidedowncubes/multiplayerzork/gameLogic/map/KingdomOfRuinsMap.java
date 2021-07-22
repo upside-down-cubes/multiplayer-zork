@@ -1,6 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.bosses.GiantScorpion;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.bosses.Ogre;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Goblin;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Slime;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Wolves;
@@ -11,6 +13,8 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.grassland.Bees;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.grassland.Deer;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.grassland.Mandrake;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.ruins.Bandits;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.snowland.SnowLeopard;
+import io.upsidedowncubes.multiplayerzork.gameLogic.monster.snowland.Yeti;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp.Cobra;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp.MudMonster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp.PoisonFrog;
@@ -66,7 +70,7 @@ public class KingdomOfRuinsMap extends GameMap{
         List<Monster> grass = spawnMonster("grassland", 5); // no boss yet
         List<Monster> ruins = spawnMonster("ruins", 4); // no boss yet
         List<Monster> desert = spawnMonster("desert", 6); // no boss yet
-        // List<Monster> snow = spawnMonster("snow", 4); // no boss yet
+        List<Monster> snow = spawnMonster("snow", 4); // no boss yet
 
 
         // column 0
@@ -133,7 +137,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(2,1)
                 .setExit(true, true, false, false)
-                .addMonster( swamp.get(2) ) // should be boss
+                .addMonster( new Ogre() ) // should be boss
                 .setDescription(SWAMPLAND);
 
         getRoom(3,1)
@@ -232,12 +236,12 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(3,3)
                 .setExit(true, false ,false ,true)
-                .addMonster() // snow.get(0) boss
+                .addMonster(new Yeti()) // snow.get(0) boss
                 .setDescription(SNOW);
 
         getRoom(4,3)
                 .setExit(true, false ,false ,false)
-                .addMonster() // snow.get(1)
+                .addMonster(snow.get(1)) // snow.get(1)
                 .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .addItem(ItemFactory.getItem(itemMap.get(7)))
                 .addItem(ItemFactory.getItem(itemMap.get(8)))
@@ -275,7 +279,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(1,4)
                 .setExit(true, false, false, true)
-                .addMonster() // snow.get(2)
+                .addMonster(snow.get(2)) // snow.get(2)
                 .setDescription(SNOW);
 
         getRoom(2,4)
@@ -326,7 +330,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(2,5)
                 .setExit(false, true, true, false)
-                .addMonster() // snow.get(3)
+                .addMonster(snow.get(3)) // snow.get(3)
                 .setDescription(SNOW);
 
         getRoom(3,5)
@@ -447,7 +451,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(8,7)
                 .setExit(false, false, true, false)
-                .addMonster( ruins.get(2) )
+                .addMonster( new Goblin() )
                 .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(RUINS);
 
@@ -520,7 +524,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(3,9)
                 .setExit(true, false, false, false)
-                .addMonster(desert.get(5))
+                .addMonster(new GiantScorpion())
                 .setDescription(DESERT);
 
         getRoom(4,9)
@@ -607,8 +611,15 @@ public class KingdomOfRuinsMap extends GameMap{
             }
         }
         else if (region.equals("snow")){
-            System.out.println("ERROR REGION NOT IMPLEMENTED");
-            return null;
+            for (int i = 0; i < number; i++){
+                int rng = rand.nextInt(2);
+                switch(rng){
+                    case 0:
+                        mon.add( new SnowLeopard() ); break;
+                    case 1:
+                        mon.add(new Yeti()); break;
+                }
+            }
         }
         else if (region.equals("swamp")){
             for (int i = 0; i < number; i++){
