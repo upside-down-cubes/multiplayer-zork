@@ -20,6 +20,15 @@ public class UserStateGenerator {
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
         InventoryEntity inventory = INVENTORY_REPOSITORY.findByUsername(username);
         try {
+            String roomDescription;
+            try {
+                roomDescription = OurWebSocketHandler.getGameByUser(username).getMap()
+                        .getRoom(player.getRow(), player.getCol()).lookAround();
+            } catch (NullPointerException e) {
+                int row = OurWebSocketHandler.getGameByUser(username).getMap().getStartingLoc().getRow();
+                int col = OurWebSocketHandler.getGameByUser(username).getMap().getStartingLoc().getCol();
+                roomDescription = OurWebSocketHandler.getGameByUser(username).getMap().getRoom(row, col).lookAround();
+            }
             return JsonConvertor.convert(GameLogicDTO.builder()
                     .type(gameStatus)
                     .content(message)
@@ -32,8 +41,7 @@ public class UserStateGenerator {
                     .capacity(inventory.getCapacity())
                     .otherUsers(OurWebSocketHandler.getAllUsersInSameSession(username))
                     .mapName(OurWebSocketHandler.getGameByUser(username).getMap().getMapName())
-                    .roomDescription(OurWebSocketHandler.getGameByUser(username).getMap()
-                            .getRoom(player.getRow(), player.getCol()).lookAround())
+                    .roomDescription(roomDescription)
                     .build());
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             return JsonConvertor.convert(GameLogicDTO.builder()

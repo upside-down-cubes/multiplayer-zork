@@ -83,6 +83,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             return;
         }
         int gameStatus = 0;
+        boolean startGame = false;
         if (!webSocketSessions.containsKey(session)) {
             newUserJoined(session, splitMessage);
             toggleIsAlive(webSocketSessions.get(session).getUsername(), 1);
@@ -93,8 +94,9 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             CommandParser commandParser = (CommandParser) ContextAwareClass.getApplicationContext().getBean("commandParser");
             List<String> cmd = commandParser.parse(message.getPayload());
             gameStatus = commandParser.commandRunner(cmd, webSocketSessions.get(session).getUsername());
+            startGame = cmd.get(0).equals("/play");
         }
-        broadcastGameOutput(session, gameStatus - newUser + ((gameStatus == -1) ? 1 : 0));
+        broadcastGameOutput(session, gameStatus - newUser + ((gameStatus == -1) ? 1 : 0), startGame);
         if (gameStatus == -1) {
             session.sendMessage(new TextMessage(
                     UserStateGenerator.getJson(
@@ -107,7 +109,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             MessageOutput messageOutput = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
             messageOutput.clear();
             messageOutput.printToOthers("[ " + webSocketSessions.get(session).getUsername() + " ] has left the chatroom.");
-            broadcastGameOutput(session, -1);
+            broadcastGameOutput(session, -1, false);
         }
     }
 
@@ -131,7 +133,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 (firstPlayer.getCol() == secondPlayer.getCol());
     }
 
-    private void broadcastGameOutput(WebSocketSession session, int gameStatus) throws IOException {
+    private void broadcastGameOutput(WebSocketSession session, int gameStatus, boolean startGame) throws IOException {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
 
         List<String> DMMessage = messageOut.getAllOutput_DM();
@@ -148,7 +150,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if (((gameStatus != 0) ||
+            } else if (((gameStatus != 0) || startGame ||
                     (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
                     && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage(new TextMessage(
