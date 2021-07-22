@@ -154,7 +154,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
-            } else if (((gameStatus != 0) || startGame ||
+            } else if ((((gameStatus != 0) || startGame) &&
                     (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
                     && !messageOut.getAllOutput().isBlank()) {
                 webSocketSession.sendMessage(new TextMessage(
