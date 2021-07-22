@@ -9,6 +9,8 @@ import io.upsidedowncubes.multiplayerzork.database.PlayerRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
+import java.util.Objects;
+
 public class UserStateGenerator {
     private final static PlayerRepository PLAYER_REPOSITORY = (PlayerRepository) ContextAwareClass
             .getApplicationContext().getBean("playerRepository");
@@ -20,14 +22,9 @@ public class UserStateGenerator {
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(username);
         InventoryEntity inventory = INVENTORY_REPOSITORY.findByUsername(username);
         try {
-            String roomDescription;
-            try {
-                roomDescription = OurWebSocketHandler.getGameByUser(username).getMap()
-                        .getRoom(player.getRow(), player.getCol()).lookAround();
-            } catch (NullPointerException e) {
-                int row = OurWebSocketHandler.getGameByUser(username).getMap().getStartingLoc().getRow();
-                int col = OurWebSocketHandler.getGameByUser(username).getMap().getStartingLoc().getCol();
-                roomDescription = OurWebSocketHandler.getGameByUser(username).getMap().getRoom(row, col).lookAround();
+            if (player.getRow() == -1 || player.getCol() == -1) {
+                player.setRow(Objects.requireNonNull(OurWebSocketHandler.getGameByUser(username)).getMap().getStartingLoc().getRow());
+                player.setCol(Objects.requireNonNull(OurWebSocketHandler.getGameByUser(username)).getMap().getStartingLoc().getCol());
             }
             return JsonConvertor.convert(GameLogicDTO.builder()
                     .type(gameStatus)
@@ -40,8 +37,9 @@ public class UserStateGenerator {
                     .currentLoad(inventory.getCurrentLoad())
                     .capacity(inventory.getCapacity())
                     .otherUsers(OurWebSocketHandler.getAllUsersInSameSession(username))
-                    .mapName(OurWebSocketHandler.getGameByUser(username).getMap().getMapName())
-                    .roomDescription(roomDescription)
+                    .mapName(Objects.requireNonNull(OurWebSocketHandler.getGameByUser(username)).getMap().getMapName())
+                    .roomDescription(Objects.requireNonNull(OurWebSocketHandler.getGameByUser(username)).getMap()
+                            .getRoom(player.getRow(), player.getCol()).lookAround())
                     .build());
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             return JsonConvertor.convert(GameLogicDTO.builder()
