@@ -13,10 +13,10 @@ import java.util.Random;
  * */
 public class PoisonFrog implements Monster {
 
-    private final int MAX_HP = 2;
+    private final int MAX_HP = 10;
     private final int hp = MAX_HP;
-    private final int atk = 98;
-    private final String name = "Bandits";
+    private final int atk = 10;
+    private final String name = "Poison frog";
     private final int ID = 4;
     private final boolean isDead = false;
 
@@ -73,7 +73,7 @@ public class PoisonFrog implements Monster {
             poison(player);
         } else {
             messageOut.printToUser("You got lucky");
-            player.gainHP(30);
+            player.gainHP(10+rand.nextInt(31));
         }
     }
 
