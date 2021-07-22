@@ -11,13 +11,13 @@ public class Coyote implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 50;
+    private final int MAX_HP = 20;
     private int hp = MAX_HP;
-    private final int atk = 13;
+    private final int atk = 8;
     private final String name = "Coyote";
     private final int ID = 43;
     private boolean isDead = false;
-    private final int giveExp = 0;
+    private final int giveExp = 4;
 
     /*
      * Extra var to keep track of
@@ -76,9 +76,11 @@ public class Coyote implements Monster {
 
     public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
         if (rand.nextInt(4) <= 1) {
             // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+            messageOut.printToAll(name + " attacked!");
+            messageOut.printToAll(name + " missed the attack...");
         } else if (rand.nextInt(3) == 1) {
             // quick attack
             for (int i = 0; i < 2; i++) {

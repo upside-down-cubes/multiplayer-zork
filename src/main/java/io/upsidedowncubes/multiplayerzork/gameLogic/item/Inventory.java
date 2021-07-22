@@ -30,7 +30,6 @@ public class Inventory {
 
         InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
         capacity = inventoryEntity.getCapacity();
-        currentLoad = inventoryEntity.getCurrentLoad();
 
         for (InventoryItemEntity inventoryItem : INVENTORY_ITEM_REPOSITORY.findAllByUsername(username)) {
             String itemName = inventoryItem.getItem();
