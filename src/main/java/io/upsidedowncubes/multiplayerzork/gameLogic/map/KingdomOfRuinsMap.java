@@ -24,6 +24,14 @@ public class KingdomOfRuinsMap extends GameMap{
     private final int MAP_WIDTH = 10;
     private final int MAP_HEIGHT = 10;
 
+    private final String GRASSLAND = "You are in a grassy field";
+    private final String SWAMPLAND = "It looks and smells like a swamp";
+    private final String DESERT= "All there is sand, sand and more sand, must be a desert";
+    private final String FOREST = "You are in a forest";
+    private final String SNOW = "Snow covers everything and it is freezing here";
+    private final String RUINS = "It seems like the ruins of the big kingdom";
+
+
     public KingdomOfRuinsMap(){
         mapName = "Kingdom_of_Ruins";
 
@@ -46,470 +54,470 @@ public class KingdomOfRuinsMap extends GameMap{
         getRoom(0,0)
                 .setExit( false , false, true, true)
                 .addMonster( swamp.get(0) )
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(1,0)
                 .setExit(true , false, false , true)
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(2,0)
                 .setExit(true, false, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(3,0)
                 .setExit(false , false, true, true)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(4,0)
                 .setExit(true , false, true, true)
                 .addMonster( swamp.get(1) )
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(5,0)
                 .setExit(true, false, true, true)
                 .addMonster(grass.get(0))
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(6,0)
                 .setExit(true , false, false, false)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(7,0)
                 .setExit(false , false, true, true)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(8,0)
                 .setExit(true , false, false, true)
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(9,0)
                 .setExit(true , false, true, false)
                 .addMonster( grass.get(1) )
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         // column 1
         getRoom(0,1)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(1,1)
                 .setExit(false, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(2,1)
                 .setExit(true, true, false, false)
                 .addMonster( swamp.get(2) ) // should be boss
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(3,1)
                 .setExit(false, true, false, true)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(4,1)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(5,1)
                 .setExit(false, true, true, true)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(6,1)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(7,1)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(8,1)
                 .setExit(true, false, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(9,1)
                 .setExit(false , true, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         // column 2
         getRoom(0,2)
                 .setExit(false, true, false, true)
                 .addMonster( swamp.get(3) )
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(1,2)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(2,2)
                 .setExit(true, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(3,2)
                 .setExit(true, false, false, true)
                 .addMonster( swamp.get(4) )
                 .addItem()
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(4,2)
                 .setExit(true, true, false, false)
-                .setDescription();
+                .setDescription(SWAMPLAND);
 
         getRoom(5,2)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(6,2)
                 .setExit(false, false, false, true)
                 .addMonster(grass.get(2))
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(7,2)
                 .setExit(true, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(8,2)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(GRASSLAND);
 
         getRoom(9,2)
                 .setExit(true, true, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription("This is the starting place"+GRASSLAND);
 
         // column 3
         getRoom(0,3)
                 .setExit(false, false, true, true)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(1,3)
                 .setExit(true, false ,false ,true)
                 .addItem()
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(2,3)
                 .setExit(true, false ,false ,true)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(3,3)
                 .setExit(true, false ,false ,true)
                 .addMonster() // snow.get(0) boss
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(4,3)
                 .setExit(true, false ,false ,false)
                 .addMonster() // snow.get(1)
                 .addItem()
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(5,3)
                 .setExit(false, true, true, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(6,3)
                 .setExit(true, false ,false ,true)
                 .addItem()
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(7,3)
                 .setExit(true, false ,false ,true)
                 .addMonster(grass.get(3))
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(8,3)
                 .setExit(true, false ,false ,false)
                 .addItem()
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(9,3)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(FOREST);
 
         // column 4
         getRoom(0,4)
                 .setExit(false, true, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(1,4)
                 .setExit(true, false, false, true)
                 .addMonster() // snow.get(2)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(2,4)
                 .setExit(true, false, true, false)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(3,4)
                 .setExit(false, false, true, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(4,4)
                 .setExit(true, false, false,true)
                 .addMonster( grass.get(0) )
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(5,4)
                 .setExit(true, true, true, true)
                 .addItem()
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(6,4)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(7,4)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(8,4)
                 .setExit(true, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(9,4)
                 .setExit(true, true, false, false)
-                .setDescription();
+                .setDescription(FOREST);
 
         // column 5
         getRoom(0,5)
                 .setExit(false, true, false, true)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(1,5)
                 .setExit(true, false, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(2,5)
                 .setExit(false, true, true, false)
                 .addMonster() // snow.get(3)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(3,5)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(4,5)
                 .setExit(false, false, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(5,5)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(6,5)
                 .setExit(false, false, true, true)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(7,5)
                 .setExit(true, false, false, true)
                 .addMonster(ruins.get(0))
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(8,5)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(9,5)
                 .setExit(true, false, false, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         // column 6
         getRoom(0,6)
                 .setExit(false, false, true, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(1,6)
                 .setExit(true, true, true, false)
                 .addMonster( desert.get(0) )
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(2,6)
                 .setExit(false, true, false, true)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(3,6)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(SNOW);
 
         getRoom(4,6)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(5,6)
                 .setExit(false, true, true, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(6,6)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(FOREST);
 
         getRoom(7,6)
                 .setExit(true, false, true, true)
                 .addMonster(ruins.get(1))
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(8,6)
                 .setExit(true, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(9,6)
                 .setExit(true, false, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         // column 7
         getRoom(0,7)
                 .setExit(false, true, true, false)
                 .addMonster(desert.get(1))
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(1,7)
                 .setExit(false, true, false, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(2,7)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(3,7)
                 .setExit(true, false, false, true)
                 .addMonster(desert.get(2))
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(4,7)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(5,7)
                 .setExit(false, true, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(6,7)
                 .setExit(false, false, true, true)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(7,7)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(8,7)
                 .setExit(false, false, true, false)
                 .addMonster( ruins.get(2) )
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(9,7)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         // column 8
         getRoom(0,8)
                 .setExit(false, true, false, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(1,8)
                 .setExit(true, false, true, false)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(2,8)
                 .setExit(true, false, false, true)
                 .addMonster(desert.get(3))
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(3,8)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(4,8)
                 .setExit(true, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(5,8)
                 .setExit(false, true, false, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(6,8)
                 .setExit(false, true, true, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(7,8)
                 .setExit(false, true, true, false)
                 .addMonster(ruins.get(3))
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(8,8)
                 .setExit(false, true, true, true)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(9,8)
                 .setExit(true, true, true, false)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         // column 9
         getRoom(0,9)
                 .setExit(false, false, false, true)
                 .addMonster( desert.get(4) )
                 .addItem()
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(1,9)
                 .setExit(true, true, false, true)
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(2,9)
                 .setExit(true, false, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(3,9)
                 .setExit(true, false, false, false)
                 .addMonster(desert.get(5))
-                .setDescription();
+                .setDescription(DESERT);
 
         getRoom(4,9)
                 .setExit(false, true, false, true )
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(5,9)
                 .setExit(true, false, false, true)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(6,9)
                 .setExit(true, true, false, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(7,9)
                 .setExit(false, true, false, true)
                 .addItem()
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(8,9)
                 .setExit(true, true, false, false)
-                .setDescription();
+                .setDescription(RUINS);
 
         getRoom(9,9)
                 .setExit(false, true, false, false)
-                .setDescription();
+                .setDescription(RUINS);
     }
 
     @Override
