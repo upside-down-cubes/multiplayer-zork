@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
+import io.upsidedowncubes.multiplayerzork.gameLogic.item.ItemFactory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Goblin;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Slime;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.common.Wolves;
@@ -16,13 +17,17 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.swamp.PoisonFrog;
 import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import static javax.swing.UIManager.put;
 
 public class KingdomOfRuinsMap extends GameMap{
 
     private final int MAP_WIDTH = 10;
     private final int MAP_HEIGHT = 10;
+
 
     private final String GRASSLAND = "You are in a grassy field";
     private final String SWAMPLAND = "It looks and smells like a swamp";
@@ -30,6 +35,20 @@ public class KingdomOfRuinsMap extends GameMap{
     private final String FOREST = "You are in a forest";
     private final String SNOW = "Snow covers everything and it is freezing here";
     private final String RUINS = "It seems like the ruins of the big kingdom";
+
+    private HashMap<Integer, String> itemMap = new HashMap<>();{{
+        put(1, "potion");
+        put(2, "sword");
+        put(3, "wooden_club");
+        put(4, "slime_jelly");
+        put(5, "giant_berry");
+        put(6, "hearty_sword");
+        put(7, "swift_spear");
+        put(8, "staff");
+        put(9, "scroll_of_mastery");
+        put(10, "teleporter");
+    }
+    };
 
 
     public KingdomOfRuinsMap(){
@@ -58,12 +77,13 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(1,0)
                 .setExit(true , false, false , true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(5)))
                 .setDescription(SWAMPLAND);
 
         getRoom(2,0)
                 .setExit(true, false, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(9)))
                 .setDescription(SWAMPLAND);
 
         getRoom(3,0)
@@ -82,12 +102,12 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(6,0)
                 .setExit(true , false, false, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(GRASSLAND);
 
         getRoom(7,0)
                 .setExit(false , false, true, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(4)))
                 .setDescription(GRASSLAND);
 
         getRoom(8,0)
@@ -106,13 +126,14 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(1,1)
                 .setExit(false, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(6)))
+                .addItem(ItemFactory.getItem(itemMap.get(8)))
+                .addItem(ItemFactory.getItem(itemMap.get(9)))
                 .setDescription(SWAMPLAND);
 
         getRoom(2,1)
                 .setExit(true, true, false, false)
                 .addMonster( swamp.get(2) ) // should be boss
-                .addItem()
                 .setDescription(SWAMPLAND);
 
         getRoom(3,1)
@@ -125,7 +146,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(5,1)
                 .setExit(false, true, true, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(2)))
                 .setDescription(GRASSLAND);
 
         getRoom(6,1)
@@ -138,19 +159,18 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(8,1)
                 .setExit(true, false, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(5)))
                 .setDescription(GRASSLAND);
 
         getRoom(9,1)
                 .setExit(false , true, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(GRASSLAND);
 
         // column 2
         getRoom(0,2)
                 .setExit(false, true, false, true)
                 .addMonster( swamp.get(3) )
-                .addItem()
                 .setDescription(SWAMPLAND);
 
         getRoom(1,2)
@@ -159,13 +179,12 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(2,2)
                 .setExit(true, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(SWAMPLAND);
 
         getRoom(3,2)
                 .setExit(true, false, false, true)
                 .addMonster( swamp.get(4) )
-                .addItem()
                 .setDescription(SWAMPLAND);
 
         getRoom(4,2)
@@ -179,12 +198,13 @@ public class KingdomOfRuinsMap extends GameMap{
         getRoom(6,2)
                 .setExit(false, false, false, true)
                 .addMonster(grass.get(2))
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(2)))
                 .setDescription(GRASSLAND);
 
         getRoom(7,2)
                 .setExit(true, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(8)))
                 .setDescription(GRASSLAND);
 
         getRoom(8,2)
@@ -193,7 +213,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(9,2)
                 .setExit(true, true, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription("This is the starting place"+GRASSLAND);
 
         // column 3
@@ -203,7 +223,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(1,3)
                 .setExit(true, false ,false ,true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(10)))
                 .setDescription(SNOW);
 
         getRoom(2,3)
@@ -218,7 +238,9 @@ public class KingdomOfRuinsMap extends GameMap{
         getRoom(4,3)
                 .setExit(true, false ,false ,false)
                 .addMonster() // snow.get(1)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(7)))
+                .addItem(ItemFactory.getItem(itemMap.get(8)))
                 .setDescription(SNOW);
 
         getRoom(5,3)
@@ -227,7 +249,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(6,3)
                 .setExit(true, false ,false ,true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(7)))
                 .setDescription(FOREST);
 
         getRoom(7,3)
@@ -237,7 +259,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(8,3)
                 .setExit(true, false ,false ,false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(8)))
+                .addItem(ItemFactory.getItem(itemMap.get(9)))
                 .setDescription(FOREST);
 
         getRoom(9,3)
@@ -247,7 +270,7 @@ public class KingdomOfRuinsMap extends GameMap{
         // column 4
         getRoom(0,4)
                 .setExit(false, true, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(SNOW);
 
         getRoom(1,4)
@@ -270,7 +293,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(5,4)
                 .setExit(true, true, true, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(4)))
                 .setDescription(FOREST);
 
         getRoom(6,4)
@@ -283,7 +306,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(8,4)
                 .setExit(true, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(4)))
                 .setDescription(FOREST);
 
         getRoom(9,4)
@@ -297,7 +321,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(1,5)
                 .setExit(true, false, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(6)))
                 .setDescription(SNOW);
 
         getRoom(2,5)
@@ -311,7 +335,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(4,5)
                 .setExit(false, false, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(2)))
+                .addItem(ItemFactory.getItem(itemMap.get(5)))
                 .setDescription(RUINS);
 
         getRoom(5,5)
@@ -333,7 +358,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(9,5)
                 .setExit(true, false, false, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(4)))
                 .setDescription(RUINS);
 
         // column 6
@@ -373,12 +399,13 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(8,6)
                 .setExit(true, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(5)))
+                .addItem(ItemFactory.getItem(itemMap.get(9)))
                 .setDescription(RUINS);
 
         getRoom(9,6)
                 .setExit(true, false, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(RUINS);
 
         // column 7
@@ -406,12 +433,12 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(5,7)
                 .setExit(false, true, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(8)))
                 .setDescription(RUINS);
 
         getRoom(6,7)
                 .setExit(false, false, true, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(RUINS);
 
         getRoom(7,7)
@@ -421,7 +448,7 @@ public class KingdomOfRuinsMap extends GameMap{
         getRoom(8,7)
                 .setExit(false, false, true, false)
                 .addMonster( ruins.get(2) )
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
                 .setDescription(RUINS);
 
         getRoom(9,7)
@@ -452,7 +479,7 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(5,8)
                 .setExit(false, true, false, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(2)))
                 .setDescription(RUINS);
 
         getRoom(6,8)
@@ -470,14 +497,15 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(9,8)
                 .setExit(true, true, true, false)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(10)))
                 .setDescription(RUINS);
 
         // column 9
         getRoom(0,9)
                 .setExit(false, false, false, true)
                 .addMonster( desert.get(4) )
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(5)))
                 .setDescription(DESERT);
 
         getRoom(1,9)
@@ -486,7 +514,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(2,9)
                 .setExit(true, false, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(3)))
                 .setDescription(DESERT);
 
         getRoom(3,9)
@@ -508,7 +537,8 @@ public class KingdomOfRuinsMap extends GameMap{
 
         getRoom(7,9)
                 .setExit(false, true, false, true)
-                .addItem()
+                .addItem(ItemFactory.getItem(itemMap.get(1)))
+                .addItem(ItemFactory.getItem(itemMap.get(7)))
                 .setDescription(RUINS);
 
         getRoom(8,9)
@@ -529,6 +559,8 @@ public class KingdomOfRuinsMap extends GameMap{
     public int[] getRowColLimit() {
         return new int[]{  };
     }
+
+
 
     private List<Monster> spawnMonster(String region, int number){
         List<Monster> mon = new ArrayList<>();
