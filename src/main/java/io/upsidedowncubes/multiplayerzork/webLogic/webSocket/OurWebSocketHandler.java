@@ -109,7 +109,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             MessageOutput messageOutput = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
             messageOutput.clear();
             messageOutput.printToOthers("[ " + webSocketSessions.get(session).getUsername() + " ] has left the chatroom.");
-            broadcastGameOutput(session, -1);
+            broadcastGameOutput(session, -1, false);
         }
     }
 
