@@ -33,7 +33,7 @@ public class Room {
         return gameMap;
     }
 
-    protected Room setExit(boolean north, boolean east, boolean west, boolean south) {
+    protected Room setExit(boolean north, boolean west, boolean east, boolean south) {
         if (north)
             exits.add(Direction.N);
         if (east)

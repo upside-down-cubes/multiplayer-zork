@@ -56,11 +56,11 @@ public class Location {
     }
 
     public void goEast() {
-        col--;
+        col++;
     }
 
     public void goWest() {
-        col++;
+        col--;
     }
 
     public int getRow() {
