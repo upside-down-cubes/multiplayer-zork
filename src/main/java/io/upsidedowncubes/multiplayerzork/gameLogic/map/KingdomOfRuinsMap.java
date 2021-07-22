@@ -190,7 +190,7 @@ public class KingdomOfRuinsMap extends GameMap {
 
         getRoom(7, 2)
                 .setExit(true, false, false, true)
-                .addItem(ItemFactory.getItem(8))
+                .addItem(ItemFactory.getItem(2))
                 .setDescription(GRASSLAND);
 
         getRoom(8, 2)
@@ -200,6 +200,7 @@ public class KingdomOfRuinsMap extends GameMap {
         getRoom(9, 2)
                 .setExit(true, true, true, false)
                 .addItem(ItemFactory.getItem(1))
+                .addItem(ItemFactory.getItem(2))
                 .setDescription("This is the starting place. " + GRASSLAND);
 
         // column 3
