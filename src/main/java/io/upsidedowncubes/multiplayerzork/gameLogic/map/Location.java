@@ -2,7 +2,7 @@ package io.upsidedowncubes.multiplayerzork.gameLogic.map;
 
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.PlayerRepositoryHelper;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
 public class Location {

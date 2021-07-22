@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.webLogic.database;
+package io.upsidedowncubes.multiplayerzork.database;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package io.upsidedowncubes.multiplayerzork.webLogic.database;
+package io.upsidedowncubes.multiplayerzork.database;
 
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.securityweb;
 
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
+import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.database.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

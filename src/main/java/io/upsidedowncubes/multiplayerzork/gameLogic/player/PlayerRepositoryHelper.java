@@ -1,8 +1,8 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.player;
 
 
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.webLogic.database.PlayerRepository;
+import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.database.PlayerRepository;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.ContextAwareClass;
 
 public class PlayerRepositoryHelper {
