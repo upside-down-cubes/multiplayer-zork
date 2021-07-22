@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RickRoller implements Item, Targetable{
+public class RickRoller implements Item, Targetable {
 
     @Autowired
     EntityUpdate entityUpdate;
@@ -27,7 +27,7 @@ public class RickRoller implements Item, Targetable{
         MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
 
         messageOut.printToUser("You used a " + getName() + " on [ " + target_username + " ]");
-        entityUpdate.dropItem( user_username, getName(), 1 );
+        entityUpdate.dropItem(user_username, getName(), 1);
 
     }
 }

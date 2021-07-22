@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -13,16 +12,16 @@ public class Bees implements Monster {
      * Monster stats
      * */
     private final Random rand = new Random();
-    private int numberOfBees= 10 + rand.nextInt(13);
-    private final int MAX_BEES= numberOfBees;
+    private int numberOfBees = 10 + rand.nextInt(13);
+    private final int MAX_BEES = numberOfBees;
 
     private final int MAX_HP = 1; // This doesn't matter
-    private int hp = MAX_HP;
-    private int atk = 1;
-    private int ID = 72;
+    private final int hp = MAX_HP;
+    private final int atk = 1;
+    private final int ID = 72;
     private boolean isDead = false;
-    private int giveExp = 1;
-    private String name = "Bees";
+    private final int giveExp = 1;
+    private final String name = "Bees";
 
 
     @Override
@@ -52,13 +51,13 @@ public class Bees implements Monster {
 
     @Override
     public String getName() {
-        return numberOfBees+" "+name;
+        return numberOfBees + " " + name;
     }
 
     @Override
     public int receiveDamage(int amount) {
         numberOfBees -= amount;
-        if(numberOfBees<=0){
+        if (numberOfBees <= 0) {
             isDead = true;
         }
         return amount;
@@ -73,27 +72,26 @@ public class Bees implements Monster {
     public void act(Player p) {
         int damage = 0;
         int numberOfAttacks = 0;
-        for (int i=0 ; i<numberOfBees; i++){
+        for (int i = 0; i < numberOfBees; i++) {
             int attacked = attack(p);
-            if(attacked > 1){
+            if (attacked > 1) {
                 numberOfAttacks++;
             }
-            damage+= attacked;
+            damage += attacked;
         }
 
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(numberOfAttacks+" "+name+ " attacked "+ p.getUsername());
+        messageOut.printToAll(numberOfAttacks + " " + name + " attacked " + p.getUsername());
         messageOut.printToUser("You took " + damage + " damage");
 
-        p.loseHP( damage );
+        p.loseHP(damage);
     }
 
-    public int attack( Player p) {
-        if (rand.nextInt(6)<= 1){
+    public int attack(Player p) {
+        if (rand.nextInt(6) <= 1) {
             return 0;
-        }
-        else{
+        } else {
             int damage = atk;
             return damage;
         }

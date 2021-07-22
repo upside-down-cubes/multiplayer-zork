@@ -18,10 +18,10 @@ public class Room {
     GameMap gameMap;
 
     // set of available exits
-    private Set<Direction> exits;
+    private final Set<Direction> exits;
     private String description;
 
-    public Room(int row, int col, GameMap gameMap){
+    public Room(int row, int col, GameMap gameMap) {
         this.gameMap = gameMap;
         this.row = row;
         this.col = col;
@@ -33,7 +33,7 @@ public class Room {
         return gameMap;
     }
 
-    protected Room setExit(boolean north, boolean east, boolean west, boolean south){
+    protected Room setExit(boolean north, boolean east, boolean west, boolean south) {
         if (north)
             exits.add(Direction.N);
         if (east)
@@ -45,44 +45,44 @@ public class Room {
         return this;
     }
 
-    protected Room setDescription(String des){
+    protected Room setDescription(String des) {
         description = des;
         return this;
     }
 
-    public Room addMonster(Monster mon){
+    public Room addMonster(Monster mon) {
         monster = mon;
         return this;
     }
 
-    public Room addItem(Item it){
+    public Room addItem(Item it) {
         items.add(it);
         return this;
     }
 
-    public Monster getMonster(){
+    public Monster getMonster() {
         return monster;
     }
 
-    public void removeMonster(){
+    public void removeMonster() {
         monster = null;
     }
 
-    public boolean canTake(Item item){
+    public boolean canTake(Item item) {
 
-        if (items.isEmpty()){ // if this room has no item
+        if (items.isEmpty()) { // if this room has no item
             return false;
         }
         // if this room has the same item as the inputted item
-        for (Item roomItem : items){
-            if ( roomItem.getItemID() == item.getItemID() ){
+        for (Item roomItem : items) {
+            if (roomItem.getItemID() == item.getItemID()) {
                 return true;
             }
         }
         return false;
     }
 
-    public void removeItem(Item item){
+    public void removeItem(Item item) {
         items.remove(item);
     }
 
@@ -90,36 +90,36 @@ public class Room {
         return exits;
     }
 
-    public String lookAround(){
+    public String lookAround() {
 
         StringBuilder msg = new StringBuilder();
-        if (description != null){
+        if (description != null) {
             msg.append(description);
         }
-        if (monster != null){
-            msg.append( generateMessageMonster() );
+        if (monster != null) {
+            msg.append(generateMessageMonster());
         }
-        if ( ! items.isEmpty() ){
-            for (Item item : items){
+        if (!items.isEmpty()) {
+            for (Item item : items) {
                 msg.append(generateMessageItem(item));
             }
         }
-        if (msg.length() <= 0){
+        if (msg.length() <= 0) {
             msg.append("There does not seem to be anything interesting in this room...\n");
         }
 
         msg.append("\nAvailable exit:");
-        for (Direction dir : exits){
+        for (Direction dir : exits) {
             msg.append("   " + dir.name);
         }
         return msg.toString();
     }
 
-    private String generateMessageItem(Item item){
+    private String generateMessageItem(Item item) {
         Random rand = new Random();
-        switch ( rand.nextInt(3) ){
+        switch (rand.nextInt(3)) {
             case 0:
-                return "Seems like a(n) " +  item.getName() + " is lying on the ground...\n";
+                return "Seems like a(n) " + item.getName() + " is lying on the ground...\n";
             case 1:
                 return "You saw a(n) " + item.getName() + " is lying on the ground...\n";
             case 2:
@@ -131,9 +131,9 @@ public class Room {
         }
     }
 
-    private String generateMessageMonster(){
+    private String generateMessageMonster() {
         Random rand = new Random();
-        switch ( rand.nextInt(3) ){
+        switch (rand.nextInt(3)) {
             case 0:
                 return "A(n) " + monster.getName() + " appears to be in this room...\n";
             case 1:
@@ -146,8 +146,6 @@ public class Room {
                 return "A wild " + monster.getName() + " appears at the corner of the room...\n";
         }
     }
-
-
 
 
 }

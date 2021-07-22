@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class InfoCommand implements Command{
+public class InfoCommand implements Command {
 
     @Override
     public String getCommandName() {

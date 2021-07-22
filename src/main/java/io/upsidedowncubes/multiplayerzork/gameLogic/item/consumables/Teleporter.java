@@ -39,10 +39,10 @@ public class Teleporter implements Item, Consumable {
 
         int newRow = new Random().nextInt(mapLimit[0]);
         int newCol = new Random().nextInt(mapLimit[1]);
-        p.getCurrentLoc().setLoc( newRow, newCol );
+        p.getCurrentLoc().setLoc(newRow, newCol);
 
         entityUpdate.updateLoc(username, newRow, newCol);
-        entityUpdate.dropItem( username, getName(), 1 );
+        entityUpdate.dropItem(username, getName(), 1);
 
     }
 

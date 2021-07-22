@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.boot.autoconfigure.mongo.MongoClientSettingsBuilderCustomizer;
 
 import java.util.Random;
 
@@ -58,7 +57,7 @@ public class Ogre implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp < 0 ){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -68,27 +67,26 @@ public class Ogre implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (hp > getMaxHP()*0.6){
+        if (hp > getMaxHP() * 0.6) {
             messageOut.printToAll("Get outta my swamp!");
             normalAttack(p);
-        }
-        else if(hp > getMaxHP()*0.3){
+        } else if (hp > getMaxHP() * 0.3) {
             messageOut.printToAll("Stop hitting me you donkey!");
             hardAttack(p);
-        }
-        else{
+        } else {
             messageOut.printToAll("You are hurting me");
             hardAttack(p);
         }
     }
 
-    public void normalAttack(Player p){
+    public void normalAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
@@ -96,28 +94,27 @@ public class Ogre implements Monster {
         messageOut.printToAll(name + " attacked!");
         int damage = atk;
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
 
     }
 
-    public void hardAttack(Player p){
+    public void hardAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " slammed on "+ p.getUsername());
+        messageOut.printToAll(name + " slammed on " + p.getUsername());
         int damage = atk + 2 + rand.nextInt(6);
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
-
 
 
 }

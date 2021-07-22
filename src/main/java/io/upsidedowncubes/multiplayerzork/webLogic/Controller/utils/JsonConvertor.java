@@ -7,15 +7,15 @@ import java.io.StringWriter;
 
 public class JsonConvertor {
 
-   public static String convert(Object obj){
-      StringWriter writer = new StringWriter();
-      ObjectMapper mapper = new ObjectMapper();
-      try {
-         mapper.writeValue(writer, obj);
-         return writer.toString();
-      } catch (IOException e) {
-         return "[Bad object or conventions]";
-      }
+    public static String convert(Object obj) {
+        StringWriter writer = new StringWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(writer, obj);
+            return writer.toString();
+        } catch (IOException e) {
+            return "[Bad object or conventions]";
+        }
 
-   }
+    }
 }

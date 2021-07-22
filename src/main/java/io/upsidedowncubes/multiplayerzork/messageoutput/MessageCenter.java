@@ -12,19 +12,19 @@ public class MessageCenter {
     private static Map<String, MessageOutput> msgCenter;
 
     @PostConstruct
-    void init(){
+    void init() {
         msgCenter = new HashMap<>();
     }
 
-    public static void addUser(String username){
+    public static void addUser(String username) {
         msgCenter.put(username, new MessageOutput());
     }
 
-    public static void removeUser(String username){
+    public static void removeUser(String username) {
         msgCenter.remove(username);
     }
 
-    public static MessageOutput getUserMessageOut(String username){
+    public static MessageOutput getUserMessageOut(String username) {
         return msgCenter.get(username);
     }
 

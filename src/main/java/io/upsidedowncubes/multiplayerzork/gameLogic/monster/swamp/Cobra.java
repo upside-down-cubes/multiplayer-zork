@@ -4,19 +4,18 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
 public class Cobra implements Monster {
 
-    private int MAX_HP = 40;
+    private final int MAX_HP = 40;
     private int hp = MAX_HP;
-    private int atk = 15;
-    private String name = "Cobra";
-    private int ID = 93;
+    private final int atk = 15;
+    private final String name = "Cobra";
+    private final int ID = 93;
     private boolean isDead = false;
-    private int giveExp = 3;
+    private final int giveExp = 3;
 
     /*
      * Extra var to keep track of
@@ -58,7 +57,7 @@ public class Cobra implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp<0){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -68,23 +67,23 @@ public class Cobra implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
         attack(p);
     }
 
-    public void attack( Player p) {
+    public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(8)<= 6){
+        if (rand.nextInt(8) <= 6) {
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
-        }
-        else{
+        } else {
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!" + p.getUsername());
 
             int damage = atk;
-            p.loseHP( damage );
+            p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
         }
 

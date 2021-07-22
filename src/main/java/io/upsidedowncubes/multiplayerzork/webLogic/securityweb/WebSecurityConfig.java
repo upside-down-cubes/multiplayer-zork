@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/", "/api/login", "/api/commandline", "/api/logout","/api/signup", "/api/whoami").permitAll();
+                .antMatchers("/", "/api/login", "/api/commandline", "/api/logout", "/api/signup", "/api/whoami").permitAll();
 
         // permit all OPTIONS requests
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll();
@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

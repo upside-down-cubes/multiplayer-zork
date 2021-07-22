@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class TakeCommand implements Command{
+public class TakeCommand implements Command {
 
     @Autowired
     EntityUpdate entityUpdate;
@@ -33,29 +33,28 @@ public class TakeCommand implements Command{
 
         Item item = ItemFactory.getItem(args.get(1));
 
-        if (item == null){
+        if (item == null) {
             // invalid item name
             messageOut.printToUser("No such item");
             return;
         }
 
         Room r = p.getCurrentRoom();
-        if ( ! r.canTake(item) ){
+        if (!r.canTake(item)) {
             // no such item in room / no item in room
             messageOut.printToUser("No such item");
             return;
         }
 
         Inventory inventory = p.getBag();
-        if ( inventory.obtain(item) ){
+        if (inventory.obtain(item)) {
             // if bag not full
             r.removeItem(item); // remove item from room
             messageOut.printToOthers("[ " + username + " ] picked up the " + item.getName());
             messageOut.printToUser("You picked up the " + item.getName());
 
             entityUpdate.takeItem(username, item.getName(), 1);
-        }
-        else{
+        } else {
             messageOut.printToUser("Can't pick up the item");
         }
 

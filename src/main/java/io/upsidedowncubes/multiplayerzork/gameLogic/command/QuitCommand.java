@@ -10,7 +10,7 @@ import java.util.List;
 public class QuitCommand implements Command, Terminator {
 
     @Override
-    public String getCommandName()  {
+    public String getCommandName() {
         return "quit";
     }
 
@@ -19,7 +19,7 @@ public class QuitCommand implements Command, Terminator {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         // Game.isPlaying = false
-        messageOut.printToOthers("[" +username + " ] has quit the game.");
+        messageOut.printToOthers("[" + username + " ] has quit the game.");
         messageOut.printToUser("You left the game session...");
     }
 

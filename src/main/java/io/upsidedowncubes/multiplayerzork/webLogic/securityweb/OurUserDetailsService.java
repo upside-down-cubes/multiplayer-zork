@@ -17,11 +17,10 @@ public class OurUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         PlayerEntity player = playerRepository.findByUsername(username);
-        if (player != null){
+        if (player != null) {
 //            throw new UsernameNotFoundException("blah");
             return User.withUsername(username).password(player.getEncodedPassword()).roles("USER").build();
-        }
-        else {
+        } else {
             throw new UsernameNotFoundException("Invalid username or password!!!");
         }
     }

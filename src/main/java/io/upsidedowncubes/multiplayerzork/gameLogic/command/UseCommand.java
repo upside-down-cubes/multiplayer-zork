@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class UseCommand implements Command{
+public class UseCommand implements Command {
 
     @Override
     public String getCommandName() {
@@ -24,8 +24,8 @@ public class UseCommand implements Command{
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         // use on syntax --> use <item> on <player>
-        if (args.size() > 2){
-            if (! args.get(2).equals("on")){
+        if (args.size() > 2) {
+            if (!args.get(2).equals("on")) {
                 messageOut.printToUser("Invalid command");
                 return;
             }
@@ -36,14 +36,14 @@ public class UseCommand implements Command{
 
         Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = new Inventory(username);
-        if (item == null || inventory.hasNo( item ) ){
+        if (item == null || inventory.hasNo(item)) {
             messageOut.printToUser("No such item");
             return;
         }
 
 
-        if (! (item instanceof Consumable) ){
-            if ( (item instanceof Targetable) ){
+        if (!(item instanceof Consumable)) {
+            if ((item instanceof Targetable)) {
                 messageOut.printToUser("This item Can't be used on self (HINT: check out \"use on\" command)");
                 return;
             }
@@ -64,17 +64,17 @@ public class UseCommand implements Command{
 
         Item item = ItemFactory.getItem(args.get(1));
         Inventory inventory = p.getBag();
-        if (item == null || inventory.hasNo( item ) ){
+        if (item == null || inventory.hasNo(item)) {
             messageOut.printToUser("No such item");
             return;
         }
 
-        if (! (item instanceof Targetable) ){
+        if (!(item instanceof Targetable)) {
             messageOut.printToUser("This item can't be used on other player");
             return;
         }
 
-        if (! PlayerRepositoryHelper.userExists( args.get(3)) ){
+        if (!PlayerRepositoryHelper.userExists(args.get(3))) {
             messageOut.printToUser("No such player");
             return;
         }

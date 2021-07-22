@@ -14,12 +14,13 @@ public class ItemFactory {
     public List<Item> REGISTERED_ITEMS;
 
     // Mapping of Item name to its item instance
-    private static Map<String, Item> ITEM_MAP = new HashMap<>();
-    private static Map<Integer, Item> ITEM_ID_MAP = new HashMap<>();
-    @PostConstruct
-    void init(){
+    private static final Map<String, Item> ITEM_MAP = new HashMap<>();
+    private static final Map<Integer, Item> ITEM_ID_MAP = new HashMap<>();
 
-        for (Item item : REGISTERED_ITEMS){
+    @PostConstruct
+    void init() {
+
+        for (Item item : REGISTERED_ITEMS) {
             ITEM_MAP.put(item.getName().toLowerCase(Locale.ROOT), item);
             ITEM_ID_MAP.put(item.getItemID(), item);
             System.out.println("LOG: " + item.getName() + " is registered");
@@ -27,16 +28,16 @@ public class ItemFactory {
     }
 
     // get Item object that has a name corresponds to the received string
-    public static Item getItem(String str){
+    public static Item getItem(String str) {
         return ITEM_MAP.get(str.toLowerCase(Locale.ROOT));
     }
 
     // get Item object that has an id corresponds to the received string
-    public static Item getItem(int id){
+    public static Item getItem(int id) {
         return ITEM_ID_MAP.get(id);
     }
 
-    public static Set<String> getAllItem(){
+    public static Set<String> getAllItem() {
         return ITEM_MAP.keySet();
     }
 

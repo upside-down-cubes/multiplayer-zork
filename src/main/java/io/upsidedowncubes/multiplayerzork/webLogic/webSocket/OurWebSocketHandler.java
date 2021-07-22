@@ -55,7 +55,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         PlayerEntity player = PLAYER_REPOSITORY.findByUsername(thisUser.getUsername());
         player.setSessionID(thisUser.getChatroom());
 
-        if (! CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
+        if (!CHATROOM_TO_GAME.containsKey(thisUser.getChatroom())) {
             CHATROOM_TO_GAME.put(thisUser.getChatroom(), new GameSessionHandler());
         }
         USERNAME_TO_CHATROOM.put(thisUser.getUsername(), thisUser.getChatroom());
@@ -97,12 +97,12 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         }
         broadcastGameOutput(session, gameStatus - newUser + ((gameStatus == -1) ? 1 : 0));
         if (gameStatus == -1) {
-            session.sendMessage( new TextMessage(
+            session.sendMessage(new TextMessage(
                     UserStateGenerator.getJson(
                             webSocketSessions.get(session).getUsername(),
                             "You have now exited the game session.\n" +
-                            "Refresh the page to select new chatroom or press exit button to go back to home. \n" +
-                            "You will not recieve any other messages.", -1)
+                                    "Refresh the page to select new chatroom or press exit button to go back to home. \n" +
+                                    "You will not recieve any other messages.", -1)
             ));
             toggleIsAlive(webSocketSessions.get(session).getUsername(), 0);
             MessageOutput messageOutput = MessageCenter.getUserMessageOut(webSocketSessions.get(session).getUsername());
@@ -121,7 +121,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     }
 
     public static boolean inSameSession(String user_username, String target_username) {
-        return USERNAME_TO_CHATROOM.get(user_username).equals( USERNAME_TO_CHATROOM.get(target_username) );
+        return USERNAME_TO_CHATROOM.get(user_username).equals(USERNAME_TO_CHATROOM.get(target_username));
     }
 
     private boolean inSameRoom(String firstUsername, String secondUsername) {
@@ -140,19 +140,19 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
             String username = webSocketSessions.get(webSocketSession).getUsername();
 
             if (DMMessage != null && username.equals(DMMessage.get(1))) {
-                webSocketSession.sendMessage( new TextMessage(
+                webSocketSession.sendMessage(new TextMessage(
                         UserStateGenerator.getJson(
                                 username, DMMessage.get(2), gameStatus)
                 ));
             } else if (session.equals(webSocketSession) && !messageOut.getAllOutput_user().isBlank()) {
-                webSocketSession.sendMessage( new TextMessage(
+                webSocketSession.sendMessage(new TextMessage(
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput_user(), gameStatus)
                 ));
             } else if (((gameStatus != 0) ||
                     (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
-                        && !messageOut.getAllOutput().isBlank()) {
-                webSocketSession.sendMessage( new TextMessage(
+                    && !messageOut.getAllOutput().isBlank()) {
+                webSocketSession.sendMessage(new TextMessage(
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput(), gameStatus)
                 ));
@@ -176,7 +176,7 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
         player.setSessionID(null);
         PLAYER_REPOSITORY.save(player);
         toggleIsAlive(thisUser.getUsername(), -1);
-        MessageCenter.removeUser(thisUser.getUsername() );
+        MessageCenter.removeUser(thisUser.getUsername());
         webSocketSessions.remove(session);
 
 

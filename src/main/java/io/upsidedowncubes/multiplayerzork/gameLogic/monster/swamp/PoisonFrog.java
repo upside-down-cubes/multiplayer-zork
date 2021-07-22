@@ -9,16 +9,16 @@ import java.util.Random;
 
 
 /*
-* This monster has low health but you can Weather gain or lose health or ...
-* */
+ * This monster has low health but you can Weather gain or lose health or ...
+ * */
 public class PoisonFrog implements Monster {
 
-    private int MAX_HP = 2;
-    private int hp = MAX_HP;
-    private int atk = 98;
-    private String name = "Bandits";
-    private int ID = 4;
-    private boolean isDead = false;
+    private final int MAX_HP = 2;
+    private final int hp = MAX_HP;
+    private final int atk = 98;
+    private final String name = "Bandits";
+    private final int ID = 4;
+    private final boolean isDead = false;
 
     private final Random rand = new Random();
 
@@ -64,15 +64,14 @@ public class PoisonFrog implements Monster {
         return isDead;
     }
 
-        @Override
+    @Override
     public void act(Player player) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(player.getUsername());
 
-            int luck = rand.nextInt(3);
-        if(luck == 1){
-            poison( player );
-        }
-        else{
+        int luck = rand.nextInt(3);
+        if (luck == 1) {
+            poison(player);
+        } else {
             messageOut.printToUser("You got lucky");
             player.gainHP(30);
         }
@@ -84,7 +83,7 @@ public class PoisonFrog implements Monster {
 
         int damage = atk;
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToAll("You took " + damage + " damage");
 
     }

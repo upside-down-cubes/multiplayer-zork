@@ -27,12 +27,12 @@ public class PlayCommand implements Command {
         Game game = OurWebSocketHandler.getGameByUser(username);
 
         GameMap chosenMap = GameMapFactory.getMap(args.get(1));
-        if (chosenMap == null){
+        if (chosenMap == null) {
             messageOut.printToUser("No such map");
             return;
         }
 
-        game.setMap( chosenMap );
+        game.setMap(chosenMap);
 
         game.setGameState(true);
         messageOut.printToUser("Map selection success");
@@ -55,7 +55,7 @@ public class PlayCommand implements Command {
     @Override
     public boolean callableNow(String username) {
         // if game is in process, can't start the game again
-        return ! OurWebSocketHandler.getGameByUser(username).gameInProcess();
+        return !OurWebSocketHandler.getGameByUser(username).gameInProcess();
     }
 
     @Override

@@ -7,6 +7,7 @@ public interface Weapon {
     int getAttackStat(Player p);
 
     void passiveEffect(Player p);
+
     void activeEffect(Player p);
 
 }

@@ -35,6 +35,7 @@ public class AddNewUserController {
             throw new AuthenticationException("Username already exists!!!");
         }
     }
+
     /*
      * This is login function
      * @return Json
@@ -46,7 +47,7 @@ public class AddNewUserController {
         String password = request.getParameter("password");
         try {
             createUser(username, password);
-            return JsonConvertor.convert( SimpleResponseDTO
+            return JsonConvertor.convert(SimpleResponseDTO
                     .builder()
                     .success(true)
                     .message("successful")

@@ -16,7 +16,7 @@ import java.util.Set;
 @Component
 public class Staff implements Item, Weapon {
 
-    private int HEAL_AMOUNT = 5;
+    private final int HEAL_AMOUNT = 5;
 
     @Autowired
     EntityUpdate entityUpdate;
@@ -47,12 +47,12 @@ public class Staff implements Item, Weapon {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         Set<String> userInSession = OurWebSocketHandler.getAllUsersInSameSession(username);
-        for (String name : userInSession){
+        for (String name : userInSession) {
             Location p2 = new Location(name);
-            if( p2.equals( p.getCurrentLoc() ) ){
+            if (p2.equals(p.getCurrentLoc())) {
                 entityUpdate.updateHp(name, HEAL_AMOUNT);
             }
         }
-        messageOut.printToAll("All players in the same room as [ " + username + " ] is healed by " + HEAL_AMOUNT );
+        messageOut.printToAll("All players in the same room as [ " + username + " ] is healed by " + HEAL_AMOUNT);
     }
 }

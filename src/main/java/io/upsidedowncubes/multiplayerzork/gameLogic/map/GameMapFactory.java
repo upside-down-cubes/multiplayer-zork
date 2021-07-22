@@ -17,36 +17,37 @@ public class GameMapFactory {
     );
 
 
-    private static Map<String, Class<? extends GameMap>> GAMEMAP_MAP = new HashMap<>();
-    static {{
-        for ( Class<? extends GameMap> gmClass : REGISTERED_MAP ){
-            try {
-                GameMap gm = gmClass.getDeclaredConstructor().newInstance();
-                GAMEMAP_MAP.put(gm.getMapName(), gmClass);
-            }
-            catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
+    private static final Map<String, Class<? extends GameMap>> GAMEMAP_MAP = new HashMap<>();
+
+    static {
+        {
+            for (Class<? extends GameMap> gmClass : REGISTERED_MAP) {
+                try {
+                    GameMap gm = gmClass.getDeclaredConstructor().newInstance();
+                    GAMEMAP_MAP.put(gm.getMapName(), gmClass);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }}
+    }
 
-    public static GameMap getMap(String str){
+    public static GameMap getMap(String str) {
 
         try {
             GameMap gm = GAMEMAP_MAP.get(str).getDeclaredConstructor().newInstance();
             return gm;
-        }
-        catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;
     }
 
 
-    public static String getAllMapName(){
+    public static String getAllMapName() {
         StringBuilder sb = new StringBuilder();
         sb.append("Available map: [ ");
-        for (String name : GAMEMAP_MAP.keySet()){
+        for (String name : GAMEMAP_MAP.keySet()) {
             sb.append(" " + name + " ");
         }
         sb.append(" ]");

@@ -57,7 +57,7 @@ public class Yeti implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp < 0 ){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -67,24 +67,23 @@ public class Yeti implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (hp > getMaxHP()*0.6){
+        if (hp > getMaxHP() * 0.6) {
             normalAttack(p);
-        }
-        else if(hp > getMaxHP()*0.3){
+        } else if (hp > getMaxHP() * 0.3) {
             hardAttack(p);
-        }
-        else{
+        } else {
             hardAttack(p);
         }
     }
 
-    public void normalAttack(Player p){
+    public void normalAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
@@ -92,28 +91,27 @@ public class Yeti implements Monster {
         messageOut.printToAll(name + " attacked!");
         int damage = atk;
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
 
     }
 
-    public void hardAttack(Player p){
+    public void hardAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " slammed on "+ p.getUsername());
+        messageOut.printToAll(name + " slammed on " + p.getUsername());
         int damage = atk + 2 + rand.nextInt(4);
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
-
 
 
 }

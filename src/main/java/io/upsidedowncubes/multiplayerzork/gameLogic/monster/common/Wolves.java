@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -20,7 +19,7 @@ public class Wolves implements Monster {
     private final int MAX_HP = MAX_WOLVES * 6; // 6 hp per wolf
     private int hp = MAX_HP;
     private final int atk = 3;
-    private int ID = 32;
+    private final int ID = 32;
     private boolean isDead = false;
 
     private final int giveExp = 2 * MAX_WOLVES;
@@ -37,7 +36,7 @@ public class Wolves implements Monster {
 
     @Override
     public int getMaxHP() {
-        return MAX_HP*MAX_WOLVES;
+        return MAX_HP * MAX_WOLVES;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class Wolves implements Monster {
 
     @Override
     public String getName() {
-        if (numberOfWolves == 1){
+        if (numberOfWolves == 1) {
             return "Wolf";
         }
         return numberOfWolves + " wolves";
@@ -65,7 +64,7 @@ public class Wolves implements Monster {
         // wolf --> 6 hp per wolf
         numberOfWolves = hp / 6;
 
-        if(numberOfWolves<=0 || hp <= 0){
+        if (numberOfWolves <= 0 || hp <= 0) {
             isDead = true;
         }
         return amount;
@@ -82,27 +81,25 @@ public class Wolves implements Monster {
 
         int damage = 0;
 
-        messageOut.printToAll( "The wolf pack attacked!");
-        for (int i=0 ; i<numberOfWolves; i++){
+        messageOut.printToAll("The wolf pack attacked!");
+        for (int i = 0; i < numberOfWolves; i++) {
             int attacked = attack();
-            if (attacked > 1){
+            if (attacked > 1) {
                 messageOut.printToUser("You took " + attacked + " damage");
-                messageOut.printToOthers( p.getUsername() + " took " + attacked + " damage");
-            }
-            else{
-                messageOut.printToAll( "Wolf" + i + "'s attack misses..." );
+                messageOut.printToOthers(p.getUsername() + " took " + attacked + " damage");
+            } else {
+                messageOut.printToAll("Wolf" + i + "'s attack misses...");
             }
             damage += attacked;
         }
 
-        p.loseHP( damage );
+        p.loseHP(damage);
     }
 
     public int attack() {
-        if (rand.nextInt(4)<= 1){
+        if (rand.nextInt(4) <= 1) {
             return 0;
-        }
-        else{
+        } else {
             int damage = atk;
             return damage;
         }

@@ -22,13 +22,13 @@ public class SlimeJelly implements Item, Consumable {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         Player p = new Player(username);
-        if (p.isFullHP()){
+        if (p.isFullHP()) {
             messageOut.printToUser("Your health is full, you can't use the " + getName());
             return;
         }
         messageOut.printToUser("You used " + getName());
         entityUpdate.updateHp(username, p.gainHP(5));
-        entityUpdate.dropItem( username, getName(), 1 );
+        entityUpdate.dropItem(username, getName(), 1);
 
     }
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GoCommand implements Command{
+public class GoCommand implements Command {
 
     @Autowired
     EntityUpdate entityUpdate;
@@ -30,22 +30,21 @@ public class GoCommand implements Command{
         Player p = new Player(username);
 
         Direction d = stringToDirection(args.get(1));
-        if (d == null){
+        if (d == null) {
             messageOut.printToUser("Invalid Direction");
             return;
         }
 
-        if (p.getCurrentRoom().getMonster() != null){
+        if (p.getCurrentRoom().getMonster() != null) {
             messageOut.printToUser("Can't escape from the Monster! Must deal with it somehow...");
             return;
         }
 
         Direction dir = p.move(d);
-        if (dir == null){
+        if (dir == null) {
             messageOut.printToUser("It seems like you could not proceed in that direction");
-        }
-        else{
-            if ( ! p.isFullHP()){
+        } else {
+            if (!p.isFullHP()) {
                 p.gainHP(1);
                 entityUpdate.updateHp(username, 1);
             }
@@ -58,18 +57,14 @@ public class GoCommand implements Command{
     }
 
 
-
-    public Direction stringToDirection(String str){
-        if (str.equalsIgnoreCase("north") || str.equalsIgnoreCase("n") ){
+    public Direction stringToDirection(String str) {
+        if (str.equalsIgnoreCase("north") || str.equalsIgnoreCase("n")) {
             return Direction.N;
-        }
-        else if (str.equalsIgnoreCase("east") || str.equalsIgnoreCase("e") ){
+        } else if (str.equalsIgnoreCase("east") || str.equalsIgnoreCase("e")) {
             return Direction.E;
-        }
-        else if (str.equalsIgnoreCase("west") || str.equalsIgnoreCase("w") ){
+        } else if (str.equalsIgnoreCase("west") || str.equalsIgnoreCase("w")) {
             return Direction.W;
-        }
-        else if (str.equalsIgnoreCase("south") || str.equalsIgnoreCase("s") ){
+        } else if (str.equalsIgnoreCase("south") || str.equalsIgnoreCase("s")) {
             return Direction.S;
         }
         return null;

@@ -24,13 +24,13 @@ public class Potion implements Item, Consumable, Targetable {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         Player p = new Player(username);
-        if (p.isFullHP()){
+        if (p.isFullHP()) {
             messageOut.printToUser("Your health is full, you can't use the potion");
             return;
         }
         messageOut.printToUser("You used a potion");
         entityUpdate.updateHp(username, p.gainHP(HEAL_AMOUNT));
-        entityUpdate.dropItem( username, getName(), 1 );
+        entityUpdate.dropItem(username, getName(), 1);
 
     }
 
@@ -39,33 +39,32 @@ public class Potion implements Item, Consumable, Targetable {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(user_username);
         messageOut.setSenderReceiver(user_username, target_username);
 
-        if (! OurWebSocketHandler.inSameSession(user_username, target_username) ){
+        if (!OurWebSocketHandler.inSameSession(user_username, target_username)) {
             messageOut.printToUser("No such user in this session");
             return;
         }
 
         Player p = new Player(target_username);
-        if (p.isFullHP()){
+        if (p.isFullHP()) {
             messageOut.printToUser("[ " + target_username + " ] 's health is full, you can't use the potion");
             return;
         }
 
         int gainedHp;
-        if (p.getHp() + HEAL_AMOUNT > p.getMaxHP()){
+        if (p.getHp() + HEAL_AMOUNT > p.getMaxHP()) {
             gainedHp = p.getMaxHP() - p.getHp();
-        }
-        else{
+        } else {
             gainedHp = HEAL_AMOUNT;
         }
 
         messageOut.printToUser("You used a potion on [" + target_username + " ]");
         messageOut.printToUser("They gained " + gainedHp + " HP");
-        messageOut.printToDM( "[ " + user_username + " ] used a potion on you" );
-        messageOut.printToDM( "You gained " + gainedHp + " HP" );
+        messageOut.printToDM("[ " + user_username + " ] used a potion on you");
+        messageOut.printToDM("You gained " + gainedHp + " HP");
         messageOut.printToOthers("[ " + user_username + " ] used a potion on [" + target_username + " ]");
 
         entityUpdate.updateHp(target_username, gainedHp);
-        entityUpdate.dropItem( user_username, getName(), 1 );
+        entityUpdate.dropItem(user_username, getName(), 1);
 
     }
 

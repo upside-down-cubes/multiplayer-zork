@@ -11,19 +11,19 @@ public class SnowLeopard implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 50;
+    private final int MAX_HP = 50;
     private int hp = MAX_HP;
-    private int atk = 13;
-    private String name = "Snow leopard";
-    private int ID = 59;
+    private final int atk = 13;
+    private final String name = "Snow leopard";
+    private final int ID = 59;
     private boolean isDead = false;
-    private int giveExp = 0;
+    private final int giveExp = 0;
 
     /*
      * Extra var to keep track of
      * */
 
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     @Override
     public int getID() {
@@ -58,7 +58,7 @@ public class SnowLeopard implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp<0){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -68,35 +68,34 @@ public class SnowLeopard implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
         attack(p);
     }
 
-    public void attack( Player p) {
+    public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(4)<= 1){
+        if (rand.nextInt(4) <= 1) {
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
-        }
-        else if( rand.nextInt(3) == 1){
+        } else if (rand.nextInt(3) == 1) {
             // quick attack
-            for (int i= 0; i<2;i++){
+            for (int i = 0; i < 2; i++) {
                 messageOut = MessageCenter.getUserMessageOut(p.getUsername());
                 messageOut.printToAll(name + " attacked!");
 
                 int damage = atk;
-                p.loseHP( damage );
+                p.loseHP(damage);
                 messageOut.printToUser("You took " + damage + " damage");
             }
-        }
-        else{
+        } else {
             // normal attack
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!");
 
             int damage = atk;
-            p.loseHP( damage );
+            p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
         }
 

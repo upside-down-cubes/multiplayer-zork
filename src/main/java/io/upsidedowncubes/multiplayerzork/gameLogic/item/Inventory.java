@@ -1,7 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item;
 
-import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
-import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryItemRepository;
@@ -20,14 +18,14 @@ public class Inventory {
             .getApplicationContext().getBean("inventoryRepository");
 
     // capacity at the moment
-    private int capacity;
+    private final int capacity;
 
     private int currentLoad;
 
     // actual structure that stores Item objects
-    private Map<Item, Integer> inventory;
+    private final Map<Item, Integer> inventory;
 
-    public Inventory(String username){
+    public Inventory(String username) {
         inventory = new HashMap<>();
 
         InventoryEntity inventoryEntity = INVENTORY_REPOSITORY.findByUsername(username);
@@ -36,21 +34,21 @@ public class Inventory {
 
         for (InventoryItemEntity inventoryItem : INVENTORY_ITEM_REPOSITORY.findAllByUsername(username)) {
             String itemName = inventoryItem.getItem();
-            Item item = ItemFactory.getItem( itemName );
+            Item item = ItemFactory.getItem(itemName);
             int quan = inventoryItem.getQuantity();
-            obtain( item , quan );
+            obtain(item, quan);
         }
     }
 
     // returns True is the inventory has no inputted Item
-    public boolean hasNo(Item item){
-        return ! inventory.containsKey( item );
+    public boolean hasNo(Item item) {
+        return !inventory.containsKey(item);
     }
 
     // adds item to the inventory by the specified amount
-    public boolean obtain(Item item, int amount){
+    public boolean obtain(Item item, int amount) {
         // if the inventory is going to be over capacity then cant add; does nothing
-        if (amount + currentLoad > capacity){
+        if (amount + currentLoad > capacity) {
             return false;
         }
 
@@ -61,24 +59,22 @@ public class Inventory {
         return true;
     }
 
-    public boolean obtain(Item item){
+    public boolean obtain(Item item) {
         return obtain(item, 1);
     }
 
     // removes item from the inventory
-    public boolean lose(Item item, int amount){
+    public boolean lose(Item item, int amount) {
         // if inventory is empty,
         // or the bag doesnt contain the item,
         // or the item you have has fewer than to lose (will reconsider this later)
-        if (inventory.isEmpty() || hasNo(item) || inventory.get(item) < amount){
+        if (inventory.isEmpty() || hasNo(item) || inventory.get(item) < amount) {
             return false;
-        }
-        else{
+        } else {
             int oldAmount = inventory.get(item);
-            if (oldAmount - amount == 0){
+            if (oldAmount - amount == 0) {
                 inventory.remove(item);
-            }
-            else {
+            } else {
                 inventory.put(item, oldAmount - amount);
             }
             currentLoad -= amount;
@@ -87,20 +83,19 @@ public class Inventory {
         }
     }
 
-    public boolean lose(Item item){
+    public boolean lose(Item item) {
         return lose(item, 1);
     }
 
     // display the inventory as text
-    public String viewInventory(){
+    public String viewInventory() {
         StringBuilder msg = new StringBuilder();
         msg.append("==== Inventory Detail ====");
-        if (inventory.isEmpty()){
+        if (inventory.isEmpty()) {
             msg.append("\n[     Nothing here    ]");
-        }
-        else{
-            for (Map.Entry<Item, Integer> entry : inventory.entrySet()){
-                msg.append( "\n[" + entry.getKey().getName() + "]: " + entry.getValue());
+        } else {
+            for (Map.Entry<Item, Integer> entry : inventory.entrySet()) {
+                msg.append("\n[" + entry.getKey().getName() + "]: " + entry.getValue());
             }
         }
         msg.append("\n======================");

@@ -7,7 +7,8 @@ public enum Direction {
     S("SOUTH");
 
     String name;
-    Direction(String str){
+
+    Direction(String str) {
         this.name = str;
     }
 }

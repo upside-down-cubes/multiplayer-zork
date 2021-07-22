@@ -13,14 +13,14 @@ public class TestGameMap extends GameMap {
     private final int MAP_WIDTH = 3;
     private final int MAP_HEIGHT = 3;
 
-    public TestGameMap(){
+    public TestGameMap() {
         mapName = "basic";
 
         map = new ArrayList<>();
-        for (int row = 0; row < MAP_HEIGHT; row++){
+        for (int row = 0; row < MAP_HEIGHT; row++) {
             List<Room> temp = new ArrayList<>();
-            for (int col = 0; col < MAP_WIDTH; col++){
-                temp.add( new Room(row, col, this) );
+            for (int col = 0; col < MAP_WIDTH; col++) {
+                temp.add(new Room(row, col, this));
             }
             map.add(temp);
         }
@@ -33,47 +33,47 @@ public class TestGameMap extends GameMap {
         */
 
         map.get(0).get(0)
-                .setExit( false, false, false, true )
+                .setExit(false, false, false, true)
                 .setDescription("Seems like an entrance to some kind of dungeon...");
         Room start = map.get(0).get(0);
-        for (String itemName : ItemFactory.getAllItem()){
-            start.addItem( ItemFactory.getItem(itemName) );
+        for (String itemName : ItemFactory.getAllItem()) {
+            start.addItem(ItemFactory.getItem(itemName));
         }
 
         map.get(0).get(1)
-                .setExit(  false, false, true, false )
+                .setExit(false, false, true, false)
                 .setDescription("Seems like an entrance to some kind of dungeon...")
-                .addItem( ItemFactory.getItem("sword") )
-                .addMonster( new Goblin() );
+                .addItem(ItemFactory.getItem("sword"))
+                .addMonster(new Goblin());
 
-        map.get(0).get(2).setExit(  false, true, false, true )
-                .addMonster( new Goblin() );
+        map.get(0).get(2).setExit(false, true, false, true)
+                .addMonster(new Goblin());
 
-        map.get(1).get(0).setExit( true, false, false, true )
-                .addItem( ItemFactory.getItem("potion") );
+        map.get(1).get(0).setExit(true, false, false, true)
+                .addItem(ItemFactory.getItem("potion"));
 
-        map.get(1).get(1).setExit( false, false, true, false )
-                .addItem( ItemFactory.getItem("potion") );
+        map.get(1).get(1).setExit(false, false, true, false)
+                .addItem(ItemFactory.getItem("potion"));
 
-        map.get(1).get(2).setExit( true, true, false, true );
+        map.get(1).get(2).setExit(true, true, false, true);
 
-        map.get(2).get(0).setExit( true, false, true, false )
-                .addMonster( new Slime() );
+        map.get(2).get(0).setExit(true, false, true, false)
+                .addMonster(new Slime());
 
-        map.get(2).get(1).setExit( false, true, true, false );
+        map.get(2).get(1).setExit(false, true, true, false);
 
-        map.get(2).get(2).setExit( true, true, false, false );
+        map.get(2).get(2).setExit(true, true, false, false);
 
     }
 
     @Override
     public Location getStartingLoc() {
-        return new Location(0,0);
+        return new Location(0, 0);
     }
 
     @Override
     public int[] getRowColLimit() {
-        return new int[]{ MAP_HEIGHT, MAP_WIDTH };
+        return new int[]{MAP_HEIGHT, MAP_WIDTH};
     }
 
 

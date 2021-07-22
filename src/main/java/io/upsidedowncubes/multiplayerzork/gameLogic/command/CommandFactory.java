@@ -21,20 +21,20 @@ public class CommandFactory {
     protected static Map<String, Command> COMMAND_MAP;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         // initialize List with all valid command names
         COMMAND_NAME_LIST = new ArrayList<>();
         // initialize Mapping of Command instances with its name --> Key:"cmd_name" , Value: new Command();
         COMMAND_MAP = new HashMap<>();
 
-        for (Command cmd : COMMAND_LIST){
-            COMMAND_MAP.put( cmd.getCommandName() , cmd );
+        for (Command cmd : COMMAND_LIST) {
+            COMMAND_MAP.put(cmd.getCommandName(), cmd);
             COMMAND_NAME_LIST.add(cmd.getCommandName());
         }
     }
 
     // get the command that corresponds to the given String
-    public static Command getCommand(String str){
+    public static Command getCommand(String str) {
         return COMMAND_MAP.get(str);
     }
 

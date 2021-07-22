@@ -11,12 +11,12 @@ public abstract class GameMap {
         return map;
     }
 
-    public String getMapName(){
+    public String getMapName() {
         return mapName;
     }
 
-    public Room getRoom(int row , int col) {
-        return map.get( row ).get( col );
+    public Room getRoom(int row, int col) {
+        return map.get(row).get(col);
     }
 
     public abstract Location getStartingLoc();

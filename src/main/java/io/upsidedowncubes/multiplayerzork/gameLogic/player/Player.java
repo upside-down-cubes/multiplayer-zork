@@ -16,23 +16,23 @@ import java.util.Random;
 
 public class Player {
 
-    private String username;
+    private final String username;
     private int hp;
-    private int maxHP;
-    private int atk;
-    private int exp;
-    private int maxExp;
+    private final int maxHP;
+    private final int atk;
+    private final int exp;
+    private final int maxExp;
 
-    private double missRate = 0.1;
+    private final double missRate = 0.1;
     private double critRate = 0.1;
     private double critMultiplier = 1.5;
 
     private final Random rand = new Random();
 
-    private Inventory bag;
-    private Location currentLoc;
+    private final Inventory bag;
+    private final Location currentLoc;
 
-    public Player(String username){
+    public Player(String username) {
 
         PlayerEntity player = PlayerRepositoryHelper.getPlayerEntity(username);
 
@@ -50,31 +50,39 @@ public class Player {
 
     // getter ==========================================================
 
-    public int getHp(){
+    public int getHp() {
         return hp;
     }
 
-    public int getMaxHP(){
+    public int getMaxHP() {
         return maxHP;
     }
-    public boolean isFullHP(){ return hp == maxHP; }
-    public boolean isDead(){
+
+    public boolean isFullHP() {
+        return hp == maxHP;
+    }
+
+    public boolean isDead() {
         return hp <= 0;
     }
-    public String getUsername(){
+
+    public String getUsername() {
         return username;
     }
 
     public Room getCurrentRoom() {
         Game game = OurWebSocketHandler.getGameByUser(username);
         GameMap gm = game.getMap();
-        return gm.getRoom( currentLoc.getRow(), currentLoc.getCol() );
+        return gm.getRoom(currentLoc.getRow(), currentLoc.getCol());
     }
 
-    public Location getCurrentLoc(){
+    public Location getCurrentLoc() {
         return currentLoc;
     }
-    public Inventory getBag(){ return bag; }
+
+    public Inventory getBag() {
+        return bag;
+    }
 
     public double getCritMultiplier() {
         return critMultiplier;
@@ -82,77 +90,74 @@ public class Player {
 
     // setter ==========================================================
 
-    public int gainHP(int amount){
+    public int gainHP(int amount) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
         int amountHealed;
-        if (hp + amount > maxHP){
+        if (hp + amount > maxHP) {
             amountHealed = maxHP - hp;
-        }
-        else{
+        } else {
             amountHealed = amount;
         }
 
-        messageOut.printToUser( "You gained " + amountHealed + " HP");
+        messageOut.printToUser("You gained " + amountHealed + " HP");
         hp += amountHealed;
         return amountHealed;
     }
 
-    public void loseHP(int amount){
+    public void loseHP(int amount) {
         hp -= amount;
     }
 
-    public void increaseCritRate(double amount){
+    public void increaseCritRate(double amount) {
         critRate += amount;
     }
 
-    public void increaseCritMultiplier(double amount){
+    public void increaseCritMultiplier(double amount) {
         critMultiplier += amount;
     }
 
 
     // action ==========================================================
 
-    public boolean performCrit(){
+    public boolean performCrit() {
         return rand.nextDouble() < critRate;
     }
 
-    public boolean attackMiss(){
+    public boolean attackMiss() {
         return rand.nextDouble() < missRate;
     }
 
-    public int attack(Weapon wp){
+    public int attack(Weapon wp) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
         int damage;
 
-        if (wp != null){
+        if (wp != null) {
             wp.passiveEffect(this);
         }
 
         // determines if the attack lands
-        if (attackMiss()){
-            messageOut.printToUser( "Your attack miss...");
-            messageOut.printToOthers( "[ " + username + " ] 's attack misses...");
+        if (attackMiss()) {
+            messageOut.printToUser("Your attack miss...");
+            messageOut.printToOthers("[ " + username + " ] 's attack misses...");
             damage = -1;
-        }
-        else{
+        } else {
             // determines the damage when the attack lands
             double damageMultiplier = 1.0;
-            if (performCrit()){
+            if (performCrit()) {
                 damageMultiplier = getCritMultiplier();
                 messageOut.printToAll("A Critical Hit!!!");
             }
 
             int wpAtk;
-            if (wp == null){
+            if (wp == null) {
                 wpAtk = 0;
-            }
-            else{
+            } else {
                 wpAtk = wp.getAttackStat(this);
             }
-            damage = (int) Math.round( (wpAtk + atk) * damageMultiplier );
+            damage = (int) Math.round((wpAtk + atk) * damageMultiplier);
 
-            if (wp != null){
+            if (wp != null) {
                 wp.activeEffect(this);
             }
         }
@@ -164,12 +169,12 @@ public class Player {
 
         Room r = getCurrentRoom();
         // check if can move there
-        if (! r.getAvailableExit().contains(dir) ){
+        if (!r.getAvailableExit().contains(dir)) {
             return null;
         }
 
         // if can move, change currentLocation to be the location in that direction
-        switch (dir){
+        switch (dir) {
             case N:
                 currentLoc.goNorth();
                 messageOut.printToUser("You proceeded to the North");

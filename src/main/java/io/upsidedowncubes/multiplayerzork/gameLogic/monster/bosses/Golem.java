@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.format.number.money.MonetaryAmountFormatter;
 
 import java.util.Random;
 
@@ -64,13 +63,12 @@ public class Golem implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(stage == 1 && hp <0){
+        if (stage == 1 && hp < 0) {
             // dai at stage one
             cycle = 0;
             hp = MAX_HP;
             stage = 2;
-        }
-        else if(stage != 1 && hp<0){
+        } else if (stage != 1 && hp < 0) {
             // dia at stage two
             isDead = true;
         }
@@ -81,54 +79,52 @@ public class Golem implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
-        if (stage == 1){
+        if (stage == 1) {
             stageOne(p);
-        }
-        else{
-            if(isFirst){ // First time attacking in stage 2
+        } else {
+            if (isFirst) { // First time attacking in stage 2
                 MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
                 messageOut.printToAll(name + "have regenerate back to full health and is randy to fight some more.");
             }
-           stageTwo(p);
+            stageTwo(p);
         }
         incrementCycle();
     }
 
-    public void incrementCycle(){
+    public void incrementCycle() {
         cycle++;
-        if (cycle > 3){
-            cycle = 0 ;
+        if (cycle > 3) {
+            cycle = 0;
         }
     }
 
 
-    public void stageOne(Player p){
-       if(cycle==1){
-           normalAttack(p);
-       }
-       else if(cycle == 2){
-           slam(p);
-       }
-       else {
-          throwRocks(p);
-       }
-    }
-    public void stageTwo(Player p){
-        if (cycle != 0){
+    public void stageOne(Player p) {
+        if (cycle == 1) {
+            normalAttack(p);
+        } else if (cycle == 2) {
+            slam(p);
+        } else {
             throwRocks(p);
         }
-        else{
+    }
+
+    public void stageTwo(Player p) {
+        if (cycle != 0) {
+            throwRocks(p);
+        } else {
             tantrum(p);
         }
 
     }
 
-    public void normalAttack(Player p){
+    public void normalAttack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
@@ -136,55 +132,55 @@ public class Golem implements Monster {
         messageOut.printToAll(name + " attacked!");
         int damage = atk;
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
 
     }
 
-    public void slam(Player p){
+    public void slam(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        messageOut.printToAll(name + " slammed on "+ p.getUsername());
+        messageOut.printToAll(name + " slammed on " + p.getUsername());
         int damage = atk + 2 + rand.nextInt(6);
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 
-    public void throwRocks(Player p){
+    public void throwRocks(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 4){
+        if (rand.nextInt(10) <= 4) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        int numRocks = 1+rand.nextInt(8);
-        messageOut.printToAll(name + " throw "+numRocks + " rocks at "+p.getUsername());
-        int damage = numRocks*2;
-        p.loseHP( damage );
+        int numRocks = 1 + rand.nextInt(8);
+        messageOut.printToAll(name + " throw " + numRocks + " rocks at " + p.getUsername());
+        int damage = numRocks * 2;
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 
-    public void tantrum(Player p){
+    public void tantrum(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
         int recoil = rand.nextInt(11);
-        messageOut.printToAll(name + " throws a tantrum and harts it self by " + recoil+ " hp");
+        messageOut.printToAll(name + " throws a tantrum and harts it self by " + recoil + " hp");
         hp -= recoil;
 
-        int damage = atk+3+rand.nextInt(6);
-        p.loseHP( damage );
+        int damage = atk + 3 + rand.nextInt(6);
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 
 }

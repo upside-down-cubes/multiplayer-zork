@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface InventoryItemRepository extends CrudRepository<InventoryItemEntity, Integer> {
     List<InventoryItemEntity> findAllByUsername(String username);
+
     InventoryItemEntity findByUsernameAndItem(String username, String item);
+
     void deleteAllByUsername(String username);
 }

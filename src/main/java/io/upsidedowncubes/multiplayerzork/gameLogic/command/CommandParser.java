@@ -14,32 +14,32 @@ public class CommandParser {
 
     private final String COMMAND_PREFIX = "/";
 
-    public List<String> parse(String input){
+    public List<String> parse(String input) {
         // clean string
         input = input.trim();
-        if (! input.startsWith(COMMAND_PREFIX)){
+        if (!input.startsWith(COMMAND_PREFIX)) {
             List<String> txt = new ArrayList<>();
             txt.add(input);
             return txt;
         }
 
         // loop through list of valid command (retrieved from CommandFactory)
-        for ( String cmd : CommandFactory.COMMAND_NAME_LIST){
+        for (String cmd : CommandFactory.COMMAND_NAME_LIST) {
 
             // if the input is exactly the command
-            if (input.equals( COMMAND_PREFIX + cmd )){
+            if (input.equals(COMMAND_PREFIX + cmd)) {
                 return Collections.singletonList(input);
             }
 
             // if the input starts with the command (followed by a space)
-            else if ( input.startsWith(COMMAND_PREFIX + cmd + " ") ){
+            else if (input.startsWith(COMMAND_PREFIX + cmd + " ")) {
                 List<String> cmdAsList = new ArrayList<>();
                 cmdAsList.add(COMMAND_PREFIX + cmd);
                 String[] temp = input
                         .trim()
-                        .substring(cmd.length()+2)
+                        .substring(cmd.length() + 2)
                         .split(" ");
-                cmdAsList.addAll( Arrays.asList( temp ) );
+                cmdAsList.addAll(Arrays.asList(temp));
                 return cmdAsList;
             }
         }
@@ -55,7 +55,7 @@ public class CommandParser {
     // returns -1 if terminate
     // returns 0 if game
     // returns 1 if chat
-    public int commandRunner(List<String> cmdAsList, String username){
+    public int commandRunner(List<String> cmdAsList, String username) {
 
         MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
@@ -71,11 +71,10 @@ public class CommandParser {
 //            System.out.println();
 //        }
 
-        if (cmdAsList == null){
+        if (cmdAsList == null) {
             messageOut.printToUser("Invalid command");
             return 0;
-        }
-        else if ( ! cmdAsList.get(0).startsWith( COMMAND_PREFIX )){
+        } else if (!cmdAsList.get(0).startsWith(COMMAND_PREFIX)) {
             text(cmdAsList.get(0), username);
             return 1;
         }
@@ -85,18 +84,17 @@ public class CommandParser {
 
         // if the command is not in the right state of use
         // (maybe player use Menu command while in game mode)
-        if ( !cmd.callableNow(username) ){
+        if (!cmd.callableNow(username)) {
             messageOut.printToUser("Unable to use that right now!");
         }
         // check if the command has enough argument
         // [go].size        <=  (required 1)     --> fails
         // [go, north].size <=  (required 1)     --> doesnt fail
-        else if ( cmdAsList.size() <= cmd.requiredArgs() && cmd.requiredArgs() != -1){
+        else if (cmdAsList.size() <= cmd.requiredArgs() && cmd.requiredArgs() != -1) {
             messageOut.printToUser("That's not how you use the command!");
-        }
-        else{
+        } else {
             cmd.execute(cmdAsList, username);
-            if (cmd instanceof Terminator && ((Terminator) cmd).willTerminate()){
+            if (cmd instanceof Terminator && ((Terminator) cmd).willTerminate()) {
                 return -1;
             }
         }

@@ -8,23 +8,23 @@ import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import java.util.Random;
 
 /*
-* The more he attacks the more tiered he become, but gains his power a attack harder again
-* */
+ * The more he attacks the more tiered he become, but gains his power a attack harder again
+ * */
 public class Bandits implements Monster {
 
     /*
-    * Monster stats
-    * */
-    private int MAX_HP = 50;
+     * Monster stats
+     * */
+    private final int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
-    private String name = "Bandits";
-    private int ID = 4;
+    private final String name = "Bandits";
+    private final int ID = 4;
     private boolean isDead = false;
 
     /*
-    * Extra var to keep track of
-    * */
+     * Extra var to keep track of
+     * */
     private int amountOfAttacks;
     private int luck;
 
@@ -53,7 +53,7 @@ public class Bandits implements Monster {
 
     @Override
     public int giveExp() {
-        return 2+rand.nextInt(2);
+        return 2 + rand.nextInt(2);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Bandits implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp<0){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -81,28 +81,27 @@ public class Bandits implements Monster {
         attackDecrease();
     }
 
-    public void attack( Player p) {
+    public void attack(Player p) {
         luck = rand.nextInt(4);
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (luck <= 1){
+        if (luck <= 1) {
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
-        }
-        else{
+        } else {
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!");
 
             int damage = atk;
-            p.loseHP( damage );
+            p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
         }
 
     }
 
-    private void attackDecrease(){
+    private void attackDecrease() {
         amountOfAttacks++;
         atk -= amountOfAttacks;
-        if (atk < 1){
+        if (atk < 1) {
             atk = 13;
             amountOfAttacks = 0;
         }

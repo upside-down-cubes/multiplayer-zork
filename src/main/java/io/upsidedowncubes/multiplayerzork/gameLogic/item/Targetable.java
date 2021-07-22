@@ -4,6 +4,6 @@ public interface Targetable {
 
     // this is actually a use command, but on other people
     // so basically consumable but not for self
-    public void useOn(String user_username, String target_username);
+    void useOn(String user_username, String target_username);
 
 }

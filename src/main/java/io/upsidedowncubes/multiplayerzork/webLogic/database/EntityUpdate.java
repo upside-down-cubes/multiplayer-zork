@@ -17,7 +17,7 @@ public class EntityUpdate {
 
     public void updateMaxHp(String username, int amount) {
         PlayerEntity player = playerRepository.findByUsername(username);
-        player.setMaxHp( player.getMaxHp() + amount );
+        player.setMaxHp(player.getMaxHp() + amount);
         playerRepository.save(player);
     }
 
@@ -47,7 +47,7 @@ public class EntityUpdate {
 
     public void updateMaxExp(String username) {
         PlayerEntity player = playerRepository.findByUsername(username);
-        player.setMaxExp( player.getMaxExp() * 2 );
+        player.setMaxExp(player.getMaxExp() * 2);
         playerRepository.save(player);
     }
 
@@ -57,14 +57,13 @@ public class EntityUpdate {
 
         int currentExp = player.getExp();
         int currentMaxExp = player.getMaxExp();
-        if (currentExp + amount >= currentMaxExp){
+        if (currentExp + amount >= currentMaxExp) {
             int diff = (currentExp + amount) - currentMaxExp;
-            player.setMaxExp( player.getMaxExp() * 2 );
-            player.setExp( diff );
+            player.setMaxExp(player.getMaxExp() * 2);
+            player.setExp(diff);
             ret = true;
-        }
-        else{
-            player.setExp( currentExp + amount );
+        } else {
+            player.setExp(currentExp + amount);
         }
         playerRepository.save(player);
         return ret;
@@ -72,7 +71,7 @@ public class EntityUpdate {
 
     public void setExp(String username, int amount) {
         PlayerEntity player = playerRepository.findByUsername(username);
-        player.setExp( amount );
+        player.setExp(amount);
         playerRepository.save(player);
     }
 
@@ -92,10 +91,10 @@ public class EntityUpdate {
         if (inventoryItem == null) {
             inventoryItemRepository.save(new InventoryItemEntity(username, item));
         } else {
-            inventoryItem.setQuantity(inventoryItem.getQuantity()+quantity);
+            inventoryItem.setQuantity(inventoryItem.getQuantity() + quantity);
             inventoryItemRepository.save(inventoryItem);
         }
-        inventory.setCurrentLoad(inventory.getCurrentLoad()+1);
+        inventory.setCurrentLoad(inventory.getCurrentLoad() + 1);
         inventoryRepository.save(inventory);
     }
 
@@ -114,11 +113,11 @@ public class EntityUpdate {
             System.out.println("deleting");
             inventoryItemRepository.delete(inventoryItem);
         } else {
-            inventoryItem.setQuantity(inventoryItem.getQuantity()-quantity);
+            inventoryItem.setQuantity(inventoryItem.getQuantity() - quantity);
             inventoryItemRepository.save(inventoryItem);
         }
         InventoryEntity inventory = inventoryRepository.findByUsername(username);
-        inventory.setCurrentLoad(inventory.getCurrentLoad()-quantity);
+        inventory.setCurrentLoad(inventory.getCurrentLoad() - quantity);
         inventoryRepository.save(inventory);
     }
 

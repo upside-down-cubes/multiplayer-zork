@@ -17,6 +17,7 @@ public class HeartySword implements Item, Weapon {
     public int getItemID() {
         return 6;
     }
+
     @Override
     public int getAttackStat(Player p) {
         return p.getHp() / 10;

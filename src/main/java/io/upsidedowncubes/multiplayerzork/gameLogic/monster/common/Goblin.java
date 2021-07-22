@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -14,7 +13,7 @@ public class Goblin implements Monster {
     private int hp = MAX_HP;
     private final int atk = 4;
     private final String name = "Goblin";
-    private int ID = 30;
+    private final int ID = 30;
     private boolean isDead = false;
 
     private final Random rand = new Random();
@@ -41,7 +40,7 @@ public class Goblin implements Monster {
 
     @Override
     public int giveExp() {
-        return 2+rand.nextInt(3);
+        return 2 + rand.nextInt(3);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class Goblin implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp<0){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -68,10 +67,10 @@ public class Goblin implements Monster {
         attack(p);
     }
 
-    public void attack( Player p ){
+    public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 2){
+        if (rand.nextInt(10) <= 2) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
@@ -79,9 +78,9 @@ public class Goblin implements Monster {
         messageOut.printToAll(name + " attacked!");
         int damage = atk + rand.nextInt(4);
 
-        p.loseHP( damage );
+        p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
-        messageOut.printToOthers( p.getUsername() + " took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 
 }

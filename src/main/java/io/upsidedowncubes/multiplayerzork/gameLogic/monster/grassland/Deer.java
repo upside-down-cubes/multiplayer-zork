@@ -4,7 +4,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.monster.util.Monster;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
@@ -12,13 +11,13 @@ public class Deer implements Monster {
     /*
      * Monster stats
      * */
-    private int MAX_HP = 30;
+    private final int MAX_HP = 30;
     private int hp = MAX_HP;
     private int atk = 4;
-    private String name = "Deer";
-    private int ID = 74;
+    private final String name = "Deer";
+    private final int ID = 74;
     private boolean isDead = false;
-    private int giveExp = 3;
+    private final int giveExp = 3;
 
     /*
      * Extra var to keep track of
@@ -60,7 +59,7 @@ public class Deer implements Monster {
     @Override
     public int receiveDamage(int amount) {
         hp -= amount;
-        if(hp<0){
+        if (hp < 0) {
             isDead = true;
         }
         return amount;
@@ -70,29 +69,29 @@ public class Deer implements Monster {
     public boolean isDead() {
         return isDead;
     }
+
     @Override
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if(hasAntlers && rand.nextInt(5)<=1){
-            messageOut.printToAll(p.getUsername()+ " has broken the Deer's antlers.");
+        if (hasAntlers && rand.nextInt(5) <= 1) {
+            messageOut.printToAll(p.getUsername() + " has broken the Deer's antlers.");
             hasAntlers = false;
             atk = 2;
         }
         attack(p);
     }
 
-    public void attack( Player p) {
+    public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(5)<= 1){
+        if (rand.nextInt(5) <= 1) {
             // miss attack
             messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
-        }
-        else{
+        } else {
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " attacked!"+ p.getUsername());
+            messageOut.printToAll(name + " attacked!" + p.getUsername());
 
             int damage = atk;
-            p.loseHP( damage );
+            p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
         }
 

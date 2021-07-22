@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class AttackCommand implements Command, Terminator{
+public class AttackCommand implements Command, Terminator {
 
     private boolean quit;
 
@@ -38,7 +38,7 @@ public class AttackCommand implements Command, Terminator{
 
         Room r = p.getCurrentRoom();
         Monster m = r.getMonster();
-        if ( m == null ){
+        if (m == null) {
             messageOut.printToUser("There's no monster in the room");
             return;
         }
@@ -47,8 +47,8 @@ public class AttackCommand implements Command, Terminator{
         // with item
         Weapon wp = null;
         Item item = null;
-        if (args.size() > 1){
-            if (! args.get(1).equals("with")){
+        if (args.size() > 1) {
+            if (!args.get(1).equals("with")) {
                 messageOut.printToUser("Invalid command");
                 return;
             }
@@ -56,11 +56,11 @@ public class AttackCommand implements Command, Terminator{
             Inventory inventory = p.getBag();
             item = ItemFactory.getItem(args.get(2));
 
-            if (item == null || inventory.hasNo( item ) ){
+            if (item == null || inventory.hasNo(item)) {
                 messageOut.printToUser("No such item");
                 return;
             }
-            if (! (item instanceof Weapon) ){
+            if (!(item instanceof Weapon)) {
                 messageOut.printToUser("This item is not a Weapon");
                 return;
             }
@@ -70,30 +70,29 @@ public class AttackCommand implements Command, Terminator{
 
         //=====================
 
-        if (useItem){
+        if (useItem) {
             messageOut.printToAll("[ " + username + " ] attacked the " + m.getName() + " with a " + item.getName() + "!");
-        }
-        else{
+        } else {
             messageOut.printToAll("[ " + username + " ] attacked the " + m.getName() + "!");
         }
 
         int damage = p.attack(wp);
-        if (damage != -1){
-            messageOut.printToAll( m.getName() + " took " + m.receiveDamage( damage ) + " damage!");
+        if (damage != -1) {
+            messageOut.printToAll(m.getName() + " took " + m.receiveDamage(damage) + " damage!");
         }
 
-        if (m.isDead()){
+        if (m.isDead()) {
             messageOut.printToAll("[ " + username + " ] defeated " + m.getName());
 
             int monsterExp;
 
             Set<String> userInSession = OurWebSocketHandler.getAllUsersInSameSession(username);
-            for (String name : userInSession){
+            for (String name : userInSession) {
                 Location p2 = new Location(name);
-                if( p2.equals( p.getCurrentLoc() ) ){
+                if (p2.equals(p.getCurrentLoc())) {
                     monsterExp = m.giveExp();
                     messageOut.printToAll("[ " + name + " ] gained " + monsterExp + " EXP!");
-                    if ( entityUpdate.updateExp(name, monsterExp) ){
+                    if (entityUpdate.updateExp(name, monsterExp)) {
                         messageOut.printToAll("[ " + name + " ] leveled up!");
                         entityUpdate.updateAtk(name, 1);
                     }
@@ -102,23 +101,22 @@ public class AttackCommand implements Command, Terminator{
             }
 
             r.removeMonster();
-        }
-        else{
+        } else {
             int hp_before = p.getHp();
             MonsterAction.doAct(m, p);
-            int hp_diff = p.getHp() - hp_before ;
-            if (hp_diff != 0){
+            int hp_diff = p.getHp() - hp_before;
+            if (hp_diff != 0) {
                 entityUpdate.updateHp(username, hp_diff);
             }
         }
 
         quit = p.isDead();
-        if (quit){
+        if (quit) {
             messageOut.printToUser("You have fallen...");
             messageOut.printToOthers("[ " + username + " ] has fallen...");
             entityUpdate.setExp(username, 0);
 
-            entityUpdate.setHp(username, p.getMaxHP() );
+            entityUpdate.setHp(username, p.getMaxHP());
             entityUpdate.dropAllItems(username);
             messageOut.printToUser("You lost all your belonging...");
         }

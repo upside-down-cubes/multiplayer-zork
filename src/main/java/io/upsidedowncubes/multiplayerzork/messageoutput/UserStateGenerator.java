@@ -1,6 +1,5 @@
 package io.upsidedowncubes.multiplayerzork.messageoutput;
 
-import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.GameLogicDTO;
 import io.upsidedowncubes.multiplayerzork.webLogic.Controller.utils.JsonConvertor;
 import io.upsidedowncubes.multiplayerzork.webLogic.database.InventoryEntity;
@@ -15,7 +14,6 @@ public class UserStateGenerator {
             .getApplicationContext().getBean("playerRepository");
     private final static InventoryRepository INVENTORY_REPOSITORY = (InventoryRepository) ContextAwareClass
             .getApplicationContext().getBean("inventoryRepository");
-
 
 
     public static String getJson(String username, String message, int gameStatus) {
@@ -35,7 +33,7 @@ public class UserStateGenerator {
                     .otherUsers(OurWebSocketHandler.getAllUsersInSameSession(username))
                     .mapName(OurWebSocketHandler.getGameByUser(username).getMap().getMapName())
                     .roomDescription(OurWebSocketHandler.getGameByUser(username).getMap()
-                            .getRoom(player.getRow(),player.getCol()).lookAround())
+                            .getRoom(player.getRow(), player.getCol()).lookAround())
                     .build());
         } catch (NullPointerException | IndexOutOfBoundsException e) {
             return JsonConvertor.convert(GameLogicDTO.builder()
