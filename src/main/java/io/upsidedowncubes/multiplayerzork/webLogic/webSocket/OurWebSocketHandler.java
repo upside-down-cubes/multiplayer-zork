@@ -114,7 +114,11 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
     }
 
     public static Game getGameByUser(String username) {
-        return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getGame();
+        try {
+            return CHATROOM_TO_GAME.get(USERNAME_TO_CHATROOM.get(username)).getGame();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Set<String> getAllUsersInSameSession(String username) {
