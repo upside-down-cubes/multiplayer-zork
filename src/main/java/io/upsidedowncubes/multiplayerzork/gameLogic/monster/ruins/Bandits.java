@@ -15,10 +15,16 @@ public class Bandits implements Monster {
     /*
      * Monster stats
      * */
+    String uniqueName[] = new String[]{
+            "Sao_Bang_Pho888", "Mike Tyson", "Strawberry Milkshake", "TixGamer", "Rick R. Roll",
+            "John Cena", "Vee R. Phong", "CHAD"
+    };
+    private final Random rand = new Random();
     private final int MAX_HP = 50;
     private int hp = MAX_HP;
     private int atk = 13;
     private final String name = "Bandits";
+    private final String nickname = uniqueName[rand.nextInt( uniqueName.length )];
     private final int ID = 4;
     private boolean isDead = false;
 
@@ -28,7 +34,7 @@ public class Bandits implements Monster {
     private int amountOfAttacks;
     private int luck;
 
-    private final Random rand = new Random();
+
 
 
     @Override
@@ -53,12 +59,12 @@ public class Bandits implements Monster {
 
     @Override
     public int giveExp() {
-        return 2 + rand.nextInt(2);
+        return 4 + rand.nextInt(4);
     }
 
     @Override
     public String getName() {
-        return name;
+        return nickname + " the " +name;
     }
 
     @Override
@@ -75,6 +81,7 @@ public class Bandits implements Monster {
         return isDead;
     }
 
+
     @Override
     public void act(Player p) {
         attack(p);
@@ -86,14 +93,14 @@ public class Bandits implements Monster {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         if (luck <= 1) {
             // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+            messageOut.printToAll(name + " missed the attack...");
         } else {
-            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!");
 
             int damage = atk;
             p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
         }
 
     }

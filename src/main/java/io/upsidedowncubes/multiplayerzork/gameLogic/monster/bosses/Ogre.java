@@ -72,13 +72,13 @@ public class Ogre implements Monster {
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         if (hp > getMaxHP() * 0.6) {
-            messageOut.printToAll("Get outta my swamp!");
+            messageOut.printToAll("The Ogre shouted: Get outta my swamp!");
             normalAttack(p);
         } else if (hp > getMaxHP() * 0.3) {
-            messageOut.printToAll("Stop hitting me you donkey!");
+            messageOut.printToAll("The Ogre shouted: Stop hitting me, you donkey!");
             hardAttack(p);
         } else {
-            messageOut.printToAll("You are hurting me!!!!");
+            messageOut.printToAll("The Ogre shouted: You are hurting me!!!!");
             hardAttack(p);
         }
     }

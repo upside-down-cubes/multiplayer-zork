@@ -58,6 +58,14 @@ public class Player {
         return maxHP;
     }
 
+    public int getExp(){
+        return exp;
+    }
+
+    public int getMaxExp() {
+        return maxExp;
+    }
+
     public boolean isFullHP() {
         return hp == maxHP;
     }

@@ -11,11 +11,11 @@ public class Cobra implements Monster {
 
     private final int MAX_HP = 40;
     private int hp = MAX_HP;
-    private final int atk = 15;
+    private final int atk = 17;
     private final String name = "Cobra";
     private final int ID = 93;
     private boolean isDead = false;
-    private final int giveExp = 3;
+    private final int giveExp = 6;
 
     /*
      * Extra var to keep track of
@@ -75,16 +75,15 @@ public class Cobra implements Monster {
 
     public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (rand.nextInt(8) <= 6) {
+        messageOut.printToAll(name + " attacked!" + p.getUsername());
+        if (rand.nextInt(8) <= 4) {
             // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+            messageOut.printToAll(name + " missed the attack...");
         } else {
-            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " attacked!" + p.getUsername());
-
             int damage = atk;
             p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
         }
 
     }

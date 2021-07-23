@@ -11,7 +11,7 @@ public class GiantScorpion implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 100;
+    private final int MAX_HP = 200;
     private int hp = MAX_HP;
     private int atk = 6;
     private final String name = "Giant Scorpion";
@@ -90,12 +90,19 @@ public class GiantScorpion implements Monster {
                 isFirst = false;
             }
             stageTwo(p);
+            messageOut.printToAll(name + " can't handle its own rage!");
+            int recoil = rand.nextInt(5);
+            messageOut.printToAll(name + " took " + recoil + " recoil damage");
+            hp -= recoil;
+            if (hp < 0) {
+                isDead = true;
+                return;
+            }
         }
 
         if (! atkBoosted){
             atk -= atkBoost;
             atkBoost = 0;
-            messageOut.printToAll(name + "'s stinger has lost its extra sharpness");
         }
 
         setCycle();
@@ -126,7 +133,7 @@ public class GiantScorpion implements Monster {
             sting(p);
         } else {
             int rng = rand.nextInt(3);
-            messageOut.printToAll(name + " sharpen its stinger and gained " + rng + " extra ATK!");
+            messageOut.printToAll(name + " sharpen its stinger and gained " + rng + " extra ATK for the next turn!");
             setAtkBoost( 4 + rng );
         }
     }

@@ -84,21 +84,21 @@ public class Coyote implements Monster {
         } else if (rand.nextInt(3) == 1) {
             // quick attack
             for (int i = 0; i < 2; i++) {
-                messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-                messageOut.printToAll(name + " attacked!");
+                messageOut.printToAll(name + " swiftly attacked!");
 
                 int damage = atk;
                 p.loseHP(damage);
                 messageOut.printToUser("You took " + damage + " damage");
+                messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
             }
         } else {
             // normal attack
-            messageOut = MessageCenter.getUserMessageOut(p.getUsername());
             messageOut.printToAll(name + " attacked!");
 
             int damage = atk;
             p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
         }
 
     }

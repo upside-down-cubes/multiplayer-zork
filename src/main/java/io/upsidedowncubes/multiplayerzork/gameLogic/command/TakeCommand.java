@@ -55,7 +55,7 @@ public class TakeCommand implements Command {
 
             entityUpdate.takeItem(username, item.getName(), 1);
         } else {
-            messageOut.printToUser("Can't pick up the item");
+            messageOut.printToUser("Can't pick up the item, inventory full");
         }
 
     }

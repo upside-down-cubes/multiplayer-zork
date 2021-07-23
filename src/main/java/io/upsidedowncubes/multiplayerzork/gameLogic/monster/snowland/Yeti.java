@@ -70,7 +70,7 @@ public class Yeti implements Monster {
 
     @Override
     public void act(Player p) {
-        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+
         if (hp > getMaxHP() * 0.6) {
             normalAttack(p);
         } else if (hp > getMaxHP() * 0.3) {

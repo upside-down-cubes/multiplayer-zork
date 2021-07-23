@@ -17,7 +17,7 @@ public class Mummy implements Monster {
     private final String name = "Mummy";
     private final int ID = 40;
     private boolean isDead = false;
-    private final int giveExp = 0;
+    private final int giveExp = 7;
 
     /*
      * Extra var to keep track of
@@ -93,5 +93,6 @@ public class Mummy implements Monster {
         messageOut.printToAll(name + " attacked on" + p.getUsername());
         p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 }

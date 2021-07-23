@@ -13,7 +13,7 @@ import java.util.Random;
  * */
 public class PoisonFrog implements Monster {
 
-    private final int MAX_HP = 10;
+    private final int MAX_HP = 16;
     private final int hp = MAX_HP;
     private final int atk = 10;
     private final String name = "Poison frog";
@@ -45,7 +45,7 @@ public class PoisonFrog implements Monster {
 
     @Override
     public int giveExp() {
-        return 1;
+        return 6;
     }
 
     @Override
@@ -72,14 +72,14 @@ public class PoisonFrog implements Monster {
         if (luck == 1) {
             poison(player);
         } else {
-            messageOut.printToUser("You got lucky");
-            player.gainHP(10+rand.nextInt(31));
+            messageOut.printToUser("You got lucky, the frog attacked with a beneficial acid");
+            player.gainHP(10+rand.nextInt(21));
         }
     }
 
     public void poison(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(name + " poisoned" + p.getUsername());
+        messageOut.printToAll(name + " poisoned " + p.getUsername());
 
         int damage = atk;
 

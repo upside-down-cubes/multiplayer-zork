@@ -12,9 +12,9 @@ public class Golem implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 80;
+    private final int MAX_HP = 100;
     private int hp = MAX_HP;
-    private final int atk = 4;
+    private final int atk = 5;
     private final String name = "Golem";
     private final int ID = 22;
     private boolean isDead = false;
@@ -158,13 +158,14 @@ public class Golem implements Monster {
     public void throwRocks(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        if (rand.nextInt(10) <= 4) {
+        int numRocks = 1 + rand.nextInt(8);
+        messageOut.printToAll(name + " throws " + numRocks + " rocks at " + p.getUsername());
+
+        if (rand.nextInt(10) <= 3) {
             messageOut.printToAll(name + "'s attack misses");
             return;
         }
 
-        int numRocks = 1 + rand.nextInt(8);
-        messageOut.printToAll(name + " throw " + numRocks + " rocks at " + p.getUsername());
         int damage = numRocks * 2;
         p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
@@ -174,9 +175,9 @@ public class Golem implements Monster {
     public void tantrum(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
 
-        int recoil = rand.nextInt(11);
-        messageOut.printToAll(name + " throws a tantrum and harts it self by " + recoil + " hp");
-        hp -= recoil;
+        int recoil = 4 + rand.nextInt(3);
+        messageOut.printToAll(name + " throws a tantrum and took " + recoil + " recoil damage");
+        receiveDamage(recoil);
 
         int damage = atk + 3 + rand.nextInt(6);
         p.loseHP(damage);

@@ -13,7 +13,7 @@ public class Mandrake implements Monster {
      * */
     private final int MAX_HP = 15;
     private int hp = MAX_HP;
-    private final int atk = 3;
+    private final int atk = 5;
     private final String name = "Mandrake";
     private final int ID = 78;
     private boolean isDead = false;
@@ -76,10 +76,11 @@ public class Mandrake implements Monster {
 
     public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(name + "Screech: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!");
-        int damage = atk;
+
+        messageOut.printToAll(name + " screeched! : aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa!");
+        int damage = atk + rand.nextInt(3);
         p.loseHP(damage);
         messageOut.printToUser("You took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
     }
 }

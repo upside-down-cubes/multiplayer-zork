@@ -11,13 +11,16 @@ public class MudMonster implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 15;
+    private final int MAX_HP = 20;
     private int hp = MAX_HP;
-    private final int atk = 3;
+    private int atk = 3;
     private final String name = "Mud monster";
     private final int ID = 96;
     private boolean isDead = false;
-    private final int giveExp = 1;
+    private final int giveExp = 3;
+
+    int atkBoost = 0;
+    boolean atkBoosted = false;
 
     /*
      * Extra var to keep track of
@@ -71,21 +74,54 @@ public class MudMonster implements Monster {
 
     @Override
     public void act(Player p) {
-        attack(p);
+        MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
+        if (atkBoosted){
+            atk += atkBoost;
+            atkBoosted = false;
+        }
+
+        int rng = rand.nextInt(13);
+        if (rng < 3){
+            messageOut.printToAll(name + " charges its attack");
+            if (atkBoost > 0){
+                messageOut.printToAll(name + " accumulates its power even more");
+                atk -= atkBoost;
+            }
+            atkBoosted = true;
+            atkBoost += 4;
+        }
+        else if ( rng == 3 ){
+            messageOut.printToAll(name + " consumes mud around itself");
+            hp += 10;
+            if (hp > MAX_HP) {
+                hp = MAX_HP;
+            }
+            messageOut.printToAll(name + " gained 15 HP!");
+        }
+        else{
+            attack(p);
+        }
+
+        if (! atkBoosted){
+            atk -= atkBoost;
+            atkBoost = 0;
+        }
+
     }
 
     public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         if (rand.nextInt(4) <= 1) {
             // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+            messageOut.printToAll(name + " missed the attack...");
         } else {
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " spied mud on" + p.getUsername());
+            messageOut.printToAll(name + " spat mud on" + p.getUsername());
 
             int damage = atk;
             p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
         }
 
     }

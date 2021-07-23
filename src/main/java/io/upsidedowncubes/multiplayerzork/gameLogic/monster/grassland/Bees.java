@@ -86,6 +86,7 @@ public class Bees implements Monster {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         messageOut.printToAll(numberOfAttacks + " " + name + " attacked " + p.getUsername());
         messageOut.printToUser("You took " + damage + " damage");
+        messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
 
         p.loseHP(damage);
     }

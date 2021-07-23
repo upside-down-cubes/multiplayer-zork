@@ -11,9 +11,9 @@ public class SnowLeopard implements Monster {
     /*
      * Monster stats
      * */
-    private final int MAX_HP = 50;
+    private final int MAX_HP = 40;
     private int hp = MAX_HP;
-    private final int atk = 13;
+    private final int atk = 10;
     private final String name = "Snow leopard";
     private final int ID = 59;
     private boolean isDead = false;
@@ -78,16 +78,18 @@ public class SnowLeopard implements Monster {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
         if (rand.nextInt(4) <= 1) {
             // miss attack
-            messageOut.printToAll(name + " missed the attack... on " + p.getUsername());
+            messageOut.printToAll(name + " attacked!");
+            messageOut.printToAll(name + " missed the attack...");
         } else if (rand.nextInt(3) == 1) {
             // quick attack
             for (int i = 0; i < 2; i++) {
                 messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-                messageOut.printToAll(name + " attacked!");
+                messageOut.printToAll(name + " swiftly attacked!");
 
                 int damage = atk;
                 p.loseHP(damage);
                 messageOut.printToUser("You took " + damage + " damage");
+                messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
             }
         } else {
             // normal attack
@@ -97,6 +99,7 @@ public class SnowLeopard implements Monster {
             int damage = atk;
             p.loseHP(damage);
             messageOut.printToUser("You took " + damage + " damage");
+            messageOut.printToOthers(p.getUsername() + " took " + damage + " damage");
         }
 
     }
