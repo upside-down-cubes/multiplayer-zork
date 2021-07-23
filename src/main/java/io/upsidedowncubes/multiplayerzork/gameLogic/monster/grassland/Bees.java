@@ -49,7 +49,7 @@ public class Bees implements Monster {
 
     @Override
     public String getName() {
-        if (numberOfBees == 1){
+        if (numberOfBees == 1) {
             return "Bee";
         }
         return numberOfBees + " " + name;

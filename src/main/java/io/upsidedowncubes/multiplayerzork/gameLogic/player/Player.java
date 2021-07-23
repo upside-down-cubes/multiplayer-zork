@@ -1,5 +1,6 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.player;
 
+import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Inventory;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Weapon;
@@ -9,7 +10,6 @@ import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Room;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 
 import java.util.Random;
@@ -58,7 +58,7 @@ public class Player {
         return maxHP;
     }
 
-    public int getExp(){
+    public int getExp() {
         return exp;
     }
 

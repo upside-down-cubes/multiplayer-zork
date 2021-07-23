@@ -41,13 +41,13 @@ public class TrainingSword implements Item, Weapon {
 
     @Override
     public void activeEffect(Player p) {
-        if (rand.nextInt(10) < 3){
+        if (rand.nextInt(10) < 3) {
             String username = p.getUsername();
             MessageOutput messageOut = MessageCenter.getUserMessageOut(username);
 
             messageOut.printToAll("[ " + username + " ]'s training_sword helped them practice!");
             messageOut.printToAll("[ " + username + " ] gained an extra EXP");
-            if (entityUpdate.updateExp(username, 1)){
+            if (entityUpdate.updateExp(username, 1)) {
                 messageOut.printToAll("[ " + username + " ] leveled up!");
                 entityUpdate.updateAtk(username, 1);
             }

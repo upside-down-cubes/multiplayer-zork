@@ -75,34 +75,32 @@ public class MudMonster implements Monster {
     @Override
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (atkBoosted){
+        if (atkBoosted) {
             atk += atkBoost;
             atkBoosted = false;
         }
 
         int rng = rand.nextInt(13);
-        if (rng < 3){
+        if (rng < 3) {
             messageOut.printToAll(name + " charges its attack");
-            if (atkBoost > 0){
+            if (atkBoost > 0) {
                 messageOut.printToAll(name + " accumulates its power even more");
                 atk -= atkBoost;
             }
             atkBoosted = true;
             atkBoost += 4;
-        }
-        else if ( rng == 3 ){
+        } else if (rng == 3) {
             messageOut.printToAll(name + " consumes mud around itself");
             hp += 10;
             if (hp > MAX_HP) {
                 hp = MAX_HP;
             }
             messageOut.printToAll(name + " gained 15 HP!");
-        }
-        else{
+        } else {
             attack(p);
         }
 
-        if (! atkBoosted){
+        if (!atkBoosted) {
             atk -= atkBoost;
             atkBoost = 0;
         }

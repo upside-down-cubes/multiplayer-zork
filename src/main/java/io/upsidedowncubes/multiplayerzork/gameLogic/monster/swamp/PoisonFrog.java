@@ -73,7 +73,7 @@ public class PoisonFrog implements Monster {
             poison(player);
         } else {
             messageOut.printToUser("You got lucky, the frog attacked with a beneficial acid");
-            player.gainHP(10+rand.nextInt(21));
+            player.gainHP(10 + rand.nextInt(21));
         }
     }
 

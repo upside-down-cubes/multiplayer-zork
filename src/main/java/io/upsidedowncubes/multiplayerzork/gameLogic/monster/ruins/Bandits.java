@@ -24,7 +24,7 @@ public class Bandits implements Monster {
     private int hp = MAX_HP;
     private int atk = 13;
     private final String name = "Bandits";
-    private final String nickname = uniqueName[rand.nextInt( uniqueName.length )];
+    private final String nickname = uniqueName[rand.nextInt(uniqueName.length)];
     private final int ID = 4;
     private boolean isDead = false;
 
@@ -33,8 +33,6 @@ public class Bandits implements Monster {
      * */
     private int amountOfAttacks;
     private int luck;
-
-
 
 
     @Override
@@ -64,7 +62,7 @@ public class Bandits implements Monster {
 
     @Override
     public String getName() {
-        return nickname + " the " +name;
+        return nickname + " the " + name;
     }
 
     @Override
