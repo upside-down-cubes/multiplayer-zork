@@ -1,13 +1,13 @@
 package io.upsidedowncubes.multiplayerzork.webLogic.webSocket;
 
+import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
+import io.upsidedowncubes.multiplayerzork.database.PlayerRepository;
 import io.upsidedowncubes.multiplayerzork.gameLogic.Game;
 import io.upsidedowncubes.multiplayerzork.gameLogic.command.CommandParser;
 import io.upsidedowncubes.multiplayerzork.gameLogic.map.Location;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
 import io.upsidedowncubes.multiplayerzork.messageoutput.UserStateGenerator;
-import io.upsidedowncubes.multiplayerzork.database.PlayerEntity;
-import io.upsidedowncubes.multiplayerzork.database.PlayerRepository;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -172,8 +172,8 @@ public class OurWebSocketHandler extends TextWebSocketHandler {
                 ));
             } else if ((webSocketSessions.get(session).getChatroom().equals(webSocketSessions.get(webSocketSession).getChatroom())) &&
                     (((gameStatus != 0 || startGame) ||
-                    (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
-                    && !messageOut.getAllOutput().isBlank())) {
+                            (inSameRoom(webSocketSessions.get(session).getUsername(), webSocketSessions.get(webSocketSession).getUsername())))
+                            && !messageOut.getAllOutput().isBlank())) {
                 webSocketSession.sendMessage(new TextMessage(
                         UserStateGenerator.getJson(
                                 username, messageOut.getAllOutput(), gameStatus)

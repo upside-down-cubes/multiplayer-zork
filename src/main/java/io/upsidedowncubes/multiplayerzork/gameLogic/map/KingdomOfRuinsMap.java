@@ -123,8 +123,8 @@ public class KingdomOfRuinsMap extends GameMap {
 
         getRoom(3, 1)
                 .setExit(false, true, false, true)
-                .addItem( ItemFactory.getItem(11) )
-                .addItem( ItemFactory.getItem(11) )
+                .addItem(ItemFactory.getItem(11))
+                .addItem(ItemFactory.getItem(11))
                 .setDescription(SWAMPLAND);
 
         getRoom(4, 1)
@@ -225,7 +225,7 @@ public class KingdomOfRuinsMap extends GameMap {
 
         getRoom(4, 3)
                 .setExit(true, false, false, false)
-                .addMonster(snow.poll()) 
+                .addMonster(snow.poll())
                 .addItem(ItemFactory.getItem(1))
                 .addItem(ItemFactory.getItem(7))
                 .addItem(ItemFactory.getItem(8))
@@ -263,7 +263,7 @@ public class KingdomOfRuinsMap extends GameMap {
 
         getRoom(1, 4)
                 .setExit(true, false, false, true)
-                .addMonster(snow.poll()) 
+                .addMonster(snow.poll())
                 .setDescription(SNOW);
 
         getRoom(2, 4)
@@ -314,7 +314,7 @@ public class KingdomOfRuinsMap extends GameMap {
 
         getRoom(2, 5)
                 .setExit(false, true, true, false)
-                .addMonster(snow.poll()) 
+                .addMonster(snow.poll())
                 .setDescription(SNOW);
 
         getRoom(3, 5)
@@ -555,7 +555,7 @@ public class KingdomOfRuinsMap extends GameMap {
 
     private Queue<Monster> spawnMonster(String region, int number) {
         Queue<Monster> mon = new ArrayDeque<>();
-        
+
         Random rand = new Random();
         if (region.equals("desert")) {
             for (int i = 0; i < number; i++) {

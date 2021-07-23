@@ -76,15 +76,14 @@ public class GiantScorpion implements Monster {
     @Override
     public void act(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        if (atkBoosted){
+        if (atkBoosted) {
             atk += atkBoost;
             atkBoosted = false;
         }
 
         if (hp > MAX_HP / 2) {
             stageOne(p);
-        }
-        else {
+        } else {
             if (isFirst) { // First time attacking in stage 2
                 messageOut.printToAll(name + " has release it's full power.");
                 isFirst = false;
@@ -100,7 +99,7 @@ public class GiantScorpion implements Monster {
             }
         }
 
-        if (! atkBoosted){
+        if (!atkBoosted) {
             atk -= atkBoost;
             atkBoost = 0;
         }
@@ -134,11 +133,11 @@ public class GiantScorpion implements Monster {
         } else {
             int rng = rand.nextInt(3);
             messageOut.printToAll(name + " sharpen its stinger and gained " + rng + " extra ATK for the next turn!");
-            setAtkBoost( 4 + rng );
+            setAtkBoost(4 + rng);
         }
     }
 
-    public void setAtkBoost(int amount){
+    public void setAtkBoost(int amount) {
         atkBoosted = true;
         atkBoost = amount;
     }

@@ -82,9 +82,9 @@ public class EntityUpdate {
         playerRepository.save(player);
     }
 
-    public void updateBagCap(String username, int amount){
+    public void updateBagCap(String username, int amount) {
         InventoryEntity inventory = inventoryRepository.findByUsername(username);
-        inventory.setCapacity( inventory.getCapacity() + amount );
+        inventory.setCapacity(inventory.getCapacity() + amount);
         inventoryRepository.save(inventory);
     }
 

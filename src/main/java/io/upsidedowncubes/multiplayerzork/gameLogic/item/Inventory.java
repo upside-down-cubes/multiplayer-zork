@@ -47,7 +47,7 @@ public class Inventory {
     // adds item to the inventory by the specified amount
     public boolean obtain(Item item, int amount) {
         // if the inventory is going to be over capacity then cant add; does nothing
-        if ( (amount + currentLoad) > capacity) {
+        if ((amount + currentLoad) > capacity) {
             return false;
         }
 

@@ -1,12 +1,12 @@
 package io.upsidedowncubes.multiplayerzork.gameLogic.item.consumables;
 
+import io.upsidedowncubes.multiplayerzork.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Consumable;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Item;
 import io.upsidedowncubes.multiplayerzork.gameLogic.item.Targetable;
 import io.upsidedowncubes.multiplayerzork.gameLogic.player.Player;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageCenter;
 import io.upsidedowncubes.multiplayerzork.messageoutput.MessageOutput;
-import io.upsidedowncubes.multiplayerzork.database.EntityUpdate;
 import io.upsidedowncubes.multiplayerzork.webLogic.webSocket.OurWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
