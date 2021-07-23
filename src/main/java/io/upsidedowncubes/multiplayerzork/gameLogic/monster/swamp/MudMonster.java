@@ -116,7 +116,7 @@ public class MudMonster implements Monster {
             messageOut.printToAll(name + " missed the attack...");
         } else {
             messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-            messageOut.printToAll(name + " spat mud on" + p.getUsername());
+            messageOut.printToAll(name + " spat mud on " + p.getUsername());
 
             int damage = atk;
             p.loseHP(damage);

@@ -75,7 +75,7 @@ public class Cobra implements Monster {
 
     public void attack(Player p) {
         MessageOutput messageOut = MessageCenter.getUserMessageOut(p.getUsername());
-        messageOut.printToAll(name + " attacked!" + p.getUsername());
+        messageOut.printToAll(name + " attacked!");
         if (rand.nextInt(8) <= 4) {
             // miss attack
             messageOut.printToAll(name + " missed the attack...");

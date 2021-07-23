@@ -14,11 +14,11 @@ import java.util.Random;
 public class PoisonFrog implements Monster {
 
     private final int MAX_HP = 16;
-    private final int hp = MAX_HP;
+    private int hp = MAX_HP;
     private final int atk = 10;
     private final String name = "Poison frog";
     private final int ID = 4;
-    private final boolean isDead = false;
+    private boolean isDead = false;
 
     private final Random rand = new Random();
 
@@ -55,7 +55,10 @@ public class PoisonFrog implements Monster {
 
     @Override
     public int receiveDamage(int amount) {
-
+        hp -= amount;
+        if (hp <= 0){
+            isDead = true;
+        }
         return amount;
     }
 
