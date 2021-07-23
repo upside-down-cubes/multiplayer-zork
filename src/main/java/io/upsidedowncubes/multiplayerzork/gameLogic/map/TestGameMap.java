@@ -36,7 +36,8 @@ public class TestGameMap extends GameMap {
                 .setExit(false, false, false, true)
                 .setDescription("Seems like an entrance to some kind of dungeon...");
         Room start = map.get(0).get(0);
-            start.addItem(ItemFactory.getItem(1));
+        for (String itemName : ItemFactory.getAllItem())
+            start.addItem(ItemFactory.getItem(itemName));
 
         map.get(0).get(1)
                 .setExit(false, false, true, false)
